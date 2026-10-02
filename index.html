@@ -107,18 +107,43 @@ body {
 			<img id="status-splash" class="show-image--true fullsize--true use-filter--false" src="index.png" alt="">
 			<progress id="status-progress"></progress>
 			<div id="载入文字" style="color:#cfe3ff;font-family:'Noto Sans','Microsoft YaHei',sans-serif;font-size:15px;margin-top:12px;text-align:center;"></div>
-			<div id="载入文字" style="color:#cfe3ff;font-family:'Noto Sans','Microsoft YaHei',sans-serif;font-size:15px;margin-top:12px;text-align:center;"></div>
 			<div id="status-notice"></div>
 		</div>
 
 		<script src="index.js"></script>
 		<script>
+// ── ★ 劫持 .wasm 的请求：改成拉 index.wasm.gz 再就地解开 ────────
+//   为什么：GitHub Pages 不给 .wasm 做传输压缩（响应头里没有
+//   content-encoding），而 gzip 之后小 75%（37.7 MB → 9.6 MB）。
+//   引擎那边是 `fetch(`${basePath}.wasm`)` → Response → Emscripten，
+//   所以这里换成一个"解压流"的 Response 就能无缝接上。
+//   必须放在 new Engine() 之前、engine.init() 之前。
+(function () {
+	const 原fetch = window.fetch.bind(window);
+	window.fetch = function (输入, 选项) {
+		let 网址 = '';
+		try { 网址 = (typeof 输入 === 'string') ? 输入 : ((输入 && 输入.url) || ''); } catch (e) { 网址 = ''; }
+		if (网址 && !网址.startsWith('blob:') && /\.wasm($|\?)/.test(网址)) {
+			return 原fetch(网址 + '.gz', 选项).then(function (r) {
+				if (!r.ok) { return 原fetch(输入, 选项); }     // 没有 .gz 就照原样来
+				const 流 = r.body.pipeThrough(new DecompressionStream('gzip'));
+				return new Response(流, {
+					status: 200, statusText: 'OK',
+					headers: { 'Content-Type': 'application/wasm' },
+				});
+			});
+		}
+		return 原fetch(输入, 选项);
+	};
+}());
+
 const GODOT_CONFIG = {"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": false, "fileSizes": {"index.wasm": 39514754}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
 // ★ 分包列表（由 数据/_scratch/_做网页站.py 生成）
-const 分片 = ["index.pck.part0", "index.pck.part1", "index.pck.part2"];
+//   每一片都是 .gz，下载时一边解压一边算进度。
+const 分片 = ["index.pck.part0.gz", "index.pck.part1.gz", "index.pck.part2.gz"];
 const 包字节 = 74760692;
 
 (function () {
@@ -166,7 +191,8 @@ const 包字节 = 74760692;
 		for (const 名 of 分片) {
 			const 响应 = await fetch(名);
 			if (!响应.ok) throw new Error('下载失败：' + 名 + '（HTTP ' + 响应.status + '）');
-			const 读 = 响应.body.getReader();
+			// 分片是 .gz：一边解压一边读，进度按**解压后**的字节算
+			const 读 = 响应.body.pipeThrough(new DecompressionStream('gzip')).getReader();
 			const 小 = [];
 			while (true) {
 				const r = await 读.read();
