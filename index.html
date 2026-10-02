@@ -137,14 +137,14 @@ body {
 	};
 }());
 
-const GODOT_CONFIG = {"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": false, "fileSizes": {"index.wasm": 39514754}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4};
+const GODOT_CONFIG = {"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": true, "fileSizes": {"index.wasm": 39514754}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
 // ★ 分包列表（由 数据/_scratch/_做网页站.py 生成）
 //   每一片都是 .gz，下载时一边解压一边算进度。
 const 分片 = ["index.pck.part0.gz", "index.pck.part1.gz", "index.pck.part2.gz"];
-const 包字节 = 74760692;
+const 包字节 = 74762484;
 
 (function () {
 	const statusOverlay = document.getElementById('status');
