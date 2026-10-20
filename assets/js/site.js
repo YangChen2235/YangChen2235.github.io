@@ -359,6 +359,14 @@
 			current = null;
 		});
 	})();
+	/* ---------- 打开控制台的人，看一眼这句 ---------- */
+
+	if (window.console && console.log) {
+		console.log(
+			"%c不要开 F11 偷看了，YangChen2235 会注视你的",
+			"font-size:15px;font-weight:700;color:#1f6feb;background:#eaf2ff;padding:6px 12px;border-radius:8px"
+		);
+	}
 	var yearEls = document.querySelectorAll("[data-year]");
 	if (yearEls.length) {
 		var y = String(new Date().getFullYear());
