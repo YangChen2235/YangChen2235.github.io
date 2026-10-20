@@ -1,235 +1,354 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-		<title>班级抽卡_重置版</title>
-		<style>
-html, body, #canvas {
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
-
-body {
-	color: white;
-	background-color: black;
-	overflow: hidden;
-	touch-action: none;
-}
-
-#canvas {
-	display: block;
-}
-
-#canvas:focus {
-	outline: none;
-}
-
-#status, #status-splash, #status-progress {
-	position: absolute;
-	left: 0;
-	right: 0;
-}
-
-#status, #status-splash {
-	top: 0;
-	bottom: 0;
-}
-
-#status {
-	background-color: #242424;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	visibility: hidden;
-}
-
-#status-splash {
-	max-height: 100%;
-	max-width: 100%;
-	margin: auto;
-}
-
-#status-splash.show-image--false {
-	display: none;
-}
-
-#status-splash.fullsize--true {
-	height: 100%;
-	width: 100%;
-	object-fit: contain;
-}
-
-#status-splash.use-filter--false {
-	image-rendering: pixelated;
-}
-
-#status-progress, #status-notice {
-	display: none;
-}
-
-#status-progress {
-	bottom: 10%;
-	width: 50%;
-	margin: 0 auto;
-}
-
-#status-notice {
-	background-color: #5b3943;
-	border-radius: 0.5rem;
-	border: 1px solid #9b3943;
-	color: #e0e0e0;
-	font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
-	line-height: 1.3;
-	margin: 0 2rem;
-	overflow: hidden;
-	padding: 1rem;
-	text-align: center;
-	z-index: 1;
-}
-		</style>
-		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
-<link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
-
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>YangChen2235 · 个人开发者｜班级抽卡 · 重置版</title>
+		<meta
+			name="description"
+			content="YangChen2235 的个人主页：4 年编程经验、2 年信息学奥赛，尝试人与 AI 和谐相处、互利共生，目前转型做游戏开发。《班级抽卡 · 重置版》最新发行版下载与网页版直玩入口。"
+		/>
+		<meta name="author" content="YangChen2235" />
+		<meta name="theme-color" content="#1f6feb" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="YangChen2235 · 个人开发者" />
+		<meta
+			property="og:description"
+			content="4 年编程 · 2 年奥赛 · 正在做《班级抽卡 · 重置版》。网页版打开即玩，桌面版下载最新发行版。"
+		/>
+		<meta property="og:url" content="https://yangchen2235.github.io/" />
+		<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+		<link rel="stylesheet" href="assets/css/style.css" />
+		<noscript>
+			<style>
+				.reveal {
+					opacity: 1 !important;
+					transform: none !important;
+				}
+			</style>
+		</noscript>
 	</head>
 	<body>
-		<canvas id="canvas">
-			Your browser does not support the canvas tag.
-		</canvas>
+		<!-- 背景：游戏源码滚动墙 -->
+		<canvas id="code-wall" aria-hidden="true"></canvas>
+		<div class="veil" aria-hidden="true"></div>
 
-		<noscript>
-			Your browser does not support JavaScript.
-		</noscript>
+		<header class="nav">
+			<a class="brand" href="#top">
+				<span class="brand-mark">Y</span>
+				<span class="brand-text">YangChen2235</span>
+			</a>
+			<nav class="nav-links">
+				<a href="#about">关于</a>
+				<a href="#projects">项目</a>
+				<a href="#download">下载</a>
+				<a class="nav-cta" href="#download">立即领取</a>
+			</nav>
+		</header>
 
-		<div id="status">
-			<img id="status-splash" class="show-image--true fullsize--true use-filter--false" src="index.png" alt="">
-			<progress id="status-progress"></progress>
-			<div id="载入文字" style="color:#cfe3ff;font-family:'Noto Sans','Microsoft YaHei',sans-serif;font-size:15px;margin-top:12px;text-align:center;"></div>
-			<div id="status-notice"></div>
-		</div>
+		<main>
+			<div class="wrap">
+				<!-- ============ Hero ============ -->
+				<section id="top" class="hero">
+					<div class="hero-copy reveal">
+						<p class="eyebrow"><span class="dot"></span>个人开发者 · 正在做游戏</p>
+						<h1 class="hero-title">YangChen2235</h1>
+						<p class="hero-sub">
+							<span id="typed">个人开发者 / 游戏开发中</span><span class="caret"></span>
+						</p>
+						<p class="hero-desc">
+							<strong>4 年编程经验，2 年奥赛经验</strong>，积极尝试人与
+							AI 和谐相处、互利共生，目前转型开发游戏中。
+						</p>
+						<div class="hero-actions">
+							<a
+								class="btn btn-primary"
+								href="#download"
+							>
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M12 3v12" />
+									<path d="M7 11l5 5 5-5" />
+									<path d="M4 20h16" />
+								</svg>
+								下载最新发行版
+							</a>
+							<a class="btn btn-ghost" href="play/">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M6 4l14 8-14 8z" />
+								</svg>
+								网页版直接玩
+							</a>
+						</div>
+						<ul class="stats">
+							<li><b>4 年</b><span>编程经验</span></li>
+							<li><b>2 年</b><span>信息学奥赛</span></li>
+							<li><b>1500+</b><span>卡牌数据</span></li>
+							<li><b>250+</b><span>游戏脚本</span></li>
+						</ul>
+					</div>
 
-		<script src="index.js"></script>
-		<script>
-// ── ★ 劫持 .wasm 的请求：改成拉 index.wasm.gz 再就地解开 ────────
-//   为什么：GitHub Pages 不给 .wasm 做传输压缩（响应头里没有
-//   content-encoding），而 gzip 之后小 75%（37.7 MB → 9.6 MB）。
-//   引擎那边是 `fetch(`${basePath}.wasm`)` → Response → Emscripten，
-//   所以这里换成一个"解压流"的 Response 就能无缝接上。
-//   必须放在 new Engine() 之前、engine.init() 之前。
-(function () {
-	const 原fetch = window.fetch.bind(window);
-	window.fetch = function (输入, 选项) {
-		let 网址 = '';
-		try { 网址 = (typeof 输入 === 'string') ? 输入 : ((输入 && 输入.url) || ''); } catch (e) { 网址 = ''; }
-		if (网址 && !网址.startsWith('blob:') && /\.wasm($|\?)/.test(网址)) {
-			return 原fetch(网址 + '.gz', 选项).then(function (r) {
-				if (!r.ok) { return 原fetch(输入, 选项); }     // 没有 .gz 就照原样来
-				const 流 = r.body.pipeThrough(new DecompressionStream('gzip'));
-				return new Response(流, {
-					status: 200, statusText: 'OK',
-					headers: { 'Content-Type': 'application/wasm' },
-				});
-			});
-		}
-		return 原fetch(输入, 选项);
-	};
-}());
+					<div class="terminal reveal" data-delay="0.12" aria-hidden="true">
+						<div class="terminal-bar">
+							<i></i><i></i><i></i>
+							<em>profile.gd</em>
+						</div>
+						<pre><code><span class="tk-cmt"># 关于这个人的全部真相</span>
+<span class="tk-kw">extends</span> <span class="tk-typ">开发者</span>
 
-const GODOT_CONFIG = {"args": [], "canvasResizePolicy": 2, "emscriptenPoolSize": 8, "ensureCrossOriginIsolationHeaders": true, "executable": "index", "experimentalVK": true, "fileSizes": {"index.wasm": 39514754}, "focusCanvas": true, "gdextensionLibs": [], "godotPoolSize": 4};
-const GODOT_THREADS_ENABLED = false;
-const engine = new Engine(GODOT_CONFIG);
+<span class="tk-kw">const</span> 名字 = <span class="tk-str">"YangChen2235"</span>
+<span class="tk-kw">const</span> 经验 = [<span class="tk-str">"4 年编程"</span>, <span class="tk-str">"2 年奥赛"</span>]
+<span class="tk-kw">var</span> 状态 = <span class="tk-str">"转型开发游戏中"</span>
 
-// ★ 分包列表（由 数据/_scratch/_做网页站.py 生成）
-//   每一片都是 .gz，下载时一边解压一边算进度。
-const 分片 = ["index.pck.part0.gz", "index.pck.part1.gz", "index.pck.part2.gz"];
-const 包字节 = 70993456;
+<span class="tk-kw">func</span> <span class="tk-fn">理念</span>() -&gt; <span class="tk-typ">String</span>:
+    <span class="tk-kw">return</span> <span class="tk-str">"人与 AI 和谐相处、互利共生"</span>
 
-(function () {
-	const statusOverlay = document.getElementById('status');
-	const statusProgress = document.getElementById('status-progress');
-	const statusNotice = document.getElementById('status-notice');
-	const 提示 = document.getElementById('载入文字');
+<span class="tk-kw">func</span> <span class="tk-fn">最近在做</span>() -&gt; <span class="tk-typ">Array</span>:
+    <span class="tk-kw">return</span> [<span class="tk-str">"班级抽卡 · 重置版"</span>, <span class="tk-str">"骰子对决"</span>]
+</code></pre>
+					</div>
+				</section>
 
-	let 初始化中 = true;
-	let 模式 = '';
+				<!-- ============ 关于 ============ -->
+				<section id="about" class="sec">
+					<div class="sec-head reveal">
+						<p class="sec-kicker">about</p>
+						<h2 class="sec-title">关于我</h2>
+						<p class="sec-desc">
+							写代码写了四年，做过奥赛，也做过一些跑得起来但有点奇怪的东西。
+							现在主要精力放在游戏上 —— 想做出那种「打开就能玩上十分钟，还想再来一局」的东西。
+						</p>
+					</div>
 
-	function 切模式(m) {
-		if (模式 === m || !初始化中) return;
-		if (m === 'hidden') { statusOverlay.remove(); 初始化中 = false; return; }
-		statusOverlay.style.visibility = 'visible';
-		statusProgress.style.display = m === 'progress' ? 'block' : 'none';
-		statusNotice.style.display = m === 'notice' ? 'block' : 'none';
-		模式 = m;
-	}
+					<div class="about-grid">
+						<article class="card reveal">
+							<div class="card-icon">01</div>
+							<h3>4 年编程经验</h3>
+							<p>
+								从零散的小工具、命令行程序一路写到成型项目，主力语言是
+								GDScript 与 Python，也摸过前端那一套。
+							</p>
+						</article>
 
-	function 报错(err) {
-		console.error(err);
-		切模式('notice');
-		statusNotice.textContent = (err && err.message) ? err.message : String(err);
-		初始化中 = false;
-	}
+						<article class="card reveal" data-delay="0.06">
+							<div class="card-icon">02</div>
+							<h3>2 年信息学奥赛</h3>
+							<p>
+								在算法和数据结构的训练里学会了「先把问题想清楚再动手」，
+								这份习惯现在是写游戏逻辑时最有用的部分。
+							</p>
+						</article>
 
-	function 写提示(文) { if (提示) 提示.textContent = 文; }
+						<article class="card reveal" data-delay="0.12">
+							<div class="card-icon">03</div>
+							<h3>人与 AI 共生</h3>
+							<p>
+								积极尝试人与 AI 和谐相处、互利共生。写这套游戏的大量代码、
+								文档与卡牌文案，都是在人机协作的流程里磨出来的。
+							</p>
+						</article>
 
-	const 缺 = Engine.getMissingFeatures({ threads: GODOT_THREADS_ENABLED });
-	if (缺.length !== 0) {
-		报错('这个浏览器跑不了：缺少 ' + 缺.join('、'));
-		return;
-	}
+						<article class="card reveal" data-delay="0.18">
+							<div class="card-icon">04</div>
+							<h3>转型做游戏</h3>
+							<p>
+								目前转型开发游戏中。比起做工具，更喜欢做能被别人玩、
+								被吐槽、被研究的东西。
+							</p>
+						</article>
+					</div>
+				</section>
 
-	切模式('progress');
-	写提示('正在下载游戏（共 ' + (包字节 / 1048576).toFixed(0) + ' MB）…');
+				<!-- ============ 项目 ============ -->
+				<section id="projects" class="sec">
+					<div class="sec-head reveal">
+						<p class="sec-kicker">projects</p>
+						<h2 class="sec-title">在做的项目</h2>
+						<p class="sec-desc">
+							最近的主项目是《班级抽卡 · 重置版》，一个把班级同学做成卡牌的对战游戏。
+						</p>
+					</div>
 
-	// ① 分片下载 → 拼成一个 Blob
-	(async function () {
-		let 收到 = 0;
-		const 块 = [];
-		const 起 = performance.now();
-		console.log('[启动] 开始下载 ' + 分片.length + ' 个分片，共 ' + 包字节 + ' 字节');
-		for (const 名 of 分片) {
-			const 响应 = await fetch(名);
-			if (!响应.ok) throw new Error('下载失败：' + 名 + '（HTTP ' + 响应.status + '）');
-			// 分片是 .gz：一边解压一边读，进度按**解压后**的字节算
-			const 读 = 响应.body.pipeThrough(new DecompressionStream('gzip')).getReader();
-			const 小 = [];
-			while (true) {
-				const r = await 读.read();
-				if (r.done) break;
-				小.push(r.value);
-				收到 += r.value.length;
-				const 秒 = (performance.now() - 起) / 1000;
-				const 速 = 秒 > 0.4 ? 收到 / 秒 : 0;
-				const 剩 = 速 > 0 ? Math.max(0, (包字节 - 收到) / 速) : 0;
-				statusProgress.value = 收到;
-				statusProgress.max = 包字节;
-				写提示('正在下载游戏 ' + (收到 / 1048576).toFixed(1) + ' / '
-					+ (包字节 / 1048576).toFixed(0) + ' MB'
-					+ (速 > 0 ? '　约剩 ' + (剩 < 60 ? 剩.toFixed(0) + ' 秒'
-						: (剩 / 60).toFixed(1) + ' 分钟') : ''));
-			}
-			块.push(new Blob(小));
-			console.log('[启动] ' + 名 + ' 下载完成');
-		}
-		写提示('正在解包…');
-		const 包 = new Blob(块, { type: 'application/octet-stream' });
-		if (包.size !== 包字节) throw new Error('包大小不对：' + 包.size + ' / ' + 包字节);
-		const 网址 = URL.createObjectURL(包);
-		console.log('[启动] 分片拼好了，共 ' + 包.size + ' 字节');
+					<article class="project reveal">
+						<div>
+							<span class="project-badge">主力项目 · 持续更新</span>
+							<h3>班级抽卡 · 重置版</h3>
+							<p class="project-lead">
+								把「班级同学」做成卡牌的对战游戏。1500+ 张卡、多个班级卡组、
+								九大学科体系、元素反应与化学合成，还能在游戏里拖拽代码方块，
+								自己写一张卡的脚本 —— 像《20 亿人》那样的玩法。
+							</p>
+							<ul class="tags">
+								<li>Godot 4.7.2</li>
+								<li>GDScript</li>
+								<li>HTML5 网页版</li>
+								<li>Windows 桌面版</li>
+								<li>模组系统</li>
+							</ul>
+							<div class="project-actions">
+								<a class="btn btn-primary btn-sm" href="#download">下载最新发行版</a>
+								<a class="btn btn-ghost btn-sm" href="play/">网页版直接玩</a>
+								<a
+									class="btn btn-ghost btn-sm"
+									href="https://github.com/YangChen2235/YangChen2235.github.io/releases"
+									target="_blank"
+									rel="noopener"
+									>发行版列表</a
+								>
+							</div>
+						</div>
 
-		// ② 启动引擎：先把包挂到一个**干净**的虚拟文件系统路径上
-		写提示('正在启动引擎…');
-		await engine.init(GODOT_CONFIG.executable);
-		console.log('[启动] 引擎已初始化');
-		GODOT_CONFIG.fileSizes[网址] = 包字节;
-		await engine.preloadFile(网址, '/index.pck');
-		console.log('[启动] 包已挂到 /index.pck');
-		await engine.start({ args: ['--main-pack', '/index.pck'] });
-		console.log('[启动] 游戏已启动');
-		切模式('hidden');
-	})().catch(报错);
-}());
-		</script>
+						<ul class="feature-list">
+							<li><b>1500+ 张卡牌</b>，多个班级各有专属卡组</li>
+							<li><b>元素反应 / 化学合成</b>，出牌顺序会改变结算</li>
+							<li><b>卡牌脚本 DIY</b>：拖方块拼逻辑，自己造一张牌</li>
+							<li><b>模组系统</b>，玩家可以扩卡池、写剧情</li>
+							<li><b>网页版 0 安装</b>，桌面版解压即用</li>
+						</ul>
+					</article>
+
+					<div class="project-grid">
+						<article class="card reveal">
+							<div class="card-icon">骰</div>
+							<h3>骰子对决</h3>
+							<p>
+								掷骰子 + 卡牌对决的玩法实验，规则轻、节奏快，
+								用来试「随机性能让对局多好玩」。
+							</p>
+							<ul class="tags">
+								<li>Godot</li>
+								<li>玩法原型</li>
+							</ul>
+							<div class="project-actions">
+								<a
+									class="btn btn-ghost btn-sm"
+									href="https://github.com/YangChen2235/dice-game1"
+									target="_blank"
+									rel="noopener"
+									>GitHub</a
+								>
+							</div>
+						</article>
+
+						<article class="card reveal" data-delay="0.08">
+							<div class="card-icon">集</div>
+							<h3>游戏练习作品集</h3>
+							<p>
+								早期练习和奇怪尝试的合集 —— 能跑起来，但代码风格比较奔放，
+								作者本人也不建议参考 :)
+							</p>
+							<ul class="tags">
+								<li>练习</li>
+								<li>合集</li>
+							</ul>
+							<div class="project-actions">
+								<a
+									class="btn btn-ghost btn-sm"
+									href="https://github.com/YangChen2235"
+									target="_blank"
+									rel="noopener"
+									>GitHub 主页</a
+								>
+							</div>
+						</article>
+					</div>
+				</section>
+
+				<!-- ============ 下载 ============ -->
+				<section id="download" class="sec">
+					<div class="download reveal">
+						<p class="sec-kicker">download</p>
+						<h2>下载《班级抽卡 · 重置版》</h2>
+						<p class="lead">
+							不用会 GitHub、不用注册账号、不用装引擎。点下面第一个按钮，
+							拿到压缩包解压就能玩；不想下载的话，网页版打开即玩。
+						</p>
+
+						<div class="download-actions">
+							<a
+								class="btn btn-primary"
+								id="dl-primary"
+								href="https://github.com/YangChen2235/YangChen2235.github.io/releases/latest"
+								target="_blank"
+								rel="noopener"
+							>
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M12 3v12" />
+									<path d="M7 11l5 5 5-5" />
+									<path d="M4 20h16" />
+								</svg>
+								<span id="dl-primary-label">下载最新发行版</span>
+							</a>
+							<a class="btn btn-ghost" href="play/">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M6 4l14 8-14 8z" />
+								</svg>
+								网页版直接玩
+							</a>
+						</div>
+
+						<div class="download-meta">
+							<span><i></i><span id="dl-meta-text">Windows 桌面版 · 解压即用</span></span>
+							<span>
+								<i></i>
+								<a
+									id="dl-releases"
+									href="https://github.com/YangChen2235/YangChen2235.github.io/releases"
+									target="_blank"
+									rel="noopener"
+									>查看全部发行版</a
+								>
+							</span>
+						</div>
+
+						<ol class="steps">
+							<li>
+								<b>点「下载最新发行版」</b>
+								会跳到发行版页面，在 Assets 里点最大的那个 .zip 下载。
+							</li>
+							<li>
+								<b>解压到一个空文件夹</b>
+								Windows 自带的解压就行，别直接在压缩包里双击。
+							</li>
+							<li>
+								<b>双击程序开玩</b>
+								存档在游戏内的「设置 → 存档 → 导出」可以备份出来。
+							</li>
+						</ol>
+
+						<div class="notice">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<circle cx="12" cy="12" r="9" />
+								<path d="M12 8h.01" />
+								<path d="M11 12h1v4h1" />
+							</svg>
+							<div>
+								<b>网页版说明：</b>第一次打开需要下载约 80 MB 的游戏包
+								（页面上有中文进度条），之后浏览器会缓存，再开就快很多。
+								网页版的存档存在浏览器本地，换浏览器或清缓存会丢，重要进度建议用桌面版。
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+		</main>
+
+		<footer class="footer">
+			<div class="footer-inner">
+				<p>
+					© <span data-year>2026</span> YangChen2235 · 站点用 HTML/CSS/JS
+					手写，托管在 GitHub Pages<br />
+					背景滚动的代码不是贴图，是游戏里抽出来的真实源码：<code data-wall-stat>—</code>
+				</p>
+				<div class="footer-links">
+					<a href="https://github.com/YangChen2235" target="_blank" rel="noopener">GitHub</a>
+					<a href="play/">网页版</a>
+					<a href="#top">回到顶部</a>
+				</div>
+			</div>
+		</footer>
+
+		<script src="assets/js/codes.js"></script>
+		<script src="assets/js/code-wall.js"></script>
+		<script src="assets/js/site.js"></script>
 	</body>
 </html>

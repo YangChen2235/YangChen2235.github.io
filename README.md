@@ -1,63 +1,68 @@
-# 班级抽卡 · 重置版 —— 网页版
+# YangChen2235.github.io
 
-用 Godot 4.7.2 导出的 HTML5 版本，**直接用浏览器玩**，不用下载安装。
+个人主页，用 GitHub Pages 托管：**<https://yangchen2235.github.io/>**
 
-打开：**<https://yangchen2235.github.io/>**
+整站是手写的 HTML + CSS + 原生 JS，没有框架、没有构建步骤 —— 改完文件直接推上来就是线上。
 
-## 这是什么
+## 站点内容
 
-一个把「班级同学」做成卡牌的抽卡 + 对决游戏（重置版）。
-1500+ 张卡、22 个班级、九大学科卡组、元素反应 / 化学反应、模组系统。
-还能在游戏里自己拼卡牌脚本（拖拽代码方块，像《70亿人》那样）。
+| 板块 | 说明 |
+|---|---|
+| Hero | 名字、一句自我介绍、下载 / 网页版两个主入口 |
+| 关于我 | 4 年编程、2 年信息学奥赛、人与 AI 协作、转型做游戏 |
+| 在做的项目 | 《班级抽卡 · 重置版》《骰子对决》和练手合集 |
+| 下载 | 最新发行版按钮（自动探测）+ 「不用会 GitHub」的三步图解 |
 
-## 怎么玩
+## 目录结构
 
-1. 打开页面，**第一次要下载约 80 MB 的游戏包**（页面上有中文进度条和预计剩余
-   时间），之后就快了（浏览器会缓存）。
-2. 选身份：
-   - **班级登录**：点一个班，填花名册上的真名
-   - **游客登录**：给自己取个名字就行（默认在骰子班）
-3. 主界面下面那一排：开始抽卡 / 开始对决 / 迷你游戏 / 模组 / 主题战役。
+```
+index.html              主页
+assets/css/style.css    全部样式（蓝白配色、响应式）
+assets/js/codes.js      背景代码墙的数据：从游戏源码里抽出来的真实代码
+assets/js/code-wall.js  把代码画成会向上滚的「胶片」
+assets/js/site.js       导航吸顶、入场动画、打字机、发行版自动探测
+assets/favicon.svg      站点图标
+tools/build-code-wall.ps1  重新从游戏工程抽取背景代码
+play/                   《班级抽卡 · 重置版》网页版（Godot 4.7.2 导出）
+```
 
-推荐能跑 WebGL 2.0 的浏览器（Chrome / Edge / Firefox / Safari 都行）。
+## 背景的代码墙是真的
 
-## 存档
+页面背景那面滚动的代码墙不是截图，也不是网上抄的示例，是从
+《班级抽卡 · 重置版》的 Godot 工程里随机抽出的真实 GDScript 片段
+（14 个脚本、420 行），连中文标识符和 `print` 里的表情都保留着。
 
-网页版的存档存在**浏览器本地**（IndexedDB）。换浏览器 / 清缓存就没了 ——
-重要的进度请用游戏里的「设置 → 存档 → 导出」下载出来。
+想更新：改完游戏后跑一次
 
-## 手机上玩
+```powershell
+powershell -ExecutionPolicy Bypass -File .\tools\build-code-wall.ps1 -ProjectRoot "D:\我游戏\班级抽卡-重置版"
+```
 
-能用，但按钮偏小（游戏是按 1920×1080 设计的）。横屏体验好一些。
+脚本会重新读工程里的 `.gd`，覆盖 `assets/js/codes.js`。
 
-## 这个仓库是怎么来的
+## 下载按钮怎么指向「最新发行版」
 
-`index.pck` 是从 Godot 工程导出的游戏包，原始大小 **420 MB**。能放到
-GitHub Pages 上、还不至于让人等到睡着，是这么三层砍下来的：
+GitHub Pages 没有服务端，所以 `site.js` 在浏览器里调 GitHub 的公开接口
+`/repos/YangChen2235/<repo>/releases/latest`，查到就把按钮指到最新的
+zip 资产并显示体积、下载次数、发布时间；查不到（还没有发行版、被限流、
+断网）就保持指向 `releases/latest` 这个兜底地址，并把提示换成「先玩网页版」。
 
-| 层 | 手段 | 结果 |
-|---|---|---|
-| ① | 图片改有损压缩（Godot 的 `compress/mode=1`，内部走 WebP） | 420 → 159 MB |
-| ② | 去掉 24 首 BGM | → 71 MB |
-| ③ | 切成 3 片 + **自己 gzip** | → 传输量 **79.7 MB** |
+要发新版：在这个仓库建一个 Release 并上传 zip，页面下次刷新会自动跟上，
+**不需要改代码**。
 
-第 ③ 层的原因：**GitHub Pages 不给 `.wasm` / `.pck` 做传输压缩**
-（响应头里没有 `content-encoding`）。所以自己压好，浏览器里用
-`DecompressionStream` 解开 —— 光 wasm 一项就从 37.7 MB 降到 9.6 MB。
+## 网页版（play/）
 
-网页加载时：分片下载（一边解压一边算进度）→ 拼回一个 Blob →
-挂到引擎的虚拟文件系统（`engine.preloadFile(blob, '/index.pck')`）→
-`engine.start({args: ['--main-pack', '/index.pck']})`。
-细节都在 `index.html` 的启动脚本里，注释写得很清楚。
+网页版就是同一个游戏的 Godot Web 导出，放在 `play/` 里，入口是 `play/index.html`。
 
-`index.html` / `index.js` / `index.wasm.gz` 是 Godot 的 Web 导出产物，
-其中 `index.html` 的启动段换成了带中文进度条的版本。
+第一次打开要下载约 80 MB 的游戏包（页面上有中文进度条），之后浏览器会缓存。
+存档存在浏览器本地（IndexedDB），换浏览器 / 清缓存就没了 —— 重要进度请用游戏里的
+「设置 → 存档 → 导出」存出来。
 
-## 速度提醒
-
-从国内直连 GitHub Pages 可能比较慢（实测走代理约 150~170 KB/s，
-第一次打开要几分钟）。这是线路问题不是站点问题，换成国际线路会快很多。
+那 80 MB 是这么砍下来的：`index.pck` 原本 420 MB → 图片有损压缩 159 MB →
+去掉 24 首 BGM 71 MB → 切 3 片 + 自己 gzip 后传输量 **79.7 MB**。
+自己压是因为 GitHub Pages 不给 `.wasm` / `.pck` 做传输压缩，得在浏览器里用
+`DecompressionStream` 解开。细节都在 `play/index.html` 的启动脚本注释里。
 
 ---
 
-作者：YangChen2235
+作者：YangChen2235 · 更多仓库：<https://github.com/YangChen2235>
