@@ -143,7 +143,7 @@
 	   查不到就退回 releases/latest。 */
 
 	var OWNER = "YangChen2235";
-	var GAME_REPO = "---";
+	var GAME_REPO = "banjichouka-builds";
 	var RELEASES_API = "https://api.github.com/repos/" + OWNER + "/" + GAME_REPO + "/releases?per_page=20";
 
 	var primary = document.getElementById("dl-primary");
