@@ -12,6 +12,7 @@
 | 关于我 | 4 年编程、2 年信息学奥赛、人与 AI 协作、转型做游戏（右侧配一个 C++ 版的 profile.cpp 卡片） |
 | 在做的项目 | 《班级抽卡 · 重置版》《骰子对决》和练手合集 |
 | 画廊 | 两张自绘的图，点开看大图（没有 JS 的话就是直接打开图片） |
+| 音乐 | 四首 Suno 生成的曲子，点播放键直接试听，点进度条能跳 |
 | 下载 | Windows / Linux / Android / 网页版 四个平台图标（直接连到发行版资产）、三步图解、iOS / 32 位 Windows 的说明和网页版替代办法、最新版本的更新日志 |
 
 ## 目录结构
@@ -21,10 +22,11 @@ index.html              主页
 assets/css/style.css    全部样式（蓝白配色、响应式）
 assets/js/codes.js      背景代码墙的数据：从游戏源码里抽出来的真实代码
 assets/js/code-wall.js  把代码画成会向上滚的「胶片」
-assets/js/site.js       导航吸顶、入场动画、打字机、画廊大图、发行版自动探测
+assets/js/site.js       导航吸顶、入场动画、打字机、画廊大图、音乐播放器、发行版自动探测
 assets/img/avatar.png   导航栏左上角的头像
 assets/img/platform/    四个平台的图标（Windows / Linux / Android / 网页版）
 assets/img/gallery/     画廊用的两张自绘图（WebP）
+assets/audio/           音乐板块的四首曲子（mp3，Suno 生成）
 assets/favicon.svg      站点图标
 tools/build-code-wall.ps1  重新从游戏工程抽取背景代码
 play/                   《班级抽卡 · 重置版》网页版（Godot 4.7.2 导出）
@@ -68,6 +70,16 @@ powershell -ExecutionPolicy Bypass -File .\tools\build-code-wall.ps1 -SourceDir 
 页面照样能用。所以发新版以后即使没人改代码，页面也会自己跟上；
 要是接口长期被限流，记得手动把 `index.html` 里那几条直链更新一下。
 
+## 音乐板块
+
+四首曲子放在 `assets/audio/`，都是 Suno 生成的（页面上每首都标了「Suno 生成」）。
+
+播放器是手写的，没引第三方库：`audio` 元素在 `site.js` 里建一个复用，
+点哪首就换 `src`，所以永远只有一首在响；再点同一个按钮是暂停。
+进度条按 `timeupdate` 更新，点进度条能跳到那个位置。
+
+曲子是 mp3，每个 3.5–5.7 MB，浏览器会自己按需加载（`preload="none"`，
+不点播放不下载），所以不会拖慢首屏。
 ## 网页版（play/）
 
 网页版就是同一个游戏的 Godot Web 导出，放在 `play/` 里，入口是 `play/index.html`。

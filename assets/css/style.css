@@ -1204,6 +1204,139 @@ section {
 	}
 }
 
+/* ---------------- 音乐 ---------------- */
+
+.tracks {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+	margin: 26px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.track {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 14px 16px;
+	border-radius: 15px;
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid var(--blue-line);
+	box-shadow: 0 16px 36px -34px rgba(11, 63, 143, 0.5);
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.track.is-active {
+	border-color: var(--blue-line-strong);
+	box-shadow: 0 20px 44px -30px rgba(31, 111, 235, 0.55);
+}
+
+.track-play {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 42px;
+	height: 42px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: linear-gradient(180deg, #2f7cf6, var(--blue));
+	color: #fff;
+	cursor: pointer;
+	box-shadow: 0 10px 22px -12px rgba(31, 111, 235, 0.9);
+	transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.track-play:hover {
+	transform: translateY(-1px);
+	filter: brightness(1.05);
+}
+
+.track-play svg {
+	width: 20px;
+	height: 20px;
+}
+
+.track-play .ico-pause {
+	display: none;
+}
+
+.track.is-playing .track-play .ico-play {
+	display: none;
+}
+
+.track.is-playing .track-play .ico-pause {
+	display: block;
+}
+
+.track-body {
+	min-width: 0;
+	flex: 1;
+}
+
+.track-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+}
+
+.track-tag {
+	flex: none;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: rgba(31, 111, 235, 0.1);
+	color: var(--blue-deep);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+}
+.track-body b {
+	display: block;
+	font-size: 14.5px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: var(--ink);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.track-bar {
+	position: relative;
+	height: 4px;
+	margin-top: 10px;
+	border-radius: 999px;
+	background: rgba(31, 111, 235, 0.16);
+	cursor: pointer;
+}
+
+.track-bar span {
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: 0;
+	border-radius: 999px;
+	background: linear-gradient(90deg, #4a92ff, var(--blue-deep));
+	transition: width 0.12s linear;
+}
+
+.music-fallback {
+	margin: 16px 0 0;
+	font-size: 13px;
+	color: var(--ink-faint);
+}
+
+.music-fallback a {
+	color: var(--blue);
+}
+
+@media (max-width: 940px) {
+	.tracks {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
 /* ---------------- 画廊 ---------------- */
 
 .gallery-grid {

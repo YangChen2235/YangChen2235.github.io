@@ -289,6 +289,76 @@
 			});
 		});
 	})();
+	/* ---------- 音乐：一次只放一首 ---------- */
+
+	(function () {
+		var tracks = document.querySelectorAll(".tracks .track");
+		if (!tracks.length) return;
+
+		var audio = new Audio();
+		audio.preload = "none";
+		var current = null;
+
+		function clear(li) {
+			li.classList.remove("is-playing", "is-active");
+			var bar = li.querySelector(".track-bar span");
+			if (bar) bar.style.width = "0%";
+		}
+
+		function toggle(li) {
+			if (current === li) {
+				if (audio.paused) {
+					audio.play();
+					li.classList.add("is-playing");
+				} else {
+					audio.pause();
+					li.classList.remove("is-playing");
+				}
+				return;
+			}
+			if (current) clear(current);
+			current = li;
+			audio.src = li.getAttribute("data-src");
+			audio.play();
+			li.classList.add("is-playing", "is-active");
+		}
+
+		Array.prototype.forEach.call(tracks, function (li) {
+			var btn = li.querySelector(".track-play");
+			if (btn) {
+				btn.addEventListener("click", function (e) {
+					e.preventDefault();
+					toggle(li);
+				});
+			}
+
+			var bar = li.querySelector(".track-bar");
+			if (bar) {
+				bar.addEventListener("click", function (e) {
+					if (current !== li || !audio.duration) return;
+					var r = bar.getBoundingClientRect();
+					var p = (e.clientX - r.left) / r.width;
+					audio.currentTime = audio.duration * Math.min(1, Math.max(0, p));
+				});
+			}
+		});
+
+		audio.addEventListener("timeupdate", function () {
+			if (!current || !audio.duration) return;
+			var bar = current.querySelector(".track-bar span");
+			if (bar) bar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
+		});
+
+		audio.addEventListener("ended", function () {
+			if (current) clear(current);
+			current = null;
+		});
+
+		audio.addEventListener("error", function () {
+			if (current) clear(current);
+			current = null;
+		});
+	})();
 	var yearEls = document.querySelectorAll("[data-year]");
 	if (yearEls.length) {
 		var y = String(new Date().getFullYear());
