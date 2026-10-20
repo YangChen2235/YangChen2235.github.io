@@ -50,6 +50,7 @@
 			<nav class="nav-links">
 				<a href="#about">关于</a>
 				<a href="#projects">项目</a>
+				<a href="#timeline">历程</a>
 				<a href="#gallery">画廊</a>
 				<a href="#music">音乐</a>
 				<a href="#team">制作组</a>
@@ -276,6 +277,95 @@
 							</div>
 						</article>
 					</div>
+				</section>
+
+				<!-- ============ 历程 ============ -->
+				<section id="timeline" class="sec">
+					<p class="sec-kicker">history</p>
+					<h2>开发历程</h2>
+					<p class="sec-desc">
+						从二月份的一个牌桌原型，做到现在的重置版。只列大版本，中间那些一天好几个
+						小版本（26.9.22.x、26.9.23.x 那一串）就不占地方了。
+					</p>
+					<ol class="timeline">
+						<li class="tl-item reveal">
+							<div class="tl-when">
+								<b>2026.02</b>
+								<span>原型</span>
+							</div>
+							<div class="tl-body">
+								<h3>卡牌对决</h3>
+								<p>最早的一版只做了一件事：两边各摆一副牌，能出牌、能算血量就算赢。主菜单加一个 MAIN 脚本，连抽卡都还没有。</p>
+								<ul class="tl-tags"><li>Godot 4.5</li><li>2 个脚本</li><li>最早的牌桌</li></ul>
+							</div>
+						</li>
+						<li class="tl-item reveal" data-delay="0.05">
+							<div class="tl-when">
+								<b>2026.03</b>
+								<span>抽卡</span>
+							</div>
+							<div class="tl-body">
+								<h3>抽卡 + 战斗打通</h3>
+								<p>全局状态、卡片定义、战斗流程拆成四个脚本，抽到的角色第一次能真的上场打。抽卡和打牌在这版接上了。</p>
+								<ul class="tl-tags"><li>Godot 4.5</li><li>4 个脚本</li></ul>
+							</div>
+						</li>
+						<li class="tl-item reveal" data-delay="0.1">
+							<div class="tl-when">
+								<b>2026.04</b>
+								<span>第一代</span>
+							</div>
+							<div class="tl-body">
+								<h3>班级抽卡</h3>
+								<p>牌面换成班里的同学：立绘、自定义抽取、骰子对决、过场动画都是这一代加的。四月下旬打包成 exe，程序编号一路打到 v19，第一次发给同学玩。</p>
+								<ul class="tl-tags"><li>Godot 4.6</li><li>9 个脚本</li><li>66 张卡图</li><li>导出 v14–v19</li></ul>
+							</div>
+						</li>
+						<li class="tl-item reveal" data-delay="0.15">
+							<div class="tl-when">
+								<b>2026.07</b>
+								<span>4.5 版</span>
+							</div>
+							<div class="tl-body">
+								<h3>班级抽卡 4.5</h3>
+								<p>在初代基础上继续加内容，滚动容器单独拆成脚本、补上导出配置，引擎退回到 4.5 稳一点，版本号也就定成了 4.5。</p>
+								<ul class="tl-tags"><li>Godot 4.5</li><li>9 个脚本</li></ul>
+							</div>
+						</li>
+						<li class="tl-item reveal" data-delay="0.2">
+							<div class="tl-when">
+								<b>2026.09</b>
+								<span>推倒重写</span>
+							</div>
+							<div class="tl-body">
+								<h3>班级抽卡 · 重置版</h3>
+								<p>九月底全部重写。定轨抽卡、统一选人界面、附加卡组 DLC、存档导入导出、图鉴七分区、主线选关，都在这一波里长出来，光是这六天就发了几十个版本号。</p>
+								<ul class="tl-tags"><li>Godot 4.7</li><li>26.9.20.2 → 26.9.26.4</li></ul>
+							</div>
+						</li>
+						<li class="tl-item reveal" data-delay="0.25">
+							<div class="tl-when">
+								<b>2026.10.04</b>
+								<span>四平台</span>
+							</div>
+							<div class="tl-body">
+								<h3>26.10.3.1 · 四个平台一起发</h3>
+								<p>第一次同时导出四个平台的包，每个三百多 MB。手机上装 apk，电脑上解压就能跑，不想装的直接用网页版。</p>
+								<ul class="tl-tags"><li>Windows / Linux / Android / 网页</li></ul>
+							</div>
+						</li>
+						<li class="tl-item reveal many" data-delay="0.3">
+							<div class="tl-when">
+								<b>2026.10.20</b>
+								<span>最新</span>
+							</div>
+							<div class="tl-body">
+								<h3>26.10.20.24</h3>
+								<p>教程和剧情搬进对决界面，反应特效加强，班级名单交给模组管理，修了几处点了没反应的毛病。下载区现在挂的就是这一版。</p>
+								<ul class="tl-tags"><li>当前版本</li><li>Windows 64 位</li></ul>
+							</div>
+						</li>
+					</ol>
 				</section>
 
 				<!-- ============ 画廊 ============ -->
