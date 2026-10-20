@@ -383,6 +383,24 @@
 							</li>
 						</ol>
 
+						<div class="plat-note reveal" data-delay="0.06">
+							<p class="plat-note-title"><b>iOS 和 32 位 Windows 没有安装包</b></p>
+							<ul>
+								<li>
+									<b>iPhone / iPad</b>：Godot 导出 iOS 要 Xcode 签名再上架商店，
+									没这个条件，所以一直没做。用手机浏览器打开
+									<a href="play/">网页版</a> 就能玩；在 Safari 里点「分享 →
+									添加到主屏幕」，之后从桌面图标进，跟 App 差不多。
+								</li>
+								<li>
+									<b>32 位 Windows</b>：只导了 64 位，系统要求 Windows 10/11 64 位、
+									显卡能跑 DirectX 12 / Vulkan。老机器和 32 位系统直接走网页版。
+								</li>
+								<li>
+									<b>macOS</b>：也没单独导出，同样用网页版。
+								</li>
+							</ul>
+						</div>
 						<div class="notice">
 							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 								<circle cx="12" cy="12" r="9" />
@@ -394,6 +412,30 @@
 								（页面上有中文进度条），之后浏览器会缓存，再开就快很多。
 								网页版的存档存在浏览器本地，换浏览器或清缓存会丢，重要进度建议用桌面版。
 							</div>
+						</div>
+
+						<div class="release-notes reveal" data-delay="0.08">
+							<div class="release-head">
+								<b>最新版本 26.10.20.24</b>
+								<span>2026-10-20 · Windows 64 位 · 355 MB</span>
+								<a
+									href="https://github.com/YangChen2235/---/releases/tag/26.10.20.24"
+									target="_blank"
+									rel="noopener"
+									>完整日志和已知问题</a
+								>
+							</div>
+							<ul>
+								<li>教程没演完，大回合不许接着打；反应演完才播「对方的回合」切换动画，不再两团大字叠在屏幕正中</li>
+								<li>反应特效加强：闪屏、放射光条、冲击环、全屏震（设置 → 游戏设置里可以关）</li>
+								<li>剧情和教程搬进对决界面，边打边教，气泡直接指在真实控件上，讲完自动进下一关</li>
+								<li>人机对决固定左边：你在左，AI 和首领在右，不能换边</li>
+								<li>修「点了没反应」和「多点几下卡在加载界面出不来」：先挂幕布再读场景，加了防连点锁</li>
+								<li>班级名单交给模组：设置页只管切班，加人换名单去「设置 → 游戏设置 → 制作模组 → 班级管理」</li>
+							</ul>
+							<p class="release-known">
+								已知：首领战还是老界面，布局正常、只是没换皮；版本号可以在游戏内「设置 → 关于作者」里看到。
+							</p>
 						</div>
 					</div>
 				</section>
