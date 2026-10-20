@@ -35,7 +35,13 @@
 
 		<header class="nav">
 			<a class="brand" href="#top">
-				<span class="brand-mark">Y</span>
+				<img
+					class="brand-avatar"
+					src="assets/img/avatar.png"
+					alt="YangChen2235 的头像"
+					width="36"
+					height="36"
+				/>
 				<span class="brand-text">YangChen2235</span>
 			</a>
 			<nav class="nav-links">
@@ -82,28 +88,38 @@
 						<ul class="stats">
 							<li><b>4 年</b><span>编程经验</span></li>
 							<li><b>2 年</b><span>信息学奥赛</span></li>
-							<li><b>1500+</b><span>卡牌数据</span></li>
-							<li><b>250+</b><span>游戏脚本</span></li>
+							<li><b>12 万行</b><span>代码量</span></li>
+							<li class="stat-lang"><b>C++ / Python</b><span>擅长语言</span></li>
 						</ul>
 					</div>
 
 					<div class="terminal reveal" data-delay="0.12" aria-hidden="true">
 						<div class="terminal-bar">
 							<i></i><i></i><i></i>
-							<em>profile.gd</em>
+							<em>profile.cpp</em>
 						</div>
-						<pre><code><span class="tk-cmt"># 关于这个人的全部真相</span>
-<span class="tk-kw">extends</span> <span class="tk-typ">开发者</span>
+						<pre><code><span class="tk-kw">#include</span> <span class="tk-typ">&lt;bits/stdc++.h&gt;</span>
+<span class="tk-kw">using</span> <span class="tk-kw">namespace</span> std;
 
-<span class="tk-kw">const</span> 名字 = <span class="tk-str">"YangChen2235"</span>
-<span class="tk-kw">const</span> 经验 = [<span class="tk-str">"4 年编程"</span>, <span class="tk-str">"2 年奥赛"</span>]
-<span class="tk-kw">var</span> 状态 = <span class="tk-str">"转型开发游戏中"</span>
+<span class="tk-kw">struct</span> <span class="tk-fn">开发者</span> {
+    <span class="tk-typ">string</span> 名字 = <span class="tk-str">"YangChen2235"</span>;
+    <span class="tk-typ">vector</span>&lt;<span class="tk-typ">string</span>&gt; 语言 = {<span class="tk-str">"C++"</span>, <span class="tk-str">"Python"</span>};
+    <span class="tk-kw">int</span> 编程年数 = <span class="tk-num">4</span>;
+    <span class="tk-typ">string</span> 主线 = <span class="tk-str">"信息学奥赛"</span>;
+};
 
-<span class="tk-kw">func</span> <span class="tk-fn">理念</span>() -&gt; <span class="tk-typ">String</span>:
-    <span class="tk-kw">return</span> <span class="tk-str">"人与 AI 和谐相处、互利共生"</span>
+<span class="tk-kw">long</span> <span class="tk-kw">long</span> <span class="tk-fn">快速幂</span>(<span class="tk-kw">long</span> <span class="tk-kw">long</span> a, <span class="tk-kw">int</span> b) {
+    <span class="tk-kw">long</span> <span class="tk-kw">long</span> r = <span class="tk-num">1</span>;
+    <span class="tk-kw">for</span> (; b; b &gt;&gt;= <span class="tk-num">1</span>, a *= a)
+        <span class="tk-kw">if</span> (b &amp; <span class="tk-num">1</span>) r *= a;
+    <span class="tk-kw">return</span> r;
+}
 
-<span class="tk-kw">func</span> <span class="tk-fn">最近在做</span>() -&gt; <span class="tk-typ">Array</span>:
-    <span class="tk-kw">return</span> [<span class="tk-str">"班级抽卡 · 重置版"</span>, <span class="tk-str">"骰子对决"</span>]
+<span class="tk-kw">int</span> <span class="tk-fn">main</span>() {
+    开发者 我;
+    cout &lt;&lt; 我.名字 &lt;&lt; <span class="tk-str">" · "</span> &lt;&lt; 我.主线 &lt;&lt; endl;
+    <span class="tk-kw">return</span> <span class="tk-num">0</span>;
+}
 </code></pre>
 					</div>
 				</section>
@@ -114,8 +130,8 @@
 						<p class="sec-kicker">about</p>
 						<h2 class="sec-title">关于我</h2>
 						<p class="sec-desc">
-							写代码写了四年，做过奥赛，也做过一些跑得起来但有点奇怪的东西。
-							现在主要精力放在游戏上 —— 想做出那种「打开就能玩上十分钟，还想再来一局」的东西。
+							写代码写了四年，练过信奥，也写过一些能跑起来但有点奇怪的东西。
+							现在主要精力放在游戏上，想做出那种打开就能玩上十分钟、还想再来一局的东西。
 						</p>
 					</div>
 
@@ -124,8 +140,8 @@
 							<div class="card-icon">01</div>
 							<h3>4 年编程经验</h3>
 							<p>
-								从零散的小工具、命令行程序一路写到成型项目，主力语言是
-								GDScript 与 Python，也摸过前端那一套。
+								从命令行小工具写到成型项目，C++ 和 Python 用得最多，
+								GDScript 是这两年做游戏练出来的。
 							</p>
 						</article>
 
@@ -133,8 +149,8 @@
 							<div class="card-icon">02</div>
 							<h3>2 年信息学奥赛</h3>
 							<p>
-								在算法和数据结构的训练里学会了「先把问题想清楚再动手」，
-								这份习惯现在是写游戏逻辑时最有用的部分。
+								两年算法和数据结构训练，养成了先把问题想清楚再动手的习惯。
+								写游戏逻辑的时候，这个习惯最省时间。
 							</p>
 						</article>
 
@@ -142,8 +158,8 @@
 							<div class="card-icon">03</div>
 							<h3>人与 AI 共生</h3>
 							<p>
-								积极尝试人与 AI 和谐相处、互利共生。写这套游戏的大量代码、
-								文档与卡牌文案，都是在人机协作的流程里磨出来的。
+								积极尝试人与 AI 和谐相处、互利共生。这套游戏的代码、文档
+								和卡牌文案，很多是在和 AI 来回商量的过程中写出来的。
 							</p>
 						</article>
 
@@ -151,7 +167,7 @@
 							<div class="card-icon">04</div>
 							<h3>转型做游戏</h3>
 							<p>
-								目前转型开发游戏中。比起做工具，更喜欢做能被别人玩、
+								目前转型开发游戏中。工具做过不少，还是更喜欢做能被别人玩、
 								被吐槽、被研究的东西。
 							</p>
 						</article>
@@ -175,7 +191,7 @@
 							<p class="project-lead">
 								把「班级同学」做成卡牌的对战游戏。1500+ 张卡、多个班级卡组、
 								九大学科体系、元素反应与化学合成，还能在游戏里拖拽代码方块，
-								自己写一张卡的脚本 —— 像《20 亿人》那样的玩法。
+								自己写一张卡的脚本，玩法有点像《20 亿人》。
 							</p>
 							<ul class="tags">
 								<li>Godot 4.7.2</li>
@@ -233,8 +249,8 @@
 							<div class="card-icon">集</div>
 							<h3>游戏练习作品集</h3>
 							<p>
-								早期练习和奇怪尝试的合集 —— 能跑起来，但代码风格比较奔放，
-								作者本人也不建议参考 :)
+								早期练习和奇怪尝试的合集。能跑起来，代码风格比较奔放，
+								自己也不建议参考 :)
 							</p>
 							<ul class="tags">
 								<li>练习</li>
@@ -337,7 +353,7 @@
 				<p>
 					© <span data-year>2026</span> YangChen2235 · 站点用 HTML/CSS/JS
 					手写，托管在 GitHub Pages<br />
-					背景滚动的代码不是贴图，是游戏里抽出来的真实源码：<code data-wall-stat>—</code>
+					背景滚动的代码从游戏源码里抽出来：<code data-wall-stat>—</code>
 				</p>
 				<div class="footer-links">
 					<a href="https://github.com/YangChen2235" target="_blank" rel="noopener">GitHub</a>

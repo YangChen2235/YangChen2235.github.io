@@ -76,6 +76,28 @@ function ConvertTo-JsonString([string]$s) {
     return $sb.ToString()
 }
 
+function Strip-Comment([string]$s) {
+    # 去掉行尾（或整行）注释：扫描引号外的第一个 #。
+    # 背景墙只留代码本身，注释在小字号下会糊成一片。
+    $inSingle = $false
+    $inDouble = $false
+    for ($i = 0; $i -lt $s.Length; $i++) {
+        $c = $s[$i]
+        if ($inDouble) {
+            if ($c -eq '"') { $inDouble = $false }
+            continue
+        }
+        if ($inSingle) {
+            if ($c -eq "'") { $inSingle = $false }
+            continue
+        }
+        if ($c -eq '"') { $inDouble = $true; continue }
+        if ($c -eq "'") { $inSingle = $true; continue }
+        if ($c -eq '#') { return $s.Substring(0, $i) }
+    }
+    return $s
+}
+
 function Test-KeepLine([string]$raw) {
     $t = $raw.TrimEnd()
     if ([string]::IsNullOrWhiteSpace($t)) { return $false }
@@ -109,7 +131,7 @@ foreach ($f in $files) {
         $start = $rng.Next(0, [math]::Max(1, $lines.Count - $winLen))
         $block = New-Object System.Collections.Generic.List[string]
         for ($i = $start; $i -lt [math]::Min($start + $winLen, $lines.Count); $i++) {
-            $raw = $lines[$i]
+            $raw = Strip-Comment $lines[$i]
             if (-not (Test-KeepLine $raw)) { continue }
             $leadRaw = $raw.Length - $raw.TrimStart().Length
             $indent = [math]::Min(8, $leadRaw * 2)

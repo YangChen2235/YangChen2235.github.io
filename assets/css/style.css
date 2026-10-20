@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    YangChen2235 · 个人站
    蓝白配色 + 背景游戏源码滚动墙
    ============================================================ */
@@ -148,18 +148,15 @@ a:hover {
 	color: var(--ink);
 }
 
-.brand-mark {
-	display: grid;
-	place-items: center;
-	width: 34px;
-	height: 34px;
-	border-radius: 10px;
-	background: linear-gradient(145deg, var(--blue-bright), var(--blue-deep));
-	color: #fff;
-	font-family: var(--font-mono);
-	font-size: 17px;
-	font-weight: 700;
-	box-shadow: 0 10px 22px -12px rgba(31, 111, 235, 0.85);
+.brand-avatar {
+	width: 36px;
+	height: 36px;
+	flex: none;
+	border-radius: 11px;
+	object-fit: cover;
+	background: #fff;
+	border: 1px solid var(--blue-line-strong);
+	box-shadow: 0 9px 20px -12px rgba(31, 111, 235, 0.8);
 }
 
 .brand-text {
@@ -425,6 +422,13 @@ section {
 	font-size: 12.5px;
 }
 
+/* 「C++ / Python」这一格字多，单独压小一点 */
+.stats .stat-lang b {
+	font-size: 15px;
+	letter-spacing: -0.02em;
+	white-space: nowrap;
+}
+
 /* 终端卡片 */
 
 .terminal {
@@ -474,11 +478,11 @@ section {
 
 .terminal pre {
 	margin: 0;
-	padding: 16px 18px 18px;
+	padding: 14px 16px 16px;
 	overflow-x: auto;
 	font-family: var(--font-mono);
-	font-size: 12.6px;
-	line-height: 1.85;
+	font-size: 12.2px;
+	line-height: 1.72;
 	color: #23456e;
 	tab-size: 2;
 }
@@ -967,6 +971,10 @@ section {
 
 	.stats b {
 		font-size: 17px;
+	}
+
+	.stats .stat-lang b {
+		font-size: 12.5px;
 	}
 
 	.footer-inner {

@@ -8,8 +8,8 @@
 
 | 板块 | 说明 |
 |---|---|
-| Hero | 名字、一句自我介绍、下载 / 网页版两个主入口 |
-| 关于我 | 4 年编程、2 年信息学奥赛、人与 AI 协作、转型做游戏 |
+| Hero | 头像、名字、一句自我介绍、下载 / 网页版两个主入口 |
+| 关于我 | 4 年编程、2 年信息学奥赛、人与 AI 协作、转型做游戏（右侧配一个 C++ 版的 profile.cpp 卡片） |
 | 在做的项目 | 《班级抽卡 · 重置版》《骰子对决》和练手合集 |
 | 下载 | 最新发行版按钮（自动探测）+ 「不用会 GitHub」的三步图解 |
 
@@ -21,6 +21,7 @@ assets/css/style.css    全部样式（蓝白配色、响应式）
 assets/js/codes.js      背景代码墙的数据：从游戏源码里抽出来的真实代码
 assets/js/code-wall.js  把代码画成会向上滚的「胶片」
 assets/js/site.js       导航吸顶、入场动画、打字机、发行版自动探测
+assets/img/avatar.png   导航栏左上角的头像
 assets/favicon.svg      站点图标
 tools/build-code-wall.ps1  重新从游戏工程抽取背景代码
 play/                   《班级抽卡 · 重置版》网页版（Godot 4.7.2 导出）
@@ -28,14 +29,15 @@ play/                   《班级抽卡 · 重置版》网页版（Godot 4.7.2 �
 
 ## 背景的代码墙是真的
 
-页面背景那面滚动的代码墙不是截图，也不是网上抄的示例，是从
-《班级抽卡 · 重置版》的 Godot 工程里随机抽出的真实 GDScript 片段
-（14 个脚本、420 行），连中文标识符和 `print` 里的表情都保留着。
+页面背景那面滚动的代码墙是从《班级抽卡 · 重置版》的 Godot 工程里
+随机抽出的真实 GDScript 片段（14 个脚本、420 行），连中文标识符和
+`print` 里的表情都保留着。抽取时会把注释行和行尾注释一起切掉，
+只留代码，小字号下才不会糊成一片。
 
 想更新：改完游戏后跑一次
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\build-code-wall.ps1 -ProjectRoot "D:\我游戏\班级抽卡-重置版"
+powershell -ExecutionPolicy Bypass -File .\tools\build-code-wall.ps1 -SourceDir "D:\我游戏\班级抽卡-重置版"
 ```
 
 脚本会重新读工程里的 `.gd`，覆盖 `assets/js/codes.js`。

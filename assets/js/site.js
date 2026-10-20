@@ -80,8 +80,8 @@
 	if (typedEl) {
 		var phrases = [
 			"个人开发者 / 游戏开发中",
-			"4 年编程 · 2 年信息学奥赛",
-			"Godot + GDScript 重度使用者",
+			"C++ 信奥 · 4 年编程",
+			"Python 与 GDScript 都在用",
 			"和 AI 一起写代码的人"
 		];
 
