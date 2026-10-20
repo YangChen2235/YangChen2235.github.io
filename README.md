@@ -30,6 +30,7 @@ assets/img/platform/    四个平台的图标（Windows / Linux / Android / 网�
 assets/img/gallery/     画廊用的两张自绘图（WebP）
 assets/audio/           音乐板块的四首曲子（mp3，Suno 生成）
 assets/img/team/        制作组头像（bigfish.png / dafeilong.png，自己的复用 avatar.png）
+assets/img/game/        游戏 logo.png 与两枚碎片（shard-blue / shard-red），下载区顶部那组徽记用的就是它们
 assets/favicon.svg      站点图标
 tools/build-code-wall.ps1  重新从游戏工程抽取背景代码
 play/                   《班级抽卡 · 重置版》网页版（Godot 4.7.2 导出）
