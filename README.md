@@ -13,7 +13,7 @@
 | 在做的项目 | 《班级抽卡 · 重置版》《骰子对决》和练手合集 |
 | 画廊 | 两张自绘的图，点开看大图（没有 JS 的话就是直接打开图片） |
 | 音乐 | 四首 Suno 生成的曲子，点播放键直接试听，点进度条能跳 |
-| 制作组 | 两个人各自的头像和分工：蓝色大肥鱼（代码 / 矢量图美工 / 动画 / MV 制作）、YangChen2235（代码 / 技术指导 / 框架制作 / 原型制作 / 策划 / 剧情 / 美工） |
+| 制作组 | 三个人各自的头像和分工：蓝色大肥鱼（代码 / 矢量图美工 / 动画 / MV 制作）、YangChen2235（代码 / 技术指导 / 框架制作 / 原型制作 / 策划 / 剧情 / 美工）、大肥龙（AI 美工） |
 | 下载 | Windows / Linux / Android / 网页版 四个平台图标（直接连到发行版资产）、三步图解、iOS / 32 位 Windows 的说明和网页版替代办法、最新版本的更新日志 |
 
 ## 目录结构
@@ -28,7 +28,7 @@ assets/img/avatar.png   导航栏左上角的头像
 assets/img/platform/    四个平台的图标（Windows / Linux / Android / 网页版）
 assets/img/gallery/     画廊用的两张自绘图（WebP）
 assets/audio/           音乐板块的四首曲子（mp3，Suno 生成）
-assets/img/team/        制作组头像（另一位的头像是 bigfish.png，自己的复用 avatar.png）
+assets/img/team/        制作组头像（bigfish.png / dafeilong.png，自己的复用 avatar.png）
 assets/favicon.svg      站点图标
 tools/build-code-wall.ps1  重新从游戏工程抽取背景代码
 play/                   《班级抽卡 · 重置版》网页版（Godot 4.7.2 导出）
