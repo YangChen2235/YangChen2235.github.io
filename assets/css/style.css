@@ -757,6 +757,67 @@ section {
 	font-size: 15px;
 }
 
+/* 四个平台下载卡 */
+
+.platforms {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 12px;
+	margin: 22px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.platforms li {
+	display: flex;
+}
+
+.plat {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	width: 100%;
+	padding: 16px 16px 17px;
+	border-radius: 15px;
+	border: 1px solid var(--blue-line);
+	background: rgba(255, 255, 255, 0.92);
+	color: var(--ink);
+	text-decoration: none;
+	box-shadow: 0 10px 24px -22px rgba(11, 63, 143, 0.9);
+	transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+		border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+.plat:hover {
+	transform: translateY(-3px);
+	border-color: var(--blue);
+	box-shadow: 0 18px 34px -24px rgba(31, 111, 235, 0.95);
+}
+
+.plat img {
+	width: 30px;
+	height: 30px;
+	margin-bottom: 6px;
+}
+
+.plat b {
+	font-size: 14.5px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+.plat .plat-size {
+	color: var(--ink-faint);
+	font-size: 11.8px;
+	line-height: 1.55;
+}
+
+.plat-web {
+	border-style: dashed;
+	border-color: var(--blue-line-strong);
+	background: rgba(31, 111, 235, 0.05);
+}
+
 .download-actions {
 	display: flex;
 	flex-wrap: wrap;
@@ -943,6 +1004,10 @@ section {
 	.stats {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
+
+	.platforms {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
 
 @media (max-width: 620px) {
@@ -975,6 +1040,23 @@ section {
 
 	.stats .stat-lang b {
 		font-size: 12.5px;
+	}
+
+	.plat {
+		padding: 13px 13px 14px;
+	}
+
+	.plat img {
+		width: 26px;
+		height: 26px;
+	}
+
+	.plat b {
+		font-size: 13.5px;
+	}
+
+	.plat .plat-size {
+		font-size: 11px;
 	}
 
 	.footer-inner {

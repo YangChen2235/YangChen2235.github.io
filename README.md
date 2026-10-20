@@ -11,7 +11,7 @@
 | Hero | 头像、名字、一句自我介绍、下载 / 网页版两个主入口 |
 | 关于我 | 4 年编程、2 年信息学奥赛、人与 AI 协作、转型做游戏（右侧配一个 C++ 版的 profile.cpp 卡片） |
 | 在做的项目 | 《班级抽卡 · 重置版》《骰子对决》和练手合集 |
-| 下载 | 最新发行版按钮（自动探测）+ 「不用会 GitHub」的三步图解 |
+| 下载 | Windows / Linux / Android / 网页版 四个平台图标（直接连到发行版资产）+ 「不用会 GitHub」的三步图解 |
 
 ## 目录结构
 
@@ -22,6 +22,7 @@ assets/js/codes.js      背景代码墙的数据：从游戏源码里抽出来�
 assets/js/code-wall.js  把代码画成会向上滚的「胶片」
 assets/js/site.js       导航吸顶、入场动画、打字机、发行版自动探测
 assets/img/avatar.png   导航栏左上角的头像
+assets/img/platform/    四个平台的图标（Windows / Linux / Android / 网页版）
 assets/favicon.svg      站点图标
 tools/build-code-wall.ps1  重新从游戏工程抽取背景代码
 play/                   《班级抽卡 · 重置版》网页版（Godot 4.7.2 导出）
@@ -42,15 +43,28 @@ powershell -ExecutionPolicy Bypass -File .\tools\build-code-wall.ps1 -SourceDir 
 
 脚本会重新读工程里的 `.gd`，覆盖 `assets/js/codes.js`。
 
-## 下载按钮怎么指向「最新发行版」
+## 下载：四个平台，怎么连到发行版
 
-GitHub Pages 没有服务端，所以 `site.js` 在浏览器里调 GitHub 的公开接口
-`/repos/YangChen2235/<repo>/releases/latest`，查到就把按钮指到最新的
-zip 资产并显示体积、下载次数、发布时间；查不到（还没有发行版、被限流、
-断网）就保持指向 `releases/latest` 这个兜底地址，并把提示换成「先玩网页版」。
+游戏的包都发在仓库 **[YangChen2235/---](https://github.com/YangChen2235/---/releases)**
+的 Releases 里，这个站点仓库本身不放包。页面上四个平台卡片各自负责一件事：
 
-要发新版：在这个仓库建一个 Release 并上传 zip，页面下次刷新会自动跟上，
-**不需要改代码**。
+| 卡片 | 连到哪 |
+|---|---|
+| Windows | 发行版里最新的 `Windows.zip` |
+| Linux | 最新一个带 `Linux.zip` 的发行版 |
+| Android | 最新一个带 `Android.zip` 的发行版 |
+| 网页版 | `play/`，不用下载 |
+
+`index.html` 里每张卡片都写好了一条**能直接下载的真实直链**，所以就算接口
+不通也点得动。`site.js` 再调 GitHub 的公开接口
+`/repos/YangChen2235/---/releases?per_page=20` 做一次升级：按时间倒序找
+「确实带这个平台包」的最新发行版，把卡片 href 换成那个资产，并把体积
+（如 `355 MB · 解压即玩`）填进卡片副标题；主按钮和「最新发行版」那行
+提示也一起更新。
+
+接口查不到（限流、断网、还没发版）时什么也不改，链接保持 HTML 里写死的直链，
+只把提示换成一句人话。所以发新版以后即使没人改代码，页面也会自己跟上；
+要是接口长期被限流，记得手动把 `index.html` 里那几条直链更新一下。
 
 ## 网页版（play/）
 

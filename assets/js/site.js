@@ -137,31 +137,19 @@
 		});
 	}
 
-	/* ---------- 最新发行版自动检测 ----------
-	   GitHub Pages 上没有服务端，所以用 GitHub 的公开 API 找「最新发行版」。
-	   查到了就把下载按钮指到发行版资产（优先 zip），查不到就保持指向
-	   releases/latest 这个兜底链接。 */
+	/* ---------- 发行版 / 平台下载 ----------
+	   GitHub Pages 没有服务端，所以用 GitHub 的公开 API 读游戏仓库的发行版：
+	   主按钮和四个平台卡片都按「最新的、确实带这个平台的包」去连，
+	   查不到就退回 releases/latest。 */
 
-	var RELEASE_REPOS = ["YangChen2235.github.io", "banjichouka"];
 	var OWNER = "YangChen2235";
+	var GAME_REPO = "---";
+	var RELEASES_API = "https://api.github.com/repos/" + OWNER + "/" + GAME_REPO + "/releases?per_page=20";
 
 	var primary = document.getElementById("dl-primary");
 	var primaryLabel = document.getElementById("dl-primary-label");
 	var metaEl = document.getElementById("dl-meta-text");
 	var releasesLink = document.getElementById("dl-releases");
-
-	function pickAsset(rel) {
-		var assets = Array.isArray(rel.assets) ? rel.assets : [];
-		if (!assets.length) return null;
-		var zip = assets.filter(function (a) {
-			return /\.(zip|7z|rar)$/i.test(a.name);
-		});
-		var pool = zip.length ? zip : assets;
-		pool.sort(function (a, b) {
-			return (b.download_count || 0) - (a.download_count || 0) || b.size - a.size;
-		});
-		return pool[0];
-	}
 
 	function humanSize(bytes) {
 		if (!bytes) return "";
@@ -171,56 +159,87 @@
 		return Math.max(1, Math.round(bytes / 1024)) + " KB";
 	}
 
-	function fetchLatest(repo) {
-		var url = "https://api.github.com/repos/" + OWNER + "/" + repo + "/releases/latest";
-		return fetch(url, {
-			headers: { Accept: "application/vnd.github+json" },
-			cache: "no-store"
-		}).then(function (res) {
-			if (!res.ok) throw new Error("no release");
-			return res.json();
-		});
+	function findAsset(rel, name) {
+		var assets = Array.isArray(rel.assets) ? rel.assets : [];
+		for (var i = 0; i < assets.length; i++) {
+			if (String(assets[i].name).toLowerCase() === name.toLowerCase()) return assets[i];
+		}
+		return null;
 	}
 
-	function applyRelease(rel, repo) {
-		var asset = pickAsset(rel);
+	function applyLatest(rel) {
 		var tag = rel.tag_name || rel.name || "最新版";
-		if (asset && primary) {
-			primary.href = asset.browser_download_url;
-			primary.setAttribute("download", "");
-			if (primaryLabel) primaryLabel.textContent = "下载 " + tag;
-		} else if (primary) {
-			primary.href = rel.html_url;
-			if (primaryLabel) primaryLabel.textContent = "前往发行版页面";
+		var windows = findAsset(rel, "Windows.zip");
+		var pack = windows;
+		if (!pack) {
+			var pool = (rel.assets || []).filter(function (a) {
+				return /\.(zip|7z|rar)$/i.test(a.name);
+			});
+			pack = pool[0] || null;
+		}
+		if (primary) {
+			if (pack) {
+				primary.href = pack.browser_download_url;
+				if (primaryLabel) primaryLabel.textContent = "下载最新发行版";
+			} else {
+				primary.href = rel.html_url;
+				if (primaryLabel) primaryLabel.textContent = "前往发行版页面";
+			}
 		}
 		if (releasesLink) releasesLink.href = rel.html_url;
-
 		if (metaEl) {
 			var bits = ["最新发行版 " + tag];
-			if (asset && asset.size) bits.push(humanSize(asset.size));
-			if (asset && asset.download_count) bits.push(asset.download_count + " 次下载");
-			if (rel.published_at) {
-				bits.push(String(rel.published_at).slice(0, 10));
-			}
+			if (pack && pack.size) bits.push(humanSize(pack.size));
+			if (pack && pack.download_count) bits.push(pack.download_count + " 次下载");
+			if (rel.published_at) bits.push(String(rel.published_at).slice(0, 10));
 			metaEl.textContent = bits.join(" · ");
 		}
 	}
 
-	if (primary && window.fetch) {
-		var chain = Promise.reject();
-		RELEASE_REPOS.forEach(function (repo) {
-			chain = chain.catch(function () {
-				return fetchLatest(repo).then(function (rel) {
-					applyRelease(rel, repo);
+	function applyPlatforms(list) {
+		var cards = document.querySelectorAll(".plat[data-asset]");
+		for (var c = 0; c < cards.length; c++) {
+			(function (el) {
+				var name = el.getAttribute("data-asset");
+				var hint = el.getAttribute("data-hint") || "";
+				for (var i = 0; i < list.length; i++) {
+					var a = findAsset(list[i], name);
+					if (!a) continue;
+					el.href = a.browser_download_url;
+					var sizeEl = el.querySelector(".plat-size");
+					if (sizeEl) sizeEl.textContent = a.size ? humanSize(a.size) + " · " + hint : hint;
+					return;
+				}
+			})(cards[c]);
+		}
+	}
+
+	function fetchReleases() {
+		return fetch(RELEASES_API, {
+			headers: { Accept: "application/vnd.github+json" },
+			cache: "no-store"
+		}).then(function (res) {
+			if (!res.ok) throw new Error("http " + res.status);
+			return res.json();
+		});
+	}
+
+	if (window.fetch) {
+		fetchReleases()
+			.then(function (list) {
+				if (!Array.isArray(list) || !list.length) throw new Error("empty");
+				var stable = list.filter(function (r) {
+					return !r.draft && !r.prerelease;
 				});
+				list = stable.length ? stable : list;
+				applyLatest(list[0]);
+				applyPlatforms(list);
+			})
+			.catch(function () {
+				// 查不到（断网 / 限流 / 还没发版）：链接保持 HTML 里写好的直链不动，
+				// 只把提示换成一句人话，链接本身依然是能用的。
+				if (metaEl) metaEl.textContent = "四个平台的包都在发行版页面里，点上面图标直接下载";
 			});
-		});
-		chain.catch(function () {
-			// 没有发行版 / 被限流 / 断网：保持兜底链接不变，只把提示换成网页版引导
-			if (metaEl) {
-				metaEl.textContent = "发行版还在路上 —— 先玩网页版最快，打开就能玩";
-			}
-		});
 	}
 
 	/* ---------- 年份 ---------- */
