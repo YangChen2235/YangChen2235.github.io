@@ -243,6 +243,52 @@
 
 	/* ---------- 年份 ---------- */
 
+	/* ---------- 画廊：点开看大图 ---------- */
+
+	(function () {
+		var links = document.querySelectorAll(".gallery-grid .art-link");
+		if (!links.length) return;
+
+		var box = document.createElement("div");
+		box.className = "lightbox";
+		box.setAttribute("aria-hidden", "true");
+		box.innerHTML =
+			'<button class="lightbox-close" type="button" aria-label="关闭">&times;</button><img alt="" />';
+		document.body.appendChild(box);
+
+		var bigImg = box.querySelector("img");
+
+		function closeBox() {
+			box.classList.remove("is-open");
+			box.setAttribute("aria-hidden", "true");
+			document.body.style.overflow = "";
+		}
+
+		function openBox(src, alt) {
+			bigImg.src = src;
+			bigImg.alt = alt || "";
+			box.classList.add("is-open");
+			box.setAttribute("aria-hidden", "false");
+			document.body.style.overflow = "hidden";
+		}
+
+		box.addEventListener("click", function (e) {
+			if (e.target !== bigImg) closeBox();
+		});
+
+		document.addEventListener("keydown", function (e) {
+			if (e.key === "Escape") closeBox();
+		});
+
+		Array.prototype.forEach.call(links, function (link) {
+			link.addEventListener("click", function (e) {
+				if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+				var img = link.querySelector("img");
+				e.preventDefault();
+				openBox(link.getAttribute("href"), img ? img.alt : "");
+			});
+		});
+	})();
 	var yearEls = document.querySelectorAll("[data-year]");
 	if (yearEls.length) {
 		var y = String(new Date().getFullYear());

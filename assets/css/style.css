@@ -1155,7 +1155,7 @@ section {
 		font-size: 13.5px;
 	}
 
-	.nav-links a:not(.nav-cta):nth-child(2) {
+	.nav-links a:not(.nav-cta):first-child {
 		display: none;
 	}
 
@@ -1204,6 +1204,122 @@ section {
 	}
 }
 
+/* ---------------- 画廊 ---------------- */
+
+.gallery-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 20px;
+	margin-top: 26px;
+}
+
+.gallery-grid .art {
+	margin: 0;
+	padding: 10px;
+	border-radius: 18px;
+	background: rgba(255, 255, 255, 0.9);
+	border: 1px solid var(--blue-line);
+	box-shadow: 0 18px 40px -34px rgba(11, 63, 143, 0.55);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gallery-grid .art:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 24px 48px -30px rgba(11, 63, 143, 0.6);
+}
+
+.art-link {
+	display: block;
+	overflow: hidden;
+	border-radius: 12px;
+	background: #e8effa;
+	cursor: zoom-in;
+}
+
+.art-link img {
+	display: block;
+	width: 100%;
+	height: auto;
+	transition: transform 0.4s ease;
+}
+
+.art-link:hover img {
+	transform: scale(1.02);
+}
+
+.art figcaption {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 2px 10px;
+	padding: 11px 6px 4px;
+	font-size: 13px;
+	color: var(--ink-faint);
+}
+
+.art figcaption b {
+	color: var(--ink);
+	font-size: 14px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+/* 点开看大图 */
+
+.lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 90;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+	background: rgba(6, 18, 38, 0.82);
+	backdrop-filter: blur(6px);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.22s ease;
+}
+
+.lightbox.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.lightbox img {
+	max-width: min(1200px, 100%);
+	max-height: 100%;
+	border-radius: 12px;
+	box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8);
+	background: #fff;
+	cursor: default;
+}
+
+.lightbox-close {
+	position: absolute;
+	top: 18px;
+	right: 20px;
+	width: 38px;
+	height: 38px;
+	border: 0;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.16);
+	color: #fff;
+	font-size: 22px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.lightbox-close:hover {
+	background: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 940px) {
+	.gallery-grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 16px;
+	}
+}
 @media (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;
