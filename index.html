@@ -581,8 +581,26 @@
 							</p>
 						</article>
 
+						<article class="bl-card reveal">
+							<div class="bl-top"><span class="bl-rank">09</span><span class="bl-tag">看起来没坏，其实坏了</span></div>
+							<h3>&gt; 重定向让 git 看着干净</h3>
+							<p>
+								PowerShell 5.1 的 <code>&gt;</code> 把二进制重定向写成 UTF-16，字节数直接翻倍。<code>git status</code>
+								一片干净，<code>git cat-file</code> 却对不上，我差点以为仓库坏了。
+							</p>
+						</article>
+
+						<article class="bl-card reveal" data-delay="0.05">
+							<div class="bl-top"><span class="bl-rank">10</span><span class="bl-tag">看起来没坏，其实坏了</span></div>
+							<h3>存档页的 visible 永远是 true</h3>
+							<p>
+								为了能测出滚动高度，代码让它恒真。「一页只亮一页」那个测试于是数出两页，连着误报两次。
+							</p>
+						</article>
+
+
 						<article class="bl-card reveal" data-delay="0.1">
-							<div class="bl-top"><span class="bl-rank">09</span><span class="bl-tag">差一点酿成事故</span></div>
+							<div class="bl-top"><span class="bl-rank">11</span><span class="bl-tag">差一点酿成事故</span></div>
 							<h3>差点把个人主页删了</h3>
 							<p>
 								<code>数据/_scratch/_出网页版.py</code> 第 ④ 步会清掉站点目录里除 <code>.git</code>、<code>README.md</code>
@@ -592,7 +610,7 @@
 						</article>
 
 						<article class="bl-card reveal">
-							<div class="bl-top"><span class="bl-rank">10</span><span class="bl-tag">差一点酿成事故</span></div>
+							<div class="bl-top"><span class="bl-rank">12</span><span class="bl-tag">差一点酿成事故</span></div>
 							<h3>按钮的名字是接口</h3>
 							<p>
 								<code>场景/关于游戏.tscn</code> 底部那个按钮必须叫「退出」，因为 <code>界面/设置界面.gd</code> 和
@@ -602,7 +620,7 @@
 						</article>
 
 						<article class="bl-card reveal" data-delay="0.05">
-							<div class="bl-top"><span class="bl-rank">11</span><span class="bl-tag">差一点酿成事故</span></div>
+							<div class="bl-top"><span class="bl-rank">13</span><span class="bl-tag">差一点酿成事故</span></div>
 							<h3>灰屏只画一个 Esc</h3>
 							<p>
 								早期录屏第一版整屏是灰的，右下角只有一个 <code>Esc</code>：Control 还没算好布局就
@@ -611,7 +629,7 @@
 						</article>
 
 						<article class="bl-card reveal" data-delay="0.1">
-							<div class="bl-top"><span class="bl-rank">12</span><span class="bl-tag">一行代码</span></div>
+							<div class="bl-top"><span class="bl-rank">14</span><span class="bl-tag">一行代码</span></div>
 							<h3>一个直引号就 Parse Error</h3>
 							<p>
 								字符串里写了直引号，报 <code>Parse Error: Expected closing ")"</code>，所以工程里的引号一律用「」。多行
