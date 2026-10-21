@@ -127,11 +127,12 @@
 	if (wallStatEls.length && window.CODE_WALL_DATA) {
 		var d = window.CODE_WALL_DATA;
 		var text =
+			d.statText ||
 			(d.lines ? d.lines.length : 0) +
-			" 行代码 · " +
-			(d.fileCount || 0) +
-			" 个脚本 · " +
-			(d.generated || "");
+				" 行代码 · " +
+				(d.fileCount || 0) +
+				" 个脚本 · " +
+				(d.generated || "");
 		wallStatEls.forEach(function (el) {
 			el.textContent = text;
 		});

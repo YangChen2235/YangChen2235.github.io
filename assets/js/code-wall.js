@@ -53,11 +53,11 @@
 	var PLAIN = "rgba(44, 96, 158, 0.36)";
 
 	var KEYWORD_RE =
-		/^(?:func|var|const|static|class_name|extends|signal|enum|@export|@onready|@tool|await|return|if|elif|else|for|while|match|break|continue|pass|assert|preload|load)\b/;
+		/^(?:#include|#define|#pragma|template|struct|class|namespace|using|typedef|constexpr|const|static|inline|virtual|public|private|protected|int|long|short|double|float|char|bool|void|auto|unsigned|signed|vector|string|pair|map|set|queue|stack|priority_queue|for|while|do|if|else|switch|case|default|return|break|continue|goto|new|delete|sizeof)\b/;
 
 	function colorFor(line) {
 		var t = line.replace(/^\s+/, "");
-		if (t.charAt(0) === "#") return COMMENT;
+		if (t.slice(0, 2) === "//") return COMMENT;
 		if (KEYWORD_RE.test(t)) return KEYWORD;
 		return PLAIN;
 	}

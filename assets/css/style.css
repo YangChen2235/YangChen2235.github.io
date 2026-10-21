@@ -175,6 +175,7 @@ a:hover {
 	color: var(--ink-soft);
 	font-weight: 500;
 	position: relative;
+	white-space: nowrap;
 }
 
 .nav-links a:hover {
@@ -1365,14 +1366,25 @@ section {
 	}
 }
 
+@media (max-width: 940px) {
+	.nav-links a:not(.nav-cta):nth-child(1),
+	.nav-links a:not(.nav-cta):nth-child(4),
+	.nav-links a:not(.nav-cta):nth-child(5) {
+		display: none;
+	}
+}
+
 @media (max-width: 620px) {
 	.nav-links {
 		gap: 14px;
 		font-size: 13.5px;
 	}
 
-	.nav-links a:not(.nav-cta):first-child,
-	.nav-links a:not(.nav-cta):nth-child(4) {
+	.nav-links a:not(.nav-cta):nth-child(1),
+	.nav-links a:not(.nav-cta):nth-child(3),
+	.nav-links a:not(.nav-cta):nth-child(4),
+	.nav-links a:not(.nav-cta):nth-child(5),
+	.nav-links a:not(.nav-cta):nth-child(6) {
 		display: none;
 	}
 
@@ -1525,6 +1537,14 @@ section {
 	background: linear-gradient(180deg, var(--blue), rgba(31, 111, 235, 0.2));
 }
 
+@media (max-width: 940px) {
+	.nav-links a:not(.nav-cta):nth-child(1),
+	.nav-links a:not(.nav-cta):nth-child(4),
+	.nav-links a:not(.nav-cta):nth-child(5) {
+		display: none;
+	}
+}
+
 @media (max-width: 620px) {
 	.team-line {
 		margin-top: 20px;
@@ -1543,6 +1563,14 @@ section {
 @media (max-width: 700px) {
 	.team-grid {
 		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+@media (max-width: 940px) {
+	.nav-links a:not(.nav-cta):nth-child(1),
+	.nav-links a:not(.nav-cta):nth-child(4),
+	.nav-links a:not(.nav-cta):nth-child(5) {
+		display: none;
 	}
 }
 
@@ -1980,6 +2008,14 @@ section {
 		gap: 16px;
 	}
 }
+@media (max-width: 940px) {
+	.nav-links a:not(.nav-cta):nth-child(1),
+	.nav-links a:not(.nav-cta):nth-child(4),
+	.nav-links a:not(.nav-cta):nth-child(5) {
+		display: none;
+	}
+}
+
 @media (max-width: 620px) {
 	.crest-logo {
 		width: min(240px, 64%);

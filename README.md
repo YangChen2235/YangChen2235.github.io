@@ -23,7 +23,7 @@
 ```
 index.html              主页
 assets/css/style.css    全部样式（蓝白配色、响应式）
-assets/js/codes.js      背景代码墙的数据：从游戏源码里抽出来的真实代码
+assets/js/codes.js      背景代码墙的数据：从洛谷提交里抽出来的真实 C++ 代码
 assets/js/code-wall.js  把代码画成会向上滚的「胶片」
 assets/js/site.js       导航吸顶、入场动画、打字机、画廊大图、音乐播放器、发行版自动探测
 assets/img/avatar.png   导航栏左上角的头像
@@ -33,24 +33,26 @@ assets/audio/           音乐板块的四首曲子（mp3，Suno 生成）
 assets/img/team/        制作组头像（bigfish.png / dafeilong.png，自己的复用 avatar.png）
 assets/img/game/        游戏 logo.png 与两枚碎片（shard-blue / shard-red），下载区顶部那组徽记用的就是它们
 assets/favicon.svg      站点图标
-tools/build-code-wall.ps1  重新从游戏工程抽取背景代码
+tools/build-code-wall.mjs   重新从洛谷提交记录生成背景代码墙（node tools/build-code-wall.mjs）
+tools/luogu-records.json  洛谷提交的原始抓取结果（90 份 AC、82 道题），生成器的输入
 play/                   《班级抽卡 · 重置版》网页版（Godot 4.7.2 导出）
 ```
 
 ## 背景的代码墙是真的
 
-页面背景那面滚动的代码墙是从《班级抽卡 · 重置版》的 Godot 工程里
-随机抽出的真实 GDScript 片段（14 个脚本、420 行），连中文标识符和
-`print` 里的表情都保留着。抽取时会把注释行和行尾注释一起切掉，
-只留代码，小字号下才不会糊成一片。
+页面背景那面滚动的代码墙，是我在洛谷（YangChen2235）的 AC 提交里
+抽出来的真实 C++ 代码：90 份提交、82 道题。抽取时把 `//` 和 `/* */`
+注释一起切掉，样板行（`#include <bits/stdc++.h>`、`using namespace std;`、
+`int main(){` 之类）全部剔除，只留塞得进一列宽度的短行 —— 小字号下
+才不会糊成一片，也不会整面墙都是同一行 `#include`。
 
-想更新：改完游戏后跑一次
+想更新：把新的抓取结果放到 `tools/luogu-records.json`，然后
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\build-code-wall.ps1 -SourceDir "D:\我游戏\班级抽卡-重置版"
+node tools/build-code-wall.mjs
 ```
 
-脚本会重新读工程里的 `.gd`，覆盖 `assets/js/codes.js`。
+脚本会重写 `assets/js/codes.js`（460 行，统计里写的就是这里的数字）。
 
 ## 下载：四个平台，怎么连到发行版
 

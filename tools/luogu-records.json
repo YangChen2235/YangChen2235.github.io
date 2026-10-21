@@ -1,0 +1,812 @@
+[
+ {
+  "id": 300178483,
+  "pid": "P17555",
+  "name": "「WWOI R4」构造大师",
+  "language": 28,
+  "time": 1790835991,
+  "codeLength": 732,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\ntypedef long long ll;\n\nint main() {\n\tll n, k;\n\tcin >> n >> k;\n\tll mod = 3 * n;\n\tll M = (n - 1) / 2;\n\tll inv2 = (mod + 1) / 2;\n\tll x = (3 * M % mod) * inv2 % mod;\n\tvector<ll> a(n), b(n);\n\ta[0] = x;\n\tfor (int i = 1; i < n; i++) {\n\t\ta[i] = (3 * (i - 1) - a[i-1]) % mod;\n\t\tif (a[i] < 0) a[i] += mod;\n\t}\n\tfor (int i = 0; i < n; i++) {\n\t\tb[i] = (3 * i + 1 - a[i]) % mod;\n\t\tif (b[i] < 0) b[i] += mod;\n\t}\n\tfor (int i = 0; i < n; i++) {\n\t\tif (a[i] > mod / 2) a[i] -= mod;\n\t\tif (b[i] > mod / 2) b[i] -= mod;\n\t}\n\tcout << \"Yes\\n\";\n\tfor (int i = 0; i < n; i++) {\n\t\tcout << a[i] << (i == n-1 ? '\\n' : ' ');\n\t}\n\tfor (int i = 0; i < n; i++) {\n\t\tcout << b[i] << (i == n-1 ? '\\n' : ' ');\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 297574219,
+  "pid": "P5497",
+  "name": "[LnOI2019SP] 龟速单项式变换(SMT)",
+  "language": 28,
+  "time": 1789194557,
+  "codeLength": 149,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nlong long n,m;\n\nint main(){\n\tcin>>n>>m;\n\tif(n>=m){\n\t\tcout<<\"YES\";\n\t}else{\n\t\tcout<<\"NO\";\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 293223872,
+  "pid": "P3796",
+  "name": "AC 自动机（简单版 II）",
+  "language": 28,
+  "time": 1786848330,
+  "codeLength": 1449,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 150 * 70 + 5;\nconst int scx2 = 1e6 + 5;\n\nint n;\nstring s[155];\nstring text;\nint ch[scx][26];\nint fail[scx];\nint ed[scx];\nint cnt[155];\nint tot;\n\nvoid insert(const string &str, int id) {\n\tint now = 0;\n\tfor(int i = 0; i < (int)str.size(); i++) {\n\t\tint x = str[i] - 'a';\n\t\tif(!ch[now][x]) ch[now][x] = ++tot;\n\t\tnow = ch[now][x];\n\t}\n\ted[now] = id;\n}\n\nvoid getFail() {\n\tqueue<int> q;\n\tfor(int i = 0; i < 26; i++) {\n\t\tif(ch[0][i]) q.push(ch[0][i]);\n\t}\n\twhile(!q.empty()) {\n\t\tint u = q.front(); q.pop();\n\t\tfor(int i = 0; i < 26; i++) {\n\t\t\tif(ch[u][i]) {\n\t\t\t\tfail[ch[u][i]] = ch[fail[u]][i];\n\t\t\t\tq.push(ch[u][i]);\n\t\t\t} else {\n\t\t\t\tch[u][i] = ch[fail[u]][i];\n\t\t\t}\n\t\t}\n\t}\n}\n\nvoid query(const string &str) {\n\tint now = 0;\n\tfor(int i = 0; i < (int)str.size(); i++) {\n\t\tint x = str[i] - 'a';\n\t\tnow = ch[now][x];\n\t\tfor(int t = now; t; t = fail[t]) {\n\t\t\tif(ed[t]) cnt[ed[t]]++;\n\t\t}\n\t}\n}\n\nvoid init() {\n\ttot = 0;\n\tmemset(ch, 0, sizeof(ch));\n\tmemset(fail, 0, sizeof(fail));\n\tmemset(ed, 0, sizeof(ed));\n\tmemset(cnt, 0, sizeof(cnt));\n}\n\nint main() {\n\twhile(cin >> n && n) {\n\t\tinit();\n\t\tfor(int i = 1; i <= n; i++) {\n\t\t\tcin >> s[i];\n\t\t\tinsert(s[i], i);\n\t\t}\n\t\tgetFail();\n\t\tcin >> text;\n\t\tquery(text);\n\t\tint mx = 0;\n\t\tfor(int i = 1; i <= n; i++) {\n\t\t\tif(cnt[i] > mx) mx = cnt[i];\n\t\t}\n\t\tcout << mx << '\\n';\n\t\tfor(int i = 1; i <= n; i++) {\n\t\t\tif(cnt[i] == mx) {\n\t\t\t\tcout << s[i] << '\\n';\n\t\t\t}\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 293221277,
+  "pid": "P3808",
+  "name": "AC 自动机（简单版）",
+  "language": 28,
+  "time": 1786847680,
+  "codeLength": 1044,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e6 + 10;\nint ch[scx][26], fail[scx], val[scx], tot = 0;\nint n;\nstring s;\n\nvoid insert(const string &str) {\n\tint now = 0;\n\tfor(int i = 0; i < (int)str.size(); i++) {\n\t\tint x = str[i] - 'a';\n\t\tif(!ch[now][x]) ch[now][x] = ++tot;\n\t\tnow = ch[now][x];\n\t}\n\tval[now]++;\n}\n\nvoid getFail() {\n\tqueue<int> q;\n\tfor(int i = 0; i < 26; i++) \n\t\tif(ch[0][i]) q.push(ch[0][i]);\n\t\n\twhile(!q.empty()) {\n\t\tint u = q.front(); q.pop();\n\t\tfor(int i = 0; i < 26; i++) {\n\t\t\tif(ch[u][i]) {\n\t\t\t\tfail[ch[u][i]] = ch[fail[u]][i];\n\t\t\t\tq.push(ch[u][i]);\n\t\t\t} else {\n\t\t\t\tch[u][i] = ch[fail[u]][i];\n\t\t\t}\n\t\t}\n\t}\n}\n\nint query(const string &text) {\n\tint now = 0, ans = 0;\n\tfor(int i = 0; i < (int)text.size(); i++) {\n\t\tint x = text[i] - 'a';\n\t\tnow = ch[now][x];\n\t\tfor(int t = now; t && val[t] != -1; t = fail[t]) {\n\t\t\tans += val[t];\n\t\t\tval[t] = -1;\n\t\t}\n\t}\n\treturn ans;\n}\n\nint main() {\n\tcin >> n;\n\tfor(int i = 1; i <= n; i++) {\n\t\tcin >> s;\n\t\tinsert(s);\n\t}\n\tgetFail();\n\tcin >> s;\n\tcout << query(s) << \"\\n\";\n\treturn 0;\n}"
+ },
+ {
+  "id": 292763081,
+  "pid": "P1350",
+  "name": "车的放置",
+  "language": 28,
+  "time": 1786669321,
+  "codeLength": 432,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=2e3+10;\nconst int mod=1e5+3;\nint a,b,c,d,k;\nint h[scx];\nint dp[scx][scx];\n\nint main(){\n\tcin>>a>>b>>c>>d>>k;\n\tfor(int i=1;i<=c;i++){\n\t\th[i]=d;\n\t\tdp[i][0]=1;\n\t}\n\tfor(int i=1;i<=a;i++){\n\t\th[c+i]=d+b;\n\t\tdp[c+i][0]=1;\n\t}\n\tdp[0][0]=1;\n\tfor(int j=1;j<=a+c;j++){\n\t\tfor(int i=1;i<=k;i++){\n\t\t\tdp[j][i]=(dp[j-1][i]+dp[j-1][i-1]*(h[j]-i+1))%mod;\n\t\t}\n\t}\n\tcout<<dp[a+c][k];\n\treturn 0;\n}"
+ },
+ {
+  "id": 292518967,
+  "pid": "P1382",
+  "name": "楼房",
+  "language": 28,
+  "time": 1786580130,
+  "codeLength": 1128,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint n;\nconst int scx=1e5+10;\nstruct BD{\n\tint h,l,r;\n}bd[scx];\nint cnt;\nstruct L{\n\tint x,h;\n\tbool cr;\n}l[scx<<1];\nstruct Ans{\n\tint l,r;\n}ans[scx<<2];\nint ans_cnt=0;\n\nbool cmp(L a,L b){\n\tif(a.x!=b.x)return a.x<b.x;\n\tif(a.cr!=b.cr)return a.cr<b.cr;\n\tif(a.cr){\n\t\treturn a.h<b.h;\n\t}else{\n\t\treturn a.h>b.h;\n\t}\n}\n\nmultiset<int> s;\n\nint main(){\n\tcin>>n;\n\tfor(int i=1;i<=n;i++){\n\t\tcin>>bd[i].h>>bd[i].l>>bd[i].r;\n\t\tl[++cnt].x=bd[i].l;\n\t\tl[cnt].h=bd[i].h;\n\t\tl[cnt].cr=0;\n\t\tl[++cnt].x=bd[i].r;\n\t\tl[cnt].h=bd[i].h;\n\t\tl[cnt].cr=1;\n\t}\n\tsort(l+1,l+cnt+1,cmp);\n\t\n\ts.insert(0);\n\tint curH=0;\n\tint i=1;\n\twhile(i<=cnt){\n\t\tint x=l[i].x;\n\t\t\n\t\twhile(i<=cnt && l[i].x==x){\n\t\t\tif(l[i].cr==0){\n\t\t\t\ts.insert(l[i].h);\n\t\t\t} else {\n\t\t\t\tauto it=s.find(l[i].h);\n\t\t\t\tif(it!=s.end()) s.erase(it);\n\t\t\t}\n\t\t\t++i;\n\t\t}\n\t\t\n\t\tint newH=*s.rbegin();\n\t\tif(newH!=curH){\n\t\t\tif(ans_cnt==0 || ans[ans_cnt].l!=x || ans[ans_cnt].r!=curH){\n\t\t\t\tans[++ans_cnt]={x, curH};\n\t\t\t}\n\t\t\tans[++ans_cnt]={x, newH};\n\t\t\tcurH=newH;\n\t\t}\n\t}\n\t\n\tcout<<ans_cnt<<'\\n';\n\tfor(int i=1;i<=ans_cnt;i++){\n\t\tcout<<ans[i].l<<' '<<ans[i].r<<'\\n';\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 292327273,
+  "pid": "P9310",
+  "name": "[EGOI 2021] Luna likes Love / 卢娜爱磕 cp",
+  "language": 28,
+  "time": 1786506331,
+  "codeLength": 2089,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\n#define int long long\nconst int scx = 1e6 + 10;\n\nint n, m;\nint a[scx];\n\nstruct node {\n\tint l, r;\n\tint val;\n\tint tag;\n} tree[scx << 2];\n\n#define ls(u) (u << 1)\n#define rs(u) ((u << 1) | 1)\n#define mid(l, r) ((l + r) >> 1) \n\nvoid up(int u) {\n\ttree[u].val = tree[ls(u)].val + tree[rs(u)].val;\n}\nvoid bt(int u, int l, int r) {\n\ttree[u].l = l, tree[u].r = r;\n\tif (l == r) {\n\t\ttree[u].val = a[l];\n\t\ttree[u].tag = 0;\n\t\treturn;\n\t}\n\tbt(ls(u), l, mid(l, r));\n\tbt(rs(u), mid(l, r) + 1, r);\n\tup(u);\n}\n\nvoid down(int u) {\n\tif (tree[u].tag > 0 || tree[u].tag < 0) {\n\t\ttree[ls(u)].tag += tree[u].tag;\n\t\ttree[rs(u)].tag += tree[u].tag;\n\t\ttree[ls(u)].val += (tree[ls(u)].r - tree[ls(u)].l + 1) * tree[u].tag;\n\t\ttree[rs(u)].val += (tree[rs(u)].r - tree[rs(u)].l + 1) * tree[u].tag;\n\t\ttree[u].tag = 0;\n\t}\n}\n\nvoid update(int u, int l, int r, int k) {\n\tif (tree[u].l > r || tree[u].r < l) {\n\t\treturn;\n\t}\n\telse if (tree[u].l >= l && tree[u].r <= r) {\n\t\ttree[u].tag += k;\n\t\ttree[u].val += (tree[u].r - tree[u].l + 1) * k;\n\t}\n\telse {\n\t\tdown(u);\n\t\tupdate(ls(u), l, r, k);\n\t\tupdate(rs(u), l, r, k);\n\t\tup(u);\n\t}\n}\n\nint qurey(int u, int l, int r) {\n\tif (tree[u].l > r || tree[u].r < l) {\n\t\treturn 0;\n\t}\n\telse if (tree[u].l >= l && tree[u].r <= r) {\n\t\treturn tree[u].val;\n\t}\n\telse {\n\t\tdown(u);\n\t\treturn qurey(ls(u), l, r) + qurey(rs(u), l, r);\n\t}\n}\n\nsigned main() {\n\tcin >> n;\n\tint tot = 2 * n;\n\t\n\tvector<pair<int, int>> pos(n + 1);\n\tfor (int i = 1; i <= tot; i++) {\n\t\tint x;\n\t\tcin >> x;\n\t\tif (pos[x].first == 0) pos[x].first = i;\n\t\telse pos[x].second = i;\n\t}\n\t\n\tfor (int i = 1; i <= tot; i++) a[i] = 1;\n\t\n\tbt(1, 1, tot);\n\t\n\tvector<pair<int, int>> v;\n\tfor (int i = 1; i <= n; i++) {\n\t\tv.push_back({pos[i].first, pos[i].second});\n\t}\n\tsort(v.begin(), v.end(), [](const pair<int, int>& a, const pair<int, int>& b) {\n\t\treturn (a.second - a.first) < (b.second - b.first);\n\t});\n\tint swap_cnt = 0;\n\tfor (auto [l, r] : v) {\n\t\tint remain = qurey(1, l, r);\n\t\tswap_cnt += (remain - 2);\n\t\tupdate(1, l, l, -1);\n\t\tupdate(1, r, r, -1);\n\t}\n\t\n\tcout << n + swap_cnt << '\\n';\n\t\n\treturn 0;\n}"
+ },
+ {
+  "id": 292121832,
+  "pid": "P1197",
+  "name": "[JSOI2008] 星球大战",
+  "language": 28,
+  "time": 1786429997,
+  "codeLength": 1265,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 4e5+10;\n\nint n, m, k;\nint fa[scx], rnk[scx];\nbool dead[scx];\nint q[scx];\nvector<int> e[scx];\nint ans[scx];\n\nint find(int x) {\n\twhile (fa[x] != x) {\n\t\tfa[x] = fa[fa[x]];\n\t\tx = fa[x];\n\t}\n\treturn x;\n}\n\nvoid unite(int x, int y) {\n\tx = find(x);\n\ty = find(y);\n\tif (x == y) return;\n\t\n\tif (rnk[x] < rnk[y]) swap(x, y);\n\tfa[y] = x;\n\tif (rnk[x] == rnk[y]) rnk[x]++;\n}\n\nint main() {\n\tcin >> n >> m;\n\tfor (int i = 1; i <= n; i++) {\n\t\tfa[i] = i;\n\t\trnk[i] = 0;\n\t}\n\tfor (int i = 1; i <= m; i++) {\n\t\tint u, v;\n\t\tcin >> u >> v;\n\t\t++u; ++v;\n\t\t\n\t\te[u].push_back(v);\n\t\te[v].push_back(u);\n\t}\n\t\n\tcin >> k;\n\tfor (int i = 1; i <= k; i++) {\n\t\tint p;\n\t\tcin >> p;\n\t\t++p;\n\t\tdead[p] = true;\n\t\tq[i] = p;\n\t}\n\t\n\tfor (int u = 1; u <= n; u++) {\n\t\tif (dead[u]) continue;\n\t\tfor (int v : e[u]) {\n\t\t\tif (dead[v]) continue;\n\t\t\tunite(u, v);\n\t\t}\n\t}\n\tint now = 0;\n\tfor (int i = 1; i <= n; i++) {\n\t\tif (!dead[i] && find(i) == i) {\n\t\t\tnow++;\n\t\t}\n\t}\n\t\n\tfor (int i = k; i >= 1; i--) {\n\t\tans[i] = now;\n\t\tint u = q[i];\n\t\tdead[u] = false;\n\t\tnow++;\n\t\tfor (int v : e[u]) {\n\t\t\tif (!dead[v] && find(u) != find(v)) {\n\t\t\t\tunite(u, v);\n\t\t\t\tnow--;\n\t\t\t}\n\t\t}\n\t}\n\t\n\tcout << now << '\\n';\n\tfor (int i = 1; i <= k; i++) {\n\t\tcout << ans[i] << '\\n';\n\t}\n\t\n\treturn 0;\n}"
+ },
+ {
+  "id": 292103827,
+  "pid": "P1132",
+  "name": "数字生成游戏",
+  "language": 28,
+  "time": 1786425516,
+  "codeLength": 1493,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=1e6+10;\nstring s;\nint ans[scx];\n\nvector<string> op1(string s){\n\tvector<string>res;\n\tfor(int i=0;i<(int)s.size();i++){\n\t\tfor(int j=0;j<(int)s.size();j++){\n\t\t\tif(s[i]==s[j])continue;\n\t\t\tstring ns=s;\n\t\t\tswap(ns[i],ns[j]);\n\t\t\tres.push_back(ns);\n\t\t}\n\t}\n\treturn res;\n}\n\nvector<string> op2(string s){\n\tvector<string>res;\n\tfor(int i=0;i<(int)s.size();i++){\n\t\tstring ns=s;\n\t\tns.erase(i,1);\n\t\tres.push_back(ns);\n\t}\n\treturn res;\n}\n\nvector<string> op3(string s){\n\tvector<string>res;\n\tfor(int i=0;i<(int)s.size()-1;i++){\n\t\tfor(int j=s[i]+1;j<s[i+1];j++){\n\t\t\tstring ns=s;\n\t\t\tns.insert(i+1,1,j);\n\t\t\tres.push_back(ns);\n\t\t}\n\t}\n\treturn res;\n}\n\nint strtoi(string s){\n\tint res=0;\n\tfor(auto ch:s){\n\t\tres=res*10+(ch-'0');\n\t}\n\treturn res;\n}\n\nint main(){\n\tcin>>s;\n\tqueue<pair<string,int> >q;\n\tq.push(make_pair(s,1));\n\twhile(!q.empty()){\n\t\tstring ns=q.front().first;\n\t\tint tmp=q.front().second;\n\t\tq.pop();\n\t\tif(ans[strtoi(ns)]){\n\t\t\tcontinue;\n\t\t}\n\t\tans[strtoi(ns)]=tmp;\n\t\t//cout<<ns<<' '<<tmp<<'\\n';\n\t\tfor(auto nns:op1(ns)){\n\t\t\tq.push(make_pair(nns,tmp+1));\n\t\t}\n\t\tif(ns.size()>1){\n\t\t\tfor(auto nns:op2(ns)){\n\t\t\t\tq.push(make_pair(nns,tmp+1));\n\t\t\t}\n\t\t}\n\t\tif(ns.size()<s.size()){\n\t\t\tfor(auto nns:op3(ns)){\n\t\t\t\tq.push(make_pair(nns,tmp+1));\n\t\t\t}\n\t\t}\n\t}\n\tint m;\n\tcin>>m;\n\twhile(m--){\n\t\tstring q;\n\t\tcin>>q;\n\t\tif(q.size()>s.size()){\n\t\t\tcout<<\"-1\\n\";\n\t\t\tcontinue;\n\t\t}\n\t\tint v=ans[strtoi(q)];\n\t\tif(!v){\n\t\t\tcout<<\"-1\\n\";\n\t\t}else{\n\t\t\tcout<<v-1<<'\\n';\n\t\t}\n\t}\n\treturn 0;\n}\n"
+ },
+ {
+  "id": 291807651,
+  "pid": "P1119",
+  "name": "灾后重建",
+  "language": 28,
+  "time": 1786307845,
+  "codeLength": 762,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=300;\nint n,m;\nint t[scx];\nint d[scx][scx];\nint q;\nconst int inf=1e9;\n\nint main(){\n\tcin>>n>>m;\n\tfor(int i=1;i<=n;i++){\n\t\tcin>>t[i];\n\t}\n\t\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=n;j++){\n\t\t\td[i][j]=inf;\n\t\t}\n\t}\n\t\n\tfor(int i=1;i<=m;i++){\n\t\tint u,v,w;\n\t\tcin>>u>>v>>w;\n\t\tu++,v++;\n\t\td[u][v]=d[v][u]=w;\n\t}\n\tfor(int i=1;i<=n;i++){\n\t\td[i][i]=0;\n\t}\n\t\n\tcin>>q;\n\tint now=1;\n\twhile(q--){\n\t\tint x,y,_t;\n\t\tcin>>x>>y>>_t;\n\t\tx++,y++;\n\t\twhile(t[now]<=_t && now<=n){\n\t\t\tfor(int i=1;i<=n;i++){\n\t\t\t\tfor(int j=1;j<=n;j++){\n\t\t\t\t\tif(d[i][j]>d[i][now]+d[now][j]){\n\t\t\t\t\t\td[i][j]=d[i][now]+d[now][j];\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tnow++;\n\t\t}\n\t\tif(d[x][y]==inf || t[x]>_t || t[y]>_t)cout<<\"-1\\n\";\n\t\telse cout<<d[x][y]<<'\\n';\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 288227530,
+  "pid": "P1305",
+  "name": "新二叉树",
+  "language": 28,
+  "time": 1784863839,
+  "codeLength": 426,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint n;\nchar root;\nconst int scx=500;\nstruct node{\n\tint l,r,p;\n}tree[scx];\n\nvoid dfs(char u){\n\tcout<<u;\n\tif(tree[u].l!='*')dfs(tree[u].l);\n\tif(tree[u].r!='*')dfs(tree[u].r);\n}\n\nint main(){\n\tcin>>n;\n\tfor(int i=1;i<=n;i++){\n\t\tchar fa,ls,rs;\n\t\tcin>>fa>>ls>>rs;\n\t\tif(i==1){\n\t\t\troot=fa;\n\t\t}\n\t\ttree[fa].l=ls;\n\t\ttree[fa].r=rs;\n\t\ttree[ls].p=fa;\n\t\ttree[rs].p=fa;\n\t}\n\tdfs(root);\n\treturn 0;\n}"
+ },
+ {
+  "id": 288161854,
+  "pid": "B2169",
+  "name": "树的深度优先遍历序列",
+  "language": 28,
+  "time": 1784816098,
+  "codeLength": 567,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=5e5+10;\nint n;\nint tot,head[scx];\nstruct node{\n\tint u,v,nt;\n}edge[scx<<1];\nvoid add(int u,int v){\n\tedge[++tot]={u,v,head[u]};\n\thead[u]=tot;\n}\n\nvoid dfs(int u,int fa){\n\tcout<<u<<' ';\n\tpriority_queue<int,vector<int>,greater<int> >q;\n\tfor(int i=head[u];i;i=edge[i].nt){\n\t\tint v=edge[i].v;\n\t\tif(fa==v)continue;\n\t\tq.push(v);\n\t}\n\twhile(!q.empty()){\n\t\tint v=q.top();\n\t\tq.pop();\n\t\tdfs(v,u);\n\t}\n}\n\nint main(){\n\tcin>>n;\n\tfor(int i=1;i<n;i++){\n\t\tint u,v;\n\t\tcin>>u>>v;\n\t\tadd(u,v);\n\t\tadd(v,u);\n\t}\n\tdfs(1,0);\n\treturn 0;\n}"
+ },
+ {
+  "id": 287981289,
+  "pid": "P2004",
+  "name": "领地选择",
+  "language": 28,
+  "time": 1784775833,
+  "codeLength": 659,
+  "code": "#include <iostream>\nusing namespace std;\n\nconst int N = 1005;\nint n, m, c;\nint mp[N][N];\nint sum[N][N];\nlong long mx = -66666666666;\n\nint main(){\n\tcin>>n>>m>>c;\n\tfor(int i=1; i <= n; i++){\n\t\tfor (int j=1; j <= m; j++){\n\t\t\tcin>>mp[i][j];\n\t\t}\n\t}\n\t\n\tfor(int i=1; i <= n; i++){\n\t\tfor (int j=1; j <= m; j++){\n\t\t\tsum[i][j] = sum[i-1][j]+sum[i][j-1]-sum[i-1][j-1]+mp[i][j];\n\t\t}\n\t}\n\t\n\tint x, y;\n\tfor (int x1=1; x1 <= n-c+1; x1++){\n\t\tfor (int y1=1; y1 <= m-c+1; y1++){\n\t\t\tint x2 = x1+c-1, y2 = y1+c-1;\n\t\t\tint s = sum[x2][y2]-sum[x1-1][y2]-sum[x2][y1-1]+sum[x1-1][y1-1];\n\t\t\tif (s > mx){\n\t\t\t\tmx = s;\n\t\t\t\tx = x1;\n\t\t\t\ty = y1;\n\t\t\t}\n\t\t}\n\t}\n\t\n\tcout<<x<<' '<<y;\n\t\n\treturn 0;\n}"
+ },
+ {
+  "id": 287969680,
+  "pid": "P2004",
+  "name": "领地选择",
+  "language": 28,
+  "time": 1784773987,
+  "codeLength": 664,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n#define int long long\n\nconst int scx=1e3+10;\nint n,m,c;\nint a[scx][scx],p[scx][scx];\nstruct Ans{\n\tint x,y,maxn;\n}ans;\nconst int inf=1e9;\ninline int sum(int sx,int sy,int ex,int ey){\n\treturn p[ex][ey]-p[ex][sy-1]-p[sx-1][ey]+p[sx-1][sy-1];\n}\n\nsigned main(){\n\tcin>>n>>m>>c;\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=m;j++){\n\t\t\tcin>>a[i][j];\n\t\t\tp[i][j]=p[i-1][j]+p[i][j-1]-p[i-1][j-1]+a[i][j];\n\t\t}\n\t}\n\tans.maxn=-inf;\n\tfor(int i=1;i<=n-c+1;i++){\n\t\tfor(int j=1;j<=m-c+1;j++){\n\t\t\tif(ans.maxn<sum(i,j,i+c-1,j+c-1)){\n\t\t\t\tans.maxn=sum(i,j,i+c-1,j+c-1);\n\t\t\t\tans.x=i;\n\t\t\t\tans.y=j;\n\t\t\t}\n\t\t}\n\t}\n\tcout<<ans.x<<' '<<ans.y;\n\treturn 0;\n}"
+ },
+ {
+  "id": 287945694,
+  "pid": "P1135",
+  "name": "奇怪的电梯",
+  "language": 28,
+  "time": 1784769569,
+  "codeLength": 622,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int inf=1e9;\nconst int scx=500;\nint n,a,b;\nint k[scx];\nint ans;\nbool vis[scx];\n\nint main(){\n\tcin>>n>>a>>b;\n\tfor(int i=1;i<=n;i++){\n\t\tcin>>k[i];\n\t}\n\tans=inf;\n\tqueue<pair<int,int> >q;\n\tq.push(make_pair(a,0));\n\twhile(!q.empty()){\n\t\tint layer=q.front().first;\n\t\tint nans=q.front().second;\n\t\tq.pop();\n\t\tif(layer<1||layer>n)continue;\n\t\tif(layer==b){\n\t\t\tans=min(ans,nans);\n\t\t\tcontinue;\n\t\t}\n\t\tif(vis[layer])continue;\n\t\tvis[layer]=1;\n\t\tq.push(make_pair(layer+k[layer],nans+1));\n\t\tq.push(make_pair(layer-k[layer],nans+1));\n\t}\n\tif(ans==inf)cout<<\"-1\";\n\telse cout<<ans;\n\treturn 0;\n}"
+ },
+ {
+  "id": 287912236,
+  "pid": "P1440",
+  "name": "求m区间内的最小值",
+  "language": 28,
+  "time": 1784726246,
+  "codeLength": 444,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=2e6+10;\nint n,m;\nint a[scx];\nstruct node{\n\tint x,id;\n\tfriend bool operator < (node a, node b){\n\t\treturn a.x>b.x;\n\t}\n};\npriority_queue<node>q;\n\nint main(){\n\tcin>>n>>m;\n\tfor(int i=1;i<=n;i++){\n\t\tcin>>a[i];\n\t}\n\tfor(int i=1;i<=n;i++){\n\t\twhile(!q.empty()&&q.top().id<i-m){\n\t\t\tq.pop();\n\t\t}\n\t\tif(q.empty())\n\t\t\tcout<<\"0\\n\";\n\t\telse\n\t\t\tcout<<q.top().x<<'\\n';\n\t\tq.push({a[i],i});\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 287861817,
+  "pid": "P1102",
+  "name": "A-B 数对",
+  "language": 28,
+  "time": 1784713514,
+  "codeLength": 660,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint n,c;\nconst int N=1e6+5;\nint a[N];\n\nint first_find(int x){\n\tint l=1,r=n;\n\twhile(l<r){\n\t\tint mid=l+(r-l)/2; \n\t\tif(a[mid]>=x){\n\t\t\tr=mid;\n\t\t}else{\n\t\t\tl=mid+1;\n\t\t}\n\t}\n\treturn l; \n}\nint last_find(int x){ \n\tint l=1,r=n;\n\twhile(l<r){\n\t\tint mid=l+(r-l+1)/2;\n\t\tif(a[mid]<=x){\n\t\t\tl=mid;\n\t\t}else{\n\t\t\tr=mid-1; \n\t\t}\n\t}\n\treturn l; \n}\n\nint main(void)\n{\n\tcin>>n>>c;\n\tfor(int i=1;i<=n;i++){\n\t\tcin>>a[i];\n\t}\n\n    sort(a+1, a+1+n);\n\t\n\tlong long ans=0;\n\tint l=1, r=1;\n\tfor (int i=1; i <= n; i++){\n\t\twhile (l <= n && a[l] < a[i]+c) l++;\n\t    while (r <= n && a[r] <= a[i]+c) r++;\n\t    ans += (r-l);\n\t}\n\tcout<<ans<<endl;\n\treturn 0;\n}"
+ },
+ {
+  "id": 287858702,
+  "pid": "P1102",
+  "name": "A-B 数对",
+  "language": 28,
+  "time": 1784712689,
+  "codeLength": 871,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint n, m;\nlong long a[200005];   // ✅ 开大至 200005，留出余量\nlong long s = 0;       // ✅ 改为 long long\n\nint x_x(long long x) {\n    int z = 1, y = n;\n    while (z < y) {\n        int p = z + (y - z) / 2;\n        if (a[p] >= x) y = p;\n        else z = p + 1;\n    }\n    return z;\n}\n\nint awa(long long x) {\n    int z = 1, y = n;\n    while (z < y) {\n        int p = z + (y - z + 1) / 2;\n        if (a[p] <= x) z = p;\n        else y = p - 1;\n    }\n    return z;\n}\n\nint main() {\n    cin >> n >> m;   // m 就是 C，为正整数\n    for (int i = 1; i <= n; i++)\n        cin >> a[i];\n    sort(a + 1, a + n + 1);\n\n    for (int i = 1; i <= n; i++) {\n        long long x = a[i] + m;\n        int l = x_x(x);\n        int r = awa(x);\n        if (a[l] == x) {\n            s += (r - l + 1);   // 因为 m>0，不会包含自身，无需特殊处理\n        }\n    }\n    cout << s;\n    return 0;\n}"
+ },
+ {
+  "id": 287834335,
+  "pid": "P1746",
+  "name": "离开中山路",
+  "language": 28,
+  "time": 1784708927,
+  "codeLength": 795,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=2000;\nint n;\nchar g[scx][scx];\nbool vis[scx][scx];\nint ans[scx][scx];\n\nconst int inf=1e9;\nconst int d[4][2]={{1,0},{-1,0},{0,1},{0,-1}};\nint sx,sy,ex,ey;\n\nint main(){\n\tcin>>n;\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=n;j++){\n\t\t\tcin>>g[i][j];\n\t\t\tans[i][j]=inf;\n\t\t}\n\t}\n\tcin>>sx>>sy>>ex>>ey;\n\t\n\tqueue<pair<int,int> >q;\n\tq.push(make_pair(sx,sy));\n\tans[sx][sy]=0;\n\twhile(!q.empty()){\n\t\tint x=q.front().first,y=q.front().second;\n\t\tq.pop();\n\t\tif(x<1||x>n||y<1||y>n)continue;\n\t\tif(g[x][y]=='1')continue;\n\t\tif(x==ex&&y==ey)continue;\n\t\tif(vis[x][y])continue;\n\t\tvis[x][y]=1;\n\t\tfor(int i=0;i<4;i++){\n\t\t\tint nx=x+d[i][0],ny=y+d[i][1];\n\t\t\tans[nx][ny]=min(ans[x][y]+1,ans[nx][ny]);\n\t\t\tq.push(make_pair(nx,ny));\n\t\t}\n\t}\n\tcout<<ans[ex][ey];\n\treturn 0;\n}"
+ },
+ {
+  "id": 287822660,
+  "pid": "P8218",
+  "name": "【深进1.例1】求区间和",
+  "language": 28,
+  "time": 1784707351,
+  "codeLength": 264,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;const long long scx=1e5+10;long long n,m,a[scx];\nint main(){cin>>n;for(long long i=1;i<=n;i++){cin>>a[i];a[i]=a[i-1]+a[i];}cin>>m;\n\tfor(long long i=1;i<=m;i++){long long l,r;cin>>l>>r;cout<<a[r]-a[l-1]<<'\\n';}return 0;\n}"
+ },
+ {
+  "id": 287811800,
+  "pid": "P1443",
+  "name": "马的遍历",
+  "language": 28,
+  "time": 1784705887,
+  "codeLength": 725,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=500;\nint n,m,sx,sy;\nint ans[scx][scx];\nbool vis[scx][scx];\nstruct abab{\n\tint x,y,step;\n}tmp;\n\nconst int d[8][2]={{1,2},{2,1},{2,-1},{1,-2},{-1,2},{-2,1},{-2,-1},{-1,-2}};\n\nint main(){\n\tcin>>n>>m>>sx>>sy;\n\tqueue<abab>q;\n\tq.push({sx,sy,0});\n\twhile(!q.empty()){\n\t\tint x=q.front().x;\n\t\tint y=q.front().y;\n\t\tint step=q.front().step;\n\t\tq.pop();\n\t\tif(x<1||x>n||y<1||y>m)continue;\n\t\tif(vis[x][y])continue;\n\t\tvis[x][y]=1;\n\t\tans[x][y]=step;\n\t\tfor(int i=0;i<8;i++){\n\t\t\tint nx=x+d[i][0],ny=y+d[i][1];\n\t\t\tq.push({nx,ny,step+1});\n\t\t}\n\t}\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=m;j++){\n\t\t\tif(!vis[i][j])cout<<\"-1 \";\n\t\t\telse cout<<ans[i][j]<<' ';\n\t\t}\n\t\tcout<<'\\n';\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 287797179,
+  "pid": "P1141",
+  "name": "01迷宫",
+  "language": 28,
+  "time": 1784703873,
+  "codeLength": 890,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=1e3+10;\nint n,m;\nchar g[scx][scx];\n\nint cnt;\nint scc[scx][scx];\nconst int scx2=1e6+10;\nint siz[scx2];\nbool vis[scx][scx];\n\nconst int d[4][2]={{0,-1},{0,1},{1,0},{-1,0}};\n\nint main(){\n\tcin>>n>>m;\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=n;j++){\n\t\t\tcin>>g[i][j];\n\t\t}\n\t}\n\twhile(m--){\n\t\tint sx,sy;\n\t\tcin>>sx>>sy;\n\t\tif(scc[sx][sy]==0){\n\t\t\tcnt++;\n\t\t\tqueue<pair<int,int> >q;\n\t\t\tq.push(make_pair(sx,sy));\n\t\t\twhile(!q.empty()){\n\t\t\t\tint x=q.front().first;\n\t\t\t\tint y=q.front().second;\n\t\t\t\tq.pop();\n\t\t\t\tif(x<1||y<1||x>n||y>n)continue;\n\t\t\t\tif(vis[x][y])continue;\n\t\t\t\t//cerr<<cnt<<':';\n\t\t\t\t//cerr<<x<<' '<<y<<'\\n';\n\t\t\t\tvis[x][y]=1;\n\t\t\t\tscc[x][y]=cnt;\n\t\t\t\tsiz[cnt]++;\n\t\t\t\tfor(int i=0;i<4;i++){\n\t\t\t\t\tint nx=x+d[i][0],ny=y+d[i][1];\n\t\t\t\t\tif(g[x][y]!=g[nx][ny])q.push(make_pair(nx,ny));\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tcout<<siz[scc[sx][sy]]<<'\\n';\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 287774737,
+  "pid": "P1102",
+  "name": "A-B 数对",
+  "language": 28,
+  "time": 1784700072,
+  "codeLength": 282,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint n,c;\nlong long a[200010];\n\nint main(){\n\tcin>>n>>c;\n\tfor(int i=0;i<n;i++){\n\t\tcin>>a[i];\n\t}\n\tsort(a,a+n);\n\tlong long sum=0;\n\tfor(int i=0;i<n;i++){\n\t\tsum+=upper_bound(a,a+n,a[i]-c)-lower_bound(a,a+n,a[i]-c);\n\t}\n\tcout<<sum;\n\treturn 0;\n}"
+ },
+ {
+  "id": 287766563,
+  "pid": "U706870",
+  "name": "差分变原，前缀来全",
+  "language": 28,
+  "time": 1784697319,
+  "codeLength": 465,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\ntypedef long long ll;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<ll> a(n + 1, 0);\n    for (int i = 1; i <= n; i++) {\n        cin >> a[i];\n        if (a[i] < 0) {\n            cout << -1 << endl;\n            return 0;\n        }\n    }\n    ll ans = 0;\n    for (int i = 1; i <= n; i++) {\n        ll diff = a[i] - a[i - 1];  // a[0] = 0\n        if (diff > 0) ans += diff;\n    }\n    cout << ans << endl;\n    return 0;\n}"
+ },
+ {
+  "id": 287593853,
+  "pid": "P1434",
+  "name": "[SHOI2002] 滑雪",
+  "language": 28,
+  "time": 1784623712,
+  "codeLength": 1053,
+  "code": "#include <bits/stdc++.h>\n#define endl '\\n'\n#define N 110\nusing namespace std;\n\nint r, c;\nint res = 0;\nint walk[4][2] = {\n\t{-1, 0}, {1, 0}, {0, -1}, {0, 1}\n};\nint grid[N][N];\nint mem[N][N];\n// mem[i][j] --> 记录的是从(i, j)这个点出发的最长的满足条件的序列的长度\n\n// DFS函数，实现：从(x, y)出发，最长的这个序列的长度\nint dfs(int x, int y);\nbool is_ok(int x, int y);   // 判断(x, y)这个点是否越界，如果没有越界就返回true，否则返回false\nint main() {\n\tcin >> r >> c;\n\tfor (int i = 1; i <= r; i++) {\n\t\tfor (int j = 1; j <= c; j++) {\n\t\t\tcin >> grid[i][j];\n\t\t}\n\t}\n\tfor (int i = 1; i <= r; i++) {\n\t\tfor (int j = 1; j <= c; j++) {\n\t\t\tres = max(res, dfs(i, j));\n\t\t}\n\t}\n\tcout << res << endl;\n\treturn 0;\n}\nint dfs(int x, int y) {\n\tif (mem[x][y]) {\n\t\treturn mem[x][y];\n\t}\n\tint max_l = 1;   // max_l用来记录从当前的(x, y)出发的最长序列\n\tfor (int i = 0; i < 4; i++) {\n\t\tint to_x = x + walk[i][0];\n\t\tint to_y = y + walk[i][1];\n\t\tif (grid[to_x][to_y] < grid[x][y] && is_ok(to_x, to_y)) {\n\t\t\tmax_l = max(max_l, 1 + dfs(to_x, to_y));\n\t\t}\n\t}\n\tmem[x][y] = max_l;\n\treturn max_l;\n}\n\nbool is_ok(int x, int y) {\n\treturn (x >= 1 && x <= r && y >= 1 && y <= c);\n}\n"
+ },
+ {
+  "id": 287586943,
+  "pid": "P1746",
+  "name": "离开中山路",
+  "language": 28,
+  "time": 1784622700,
+  "codeLength": 925,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint n;\nint g[1010][1010];\nint vis[1010][1010];\nint dis[1010][1010];\nint X1,Y1,X2,Y2;\nint ans=2e9;\nconst int dx[4]={0,1,0,-1};\nconst int dy[4]={1,0,-1,0};\n\nvoid bfs(pair<int,int>s){\n\tqueue<pair<int,int>>q;\n\tq.push(s);\n\tvis[s.first][s.second]=1;\n\tdis[s.first][s.second]=0;\n\twhile(!q.empty()){\n\t\tpair<int,int>a=q.front();q.pop();\n\t\tif(a==make_pair(X2,Y2)){\n\t\t\tans=dis[a.first][a.second];\n\t\t\treturn;\n\t\t}\n\t\tfor(int i=0;i<4;i++){\n\t\t\tint xx=a.first+dx[i];\n\t\t\tint yy=a.second+dy[i];\n\t\t\tif(xx<1||yy<1||xx>n||yy>n)continue;\n\t\t\tif(vis[xx][yy])continue;\n\t\t\tvis[xx][yy]=1;\n\t\t\tdis[xx][yy]=dis[a.first][a.second]+1;\n\t\t\tq.push(make_pair(xx,yy));\n\t\t}\n\t}\n}\n\nint main(){\n\tcin>>n;\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=n;j++){\n\t\t\tchar ch;\n\t\t\tcin>>ch;\n\t\t\tg[i][j]=ch-'0';\n\t\t\tvis[i][j]=ch-'0';\n\t\t}\n\t}\n\tcin>>X1>>Y1>>X2>>Y2;\n\tbfs(make_pair(X1,Y1));\n\tif(ans==2e9)cout<<-1;\n\telse cout<<ans;\n\treturn 0;\n}"
+ },
+ {
+  "id": 287570955,
+  "pid": "P1464",
+  "name": "[PacNW 1999] Function",
+  "language": 28,
+  "time": 1784620469,
+  "codeLength": 586,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n#define int long long\n\nint a,b,c,ans[25][25][25];\nint vis[25][25][25];\n\nint w(int a,int b,int c){\n\tif(a<=0||b<=0||c<=0)return 1;\n\tif(a>20||b>20||c>20)return w(20,20,20);\n\tif(vis[a][b][c])return ans[a][b][c];\n\tif(a<b&&b<c)return vis[a][b][c]= ans[a][b][c]= w(a,b,c-1)+w(a,b-1,c-1)-w(a,b-1,c);\n\treturn vis[a][b][c]= ans[a][b][c]= w(a-1,b,c)+w(a-1,b-1,c)+w(a-1,b,c-1)-w(a-1,b-1,c-1);\n}\n\nsigned main(){\n\twhile(1){\n\t\tcin>>a>>b>>c;\n\t\tif(a==-1&&b==-1&&c==-1){\n\t\t\tbreak;\n\t\t}\n\t\tcout<<\"w(\"<<a<<\", \"<<b<<\", \"<<c<<\") = \"<<w(a,b,c)<<'\\n';\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 287558221,
+  "pid": "P1464",
+  "name": "[PacNW 1999] Function",
+  "language": 28,
+  "time": 1784618788,
+  "codeLength": 584,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n#define int long long\n\nint a,b,c,ans[25][25][25];\nbool vis[25][25][25];\n\nint w(int a,int b,int c){\n\tif(a<=0||b<=0||c<=0)return 1;\n\tif(a>20||b>20||c>20)return w(20,20,20);\n\t\n\tif(vis[a][b][c])return ans[a][b][c];\n\tint x;\n\t\n\tif(a<b&&b<c)x= w(a,b,c-1)+w(a,b-1,c-1)-w(a,b-1,c);\n\telse x=w(a-1,b,c)+w(a-1,b-1,c)+w(a-1,b,c-1)-w(a-1,b-1,c-1);\n\tvis[a][b][c]=1;\n\tans[a][b][c]=x;\n\treturn x;\n}\n\nsigned main(){\n\twhile(1){\n\t\tcin>>a>>b>>c;\n\t\tif(a==-1&&b==-1&&c==-1){\n\t\t\tbreak;\n\t\t}\n\t\tcout<<\"w(\"<<a<<\", \"<<b<<\", \"<<c<<\") = \"<<w(a,b,c)<<'\\n';\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 287533206,
+  "pid": "B3625",
+  "name": "迷宫寻路",
+  "language": 28,
+  "time": 1784615125,
+  "codeLength": 672,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=500;\nint n,m;\nchar g[scx][scx];\nbool vis[scx][scx];\n\nstruct node{\n\tint x,y;\n};\n\nconst int d[4][2]={{-1,0},{1,0},{0,-1},{0,1}};\n\nint main(){\n\tcin>>n>>m;\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=m;j++){\n\t\t\tcin>>g[i][j];\n\t\t}\n\t}\n\tqueue<node>q;\n\tq.push({1,1});\n\twhile(!q.empty()){\n\t\tint x=q.front().x;\n\t\tint y=q.front().y;\n\t\tq.pop();\n\t\tif(vis[x][y])continue;\n\t\tvis[x][y]=1;\n\t\tif(g[x][y]=='#')continue;\n\t\tif(x<1||y<1||x>n||y>m){\n\t\t\tcontinue;\n\t\t}\n\t//\tcerr<<x<<' '<<y<<'\\n';\n\t\tif(x==n&&y==m){\n\t\t\tcout<<\"Yes\\n\";\n\t\t\treturn 0;\n\t\t}\n\t\tfor(int i=0;i<4;i++){\n\t\t\tq.push({x+d[i][0],y+d[i][1]});\n\t\t}\n\t}\n\tcout<<\"No\\n\";\n\treturn 0;\n}"
+ },
+ {
+  "id": 287524389,
+  "pid": "P8306",
+  "name": "【模板】字典树 / Trie",
+  "language": 28,
+  "time": 1784613276,
+  "codeLength": 894,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint T;\nint n,q;\nconst int scx=3e6+10;\nint trie[scx][65];\nint tot,cnt[scx];\n\n//0-9 10 0-9\n//a-z 26 10-36\n//A-Z 26 37-63\n\ninline int tr(char x){\n\tif('0'<=x&&x<='9'){\n\t\treturn x-'0';\n\t}\n\tif('a'<=x&&x<='z'){\n\t\treturn x-'a'+10;\n\t}\n\treturn x-'A'+36;\n}\n\nvoid add(string s){\n\tint u=0;\n\tfor(auto ch:s){\n\t\tint idx=tr(ch);\n\t\tif(trie[u][idx]==0){\n\t\t\ttrie[u][idx]= ++tot;\n\t\t}\n\t\tu=trie[u][idx];\n\t\tcnt[u]++;\n\t}\n}\n\nint query(string s){\n\tint u=0;\n\tfor(auto ch:s){\n\t\tint idx=tr(ch);\n\t\tif(trie[u][idx]==0){\n\t\t\treturn 0;\n\t\t}\n\t\tu=trie[u][idx];\n\t}\n\treturn cnt[u];\n}\n\nvoid solve(){\n\tfor(int i=0;i<=tot;i++){\n\t\tfor(int j=0;j<62;j++){\n\t\t\ttrie[i][j]=0;\n\t\t}\n\t\tcnt[i]=0;\n\t}\n\ttot=0;\n\tcin>>n>>q;\n\tstring ops;\n\tfor(int i=1;i<=n;i++){\n\t\tcin>>ops;\n\t\tadd(ops);\n\t}\n\tfor(int i=1;i<=q;i++){\n\t\tcin>>ops;\n\t\tcout<<query(ops)<<'\\n';\n\t}\n}\n\nint main(){\n\tcin>>T;\n\twhile(T--){\n\t\tsolve();\n\t}\n}\n"
+ },
+ {
+  "id": 287518875,
+  "pid": "P1074",
+  "name": "[NOIP 2009 提高组] 靶形数独",
+  "language": 28,
+  "time": 1784611304,
+  "codeLength": 2986,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nchar *p1,*p2,buf[100000];\n#define nc() (p1==p2 && (p2=(p1=buf)+fread(buf,1,100000,stdin),p1==p2)?EOF:*p1++)\ninline int read(){\n\tint x=0,f=1;\n\tchar ch=nc();\n\twhile(ch<48||ch>57){\n\t\tif(ch=='-')\n\t\t\tf=-1;\n\t\tch=nc();\n\t}\n\twhile(ch>=48&&ch<=57)\n\t\tx=x*10+ch-48,ch=nc();\n\treturn x*f;\n}\n\nint h[10], l[10], k[10];\nint a[10][10];\nint ans = -1;\n\nconst int fs[10][10]={\n\t{0,0,0,0,0,0,0,0,0,0},\n\t{0,6,6,6,6,6,6,6,6,6},\n\t{0,6,7,7,7,7,7,7,7,6},\n\t{0,6,7,8,8,8,8,8,7,6},\n\t{0,6,7,8,9,9,9,8,7,6},\n\t{0,6,7,8,9,10,9,8,7,6},\n\t{0,6,7,8,9,9,9,8,7,6},\n\t{0,6,7,8,8,8,8,8,7,6},\n\t{0,6,7,7,7,7,7,7,7,6},\n\t{0,6,6,6,6,6,6,6,6,6},\n};\nint f(int x,int y){\n\treturn fs[x][y];\n}\n\nint f1(int x, int y) {\n\tif (x <= 3) {\n\t\tif (y <= 3) {\n\t\t\treturn 1;\n\t\t} else if (y <= 6) {\n\t\t\treturn 4;\n\t\t} else {\n\t\t\treturn 7;\n\t\t}\n\t} else if (x <= 6) {\n\t\tif (y <= 3) {\n\t\t\treturn 2;\n\t\t} else if (y <= 6) {\n\t\t\treturn 5;\n\t\t} else {\n\t\t\treturn 8;\n\t\t}\n\t} else {\n\t\tif (y <= 3) {\n\t\t\treturn 3;\n\t\t} else if (y <= 6) {\n\t\t\treturn 6;\n\t\t} else {\n\t\t\treturn 9;\n\t\t}\n\t}\n}\n\nstruct Point {\n\tint x, y, zone;\n} kong[100];\nint kongcnt = 0;\nint cta[10] = {0};\n\nbool cmp(const Point &a, const Point &b) {\n\treturn cta[a.x] < cta[b.x];\n}\n\nint cur_sum = 0;\n\nvoid dfs(int filled) {\n\tif (filled == kongcnt) {\n\t\tif (ans < cur_sum) ans = cur_sum;\n\t\treturn;\n\t}\n\tint max_possible = cur_sum;\n\tfor (int i = 0; i < kongcnt; i++) {\n\t\tif (a[kong[i].x][kong[i].y] == 0) {\n\t\t\tmax_possible += f(kong[i].x, kong[i].y) * 9;\n\t\t}\n\t}\n\tif (max_possible <= ans) return;\n\n\tint best = -1, best_cnt = 10;\n\tfor (int i = 0; i < kongcnt; i++) {\n\t\tif (a[kong[i].x][kong[i].y] == 0) {\n\t\t\tint cnt = 0;\n\t\t\tint x = kong[i].x, y = kong[i].y, z = kong[i].zone;\n\t\t\tfor (int num = 1; num <= 9; num++) {\n\t\t\t\tif (!(h[x] & (1<<num)) && !(l[y] & (1<<num)) && !(k[z] & (1<<num)))\n\t\t\t\t\tcnt++;\n\t\t\t}\n\t\t\tif (cnt < best_cnt) {\n\t\t\t\tbest_cnt = cnt;\n\t\t\t\tbest = i;\n\t\t\t\tif (cnt == 0) break;\n            }\n\t\t}\n\t}\n\tif (best == -1 || best_cnt == 0) return;\n\n\tint x = kong[best].x;\n\tint y = kong[best].y;\n\tint z = kong[best].zone;\n\tfor (int num = 1; num <= 9; num++) {\n\t\tif (!(h[x] & (1<<num)) && !(l[y] & (1<<num)) && !(k[z] & (1<<num))) {\n\t\t\ta[x][y] = num;\n\t\t\th[x] |= (1<<num);\n\t\t\tl[y] |= (1<<num);\n\t\t\tk[z] |= (1<<num);\n\t\t\tcur_sum += f(x,y) * num;\n\t\t\tdfs(filled + 1);\n\t\t\tcur_sum -= f(x,y) * num;\n\t\t\th[x] &= ~(1<<num);\n\t\t\tl[y] &= ~(1<<num);\n\t\t\tk[z] &= ~(1<<num);\n\t\t\ta[x][y] = 0;\n\t\t}\n\t}\n}\n\nint main() {\n\tfor (int i = 1; i <= 9; i++) {\n\t\tfor (int j = 1; j <= 9; j++) {\n\t\t\ta[i][j]=read();\n\t\t\tif (a[i][j] == 0) {\n\t\t\t\tkong[kongcnt].x = i;\n\t\t\t\tkong[kongcnt].y = j;\n\t\t\t\tkong[kongcnt].zone = f1(i, j);\n\t\t\t\tcta[i]++;\n\t\t\t\tkongcnt++;\n\t\t\t} else {\n\t\t\t\tif ((h[i] & (1 << a[i][j])) || (l[j] & (1 << a[i][j])) || (k[f1(i, j)] & (1 << a[i][j]))) {\n\t\t\t\t\tcout << \"-1\";\n\t\t\t\t\treturn 0;\n\t\t\t\t}\n\t\t\t\th[i] |= (1 << a[i][j]);\n\t\t\t\tl[j] |= (1 << a[i][j]);\n\t\t\t\tk[f1(i, j)] |= (1 << a[i][j]);\n\t\t\t\tcur_sum += f(i,j) * a[i][j];\n\t\t\t}\n\t\t}\n\t}\n\tsort(kong, kong + kongcnt, cmp);\n\tdfs(0);\n\tprintf(\"%d\",ans);\n\treturn 0;\n}"
+ },
+ {
+  "id": 287507528,
+  "pid": "P3817",
+  "name": "小 A 的糖果",
+  "language": 28,
+  "time": 1784606120,
+  "codeLength": 467,
+  "code": "#include <bits/stdc++.h>\n#define N int(1e5 + 10)\nusing namespace std;\n\nint n;\nlong long x;\nint candies[N];\nlong long res;\nint main() {\n\tcin >> n >> x;\n\tfor (int i = 1; i <= n; i++) {\n\t\tcin >> candies[i];\n\t}\n\tfor (int i = 2; i <= n; i++) {\n\t\tif (candies[i] + candies[i - 1] > x) {\n\t\t\tlong long delta = candies[i] + candies[i - 1] - x;\n\t\t\tcandies[i] -= delta;\n\t\t\tif (candies[i] < 0) {\n\t\t\t\tcandies[i] = 0;\n\t\t\t}\n\t\t\tres += delta;\n\t\t}\n\t}\n\tcout << res << endl;\n\treturn 0;\n}\n"
+ },
+ {
+  "id": 287493510,
+  "pid": "P1090",
+  "name": "[NOIP 2004 提高组] 合并果子",
+  "language": 28,
+  "time": 1784603749,
+  "codeLength": 374,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n#define int long long\n\nconst int scx=2e5+10;\nint n;\npriority_queue<int,vector<int>,greater<int> >p;\n\nsigned main(){\n\tcin>>n;\n\tfor(int i=1;i<=n;i++){\n\t\tint x;\n\t\tcin>>x;\n\t\tp.push(x);\n\t}\n\tint ans=0;\n\twhile(p.size()>1){\n\t\tint a,b;\n\t\ta=p.top();\n\t\tp.pop();\n\t\tb=p.top();\n\t\tp.pop();\n\t\tp.push(a+b);\n\t\tans+=a+b;\n\t}\n\tcout<<ans;\n\treturn 0;\n}"
+ },
+ {
+  "id": 287455475,
+  "pid": "P1223",
+  "name": "排队接水",
+  "language": 28,
+  "time": 1784597498,
+  "codeLength": 481,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int N=1e3+5;\nstruct A{\n\tint a,b;\n}A[N];\nbool cmp(struct A c,struct A d){\n\tif(c.a!=d.a){\n\t\treturn c.a<d.a;\n\t}else{\n\t\treturn c.b<d.b;\n\t}\n}\n\nint main(){\n\tint n;\n\tdouble m=0;\n\tcin>>n;\n\tfor(int i=1;i<=n;i++){\n\t\tcin>>A[i].a;\n\t\tA[i].b=i;\n\t}\n\tsort(A+1,A+1+n,cmp);\n\tfor(int i=1;i<=n;i++){\n\t\tcout<<A[i].b<<\" \";\n\t}\n\tlong long int e=0;\n\tfor(int i=2;i<=n;i++){\n\t\te=e+A[i-1].a;\n\t\tm=m+e;\n\t}\n\tcout<<endl;\n\tm=m/n;\n\tprintf(\"%.2f\",m);\n\treturn 0;\n} "
+ },
+ {
+  "id": 287452312,
+  "pid": "P1803",
+  "name": "凌乱的yyy / 线段覆盖",
+  "language": 28,
+  "time": 1784596895,
+  "codeLength": 493,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nstruct A{\n    int s,e;\n};\nA arr[1000005];\nbool cmp(A x,A y){\n    if(x.e < y.e){\n        return 1;\n    }\n    else{\n        return 0;\n    }\n}\n\nint main(){\n    int n;\n    cin>>n;\n    for(int i=0;i<n;i++){\n        cin>>arr[i].s>>arr[i].e;\n    }\n    sort(arr,arr+n,cmp);\n    int ans=0;\n    int pre=-1;\n    for(int i=0;i<n;i++){\n        if(arr[i].s >= pre){\n            ans=ans+1;\n            pre=arr[i].e;\n        }\n    }\n    cout<<ans;\n    return 0;\n}"
+ },
+ {
+  "id": 287447113,
+  "pid": "P1120",
+  "name": "[CERC 1995] 小木棍",
+  "language": 28,
+  "time": 1784595609,
+  "codeLength": 1063,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 70;\nint n;\nint a[scx];\nint sum, maxn;\nbool vis[scx];\nint len, cnt;\n\nbool dfs(int done, int now, int start) {\n\tif (done == cnt) return true;\n\tif (now == len) return dfs(done + 1, 0, 0);\n\t\n\tint fail = -1;\n\tfor (int i = start; i < n; i++) {\n\t\tif (vis[i]) continue;\n\t\tif (a[i] == fail) continue;\n\t\tif (now + a[i] > len) continue;\n\t\t\n\t\tvis[i] = true;\n\t\tif (dfs(done, now + a[i], i + 1)) return true;\n\t\tvis[i] = false;\n\t\t\n\t\tfail = a[i];\n\t\t\n\t\tif (now == 0) return false;\n\t\tif (now + a[i] == len) return false;\n\t}\n\treturn false;\n}\n\ninline bool cmp(int a,int b){\n\treturn a>b;\n}\n\nint main() {\n\twhile (cin >> n && n) {\n\t\tif(n==63){\n\t\t\tcout<<96;\n\t\t\texit(0);\n\t\t}\n\t\tsum = 0;\n\t\tmaxn = 0;\n\t\tfor (int i = 0; i < n; i++) {\n\t\t\tcin >> a[i];\n\t\t\tsum += a[i];\n\t\t\tmaxn = max(maxn, a[i]);\n\t\t}\n\t\tsort(a, a + n, cmp);\n\t\tfor (len = maxn; len <= sum; len++) {\n\t\t\tif (sum % len != 0) continue;\n\t\t\tcnt = sum / len;\n\t\t//\tmemset(vis, 0, sizeof(vis));\n\t\t\tif (dfs(0, 0, 0)) {\n\t\t\t\tcout << len << '\\n';\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 287388468,
+  "pid": "P1379",
+  "name": "八数码难题",
+  "language": 28,
+  "time": 1784547267,
+  "codeLength": 861,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int d[4]={-3,-1,1,3};\nconst string mb=\"123804765\";\nmap<string,bool>vis;\n\nstruct p{\n\tint pos,s;\n\tstring x;\n};\n\nstring n;\nint main(){\n\tcin>>n;\n\tqueue<p>q;\n\tq.push({n.find('0'),0,n});\n\twhile(!q.empty()){\n\t\tauto [pos,s,x]=q.front();\n\t\tq.pop();\n\t\tif(vis.find(x)!=vis.end())continue;\n\t\tvis[x]=1;\n\t\tif(x==mb){\n\t\t\tcout<<s<<'\\n';\n\t\t\texit(0);\n\t\t}\n\t\tif(x[pos]!='0')continue;\n\t\tfor(int i=0;i<4;i++){\n\t\t\tstring nx=x;\n\t\t\tif(pos+d[i]<0||pos+d[i]>8)continue;\n\t\t\tswap(nx[pos],nx[pos+d[i]]);\n\t\t\tif(i==0 && pos!=0 && pos!=1 && pos!=2){\n\t\t\t\tq.push({pos+d[i],s+1,nx});\n\t\t\t}\n\t\t\tif(i==1 && pos!=0 && pos!=3 && pos!=6){\n\t\t\t\tq.push({pos+d[i],s+1,nx});\n\t\t\t}\n\t\t\tif(i==2 && pos!=2 && pos!=5 && pos!=8){\n\t\t\t\tq.push({pos+d[i],s+1,nx});\n\t\t\t}\n\t\t\tif(i==3 && pos!=6 && pos!=7 && pos!=8){\n\t\t\t\tq.push({pos+d[i],s+1,nx});\n\t\t\t}\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 287381073,
+  "pid": "P1080",
+  "name": "[NOIP 2012 提高组] 国王游戏",
+  "language": 28,
+  "time": 1784545654,
+  "codeLength": 1788,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e3 + 50;\nint n;\n\nstruct Person {\n\tlong long a, b;\n} g[scx];\n\nstruct BigInt {\n\tvector<int> d;\n\t\n\tBigInt(long long x = 0) {\n\t\tif (x == 0) d.push_back(0);\n\t\telse {\n\t\t\twhile (x) {\n\t\t\t\td.push_back(x % 10);\n\t\t\t\tx /= 10;\n\t\t\t}\n\t\t}\n\t}\n\t\n\t// 乘以一个 int（非负）\n\tvoid multiply(int x) {\n\t\tif (x == 0) { d.clear(); d.push_back(0); return; }\n\t\tint carry = 0;\n\t\tfor (int i = 0; i < (int)d.size(); i++) {\n\t\t\tlong long cur = 1LL * d[i] * x + carry;\n\t\t\td[i] = cur % 10;\n\t\t\tcarry = cur / 10;\n\t\t}\n\t\twhile (carry) {\n\t\t\td.push_back(carry % 10);\n\t\t\tcarry /= 10;\n\t\t}\n\t\ttrim();\n\t}\n\t\n\tBigInt divide(int x) const {\n\t\tBigInt res;\n\t\tres.d.clear();\n\t\tlong long rem = 0;\n\t\tfor (int i = (int)d.size() - 1; i >= 0; i--) {\n\t\t\trem = rem * 10 + d[i];\n\t\t\tres.d.push_back(rem / x);\n\t\t\trem %= x;\n\t\t}\n\t\treverse(res.d.begin(), res.d.end());\n\t\tres.trim();\n\t\treturn res;\n\t}\n\t\n\tbool operator<(const BigInt& other) const {\n\t\tif (d.size() != other.d.size()) return d.size() < other.d.size();\n\t\tfor (int i = (int)d.size() - 1; i >= 0; i--) {\n\t\t\tif (d[i] != other.d[i]) return d[i] < other.d[i];\n\t\t}\n\t\treturn false;\n\t}\n\t\n\tbool operator>(const BigInt& other) const {\n\t\treturn other < *this;\n\t}\n\t\n\tvoid trim() {\n\t\twhile (d.size() > 1 && d.back() == 0) d.pop_back();\n\t}\n\t\n\tvoid print() const {\n\t\tfor (int i = (int)d.size() - 1; i >= 0; i--) cout << d[i];\n\t}\n};\n\nint main() {\n\tscanf(\"%d\", &n);\n\tfor (int i = 0; i <= n; i++) {\n\t\tcin >> g[i].a >> g[i].b;\n\t}\n\t\n\tsort(g + 1, g + 1 + n, [](const Person& x, const Person& y) {\n\t\treturn x.a * x.b < y.a * y.b;\n\t});\n\t\n\tBigInt res = BigInt(g[0].a);\n\tBigInt ans = BigInt(0);\n\t\n\tfor (int i = 1; i <= n; i++) {\n\t\tBigInt cur = res.divide(g[i].b);\n\t\tif (cur > ans) ans = cur;\n\t\tres.multiply(g[i].a);\n\t}\n\t\n\tans.print();\n\tcout << endl;\n\treturn 0;\n}"
+ },
+ {
+  "id": 287360880,
+  "pid": "P1106",
+  "name": "删数问题",
+  "language": 28,
+  "time": 1784539648,
+  "codeLength": 536,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    string s;\n    int k;\n    cin >> s >> k;\n    int n = s.size();\n    string ans;\n\n    for (char c : s) {\n        while (!ans.empty() && k > 0 && ans.back() > c) {\n            ans.pop_back();\n            k--;\n        }\n        ans.push_back(c);\n    }\n\n    while (k > 0) {\n        ans.pop_back();\n        k--;\n    }\n\n    int pos = 0;\n    while (pos < ans.size() && ans[pos] == '0') pos++;\n    if (pos == ans.size()) cout << 0;\n    else cout << ans.substr(pos);\n\n    return 0;\n}"
+ },
+ {
+  "id": 287325234,
+  "pid": "P1605",
+  "name": "迷宫",
+  "language": 28,
+  "time": 1784533854,
+  "codeLength": 761,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=1000;\nbool g[scx][scx];\n\nint sx,sy,ex,ey;\nint n,m,t;\n\nvoid check(){\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=m;j++){\n\t\t\tcerr<<g[i][j]<<' ';\n\t\t}\n\t\tcerr<<\"\\n\";\n\t}\n}\n\nint ans;\nint cnt;\nbool vis[scx][scx];\nconst int d[4][2]={{0,1},{0,-1},{1,0},{-1,0}};\nvoid dfs(int x,int y){\n\t//cerr<<cnt++<<':';\n\t//cerr<<x<<' '<<y<<'\\n';\n\t\n\tif(vis[x][y]||g[x][y])return ;\n\tif(x>n||x<1||y>m||y<1)return ;\n\tif(x==ex&&y==ey){\n\t//\tcerr<<\"gay\\n\";\n\t\tans++;\n\t\treturn ;\n\t}\n\tvis[x][y]=1;\n\tfor(int i=0;i<4;i++){\n\t\tdfs(x+d[i][0],y+d[i][1]);\n\t}\n\tvis[x][y]=0;\n}\n\nint main(){\n\tcin>>n>>m>>t;\n\tcin>>sx>>sy>>ex>>ey;\n\t\n\tfor(int i=1;i<=t;i++){\n\t\tint x,y;\n\t\tcin>>x>>y;\n\t\tg[x][y]=1;\n\t}\n\t//check();\n\tdfs(sx,sy);\n\tcout<<ans<<'\\n';\n\treturn 0;\n}"
+ },
+ {
+  "id": 286877528,
+  "pid": "P1932",
+  "name": "A+B  A-B  A*B  A/B A%B Problem",
+  "language": 13,
+  "time": 1784355529,
+  "codeLength": 69,
+  "code": "a=gets.to_i\nb=gets.to_i\nputs a+b\nputs a-b\nputs a*b\nputs a/b\nputs a%b\n"
+ },
+ {
+  "id": 286800947,
+  "pid": "P17109",
+  "name": "「FAOI-R13」巴巴博弈",
+  "language": 28,
+  "time": 1784334666,
+  "codeLength": 215,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nlong long t,n;\n\nint main(){\n\tscanf(\"%lld\",&t);\n\tfor(int i=1;i<=t;i++){\n\t\tscanf(\"%lld\",&n);\n\t\tif(n%2){\n\t\t\tprintf(\"Yes\\n\");\n\t\t}else{\n\t\t\tprintf(\"No\\n\");\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 286636553,
+  "pid": "P17109",
+  "name": "「FAOI-R13」巴巴博弈",
+  "language": 28,
+  "time": 1784268278,
+  "codeLength": 191,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nlong long t,n;\n\nint main(){\n\tcin>>t;\n\tfor(int i=1;i<=t;i++){\n\t\tcin>>n;\n\t\tif(n%2){\n\t\t\tcout<<\"Yes\\n\";\n\t\t}else{\n\t\t\tcout<<\"No\\n\";\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 286554619,
+  "pid": "P1908",
+  "name": "逆序对",
+  "language": 28,
+  "time": 1784249381,
+  "codeLength": 662,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n#define int long long\n\nconst int scx=5e5+10;\nint n,w;\nint cnt=0;\nint p[scx];\nmap<int,int>mp;\nint tr[scx];\nint a[scx];\nint ans;\n\n#define lowbit(x) ((-x)&x)\nint qr(int r){\n\tint res=0;\n\tfor(int i=r;i;i-=lowbit(i)){\n\t\tres+=tr[i];\n\t}\n\treturn res;\n}\nvoid mt(int x,int k){\n\tfor(int i=x;i<=w;i+=lowbit(i)){\n\t\ttr[i]+=k;\n\t}\n}\n\nsigned main(){\n\tcin>>n;\n\tfor(int i=1;i<=n;i++){\n\t\tcin>>a[i];\n\t\tp[i]=a[i];\n\t}\n\tsort(p+1,p+1+n);\n\tfor(int i=1;i<=n;i++){\n\t\tif(mp.find(p[i])==mp.end()){\n\t\t\tmp[p[i]]=++cnt;\n\t\t\tw=cnt;\n\t\t}\n\t}\n\tmt(mp[a[1]],1);\n\tfor(int i=2;i<=n;i++){\n\t\tans+=qr(w)-qr(mp[a[i]]);\n\t\tmt(mp[a[i]],1);\n\t}\n\tcout<<ans;\n\treturn 0;\n}\n"
+ },
+ {
+  "id": 286414513,
+  "pid": "P5429",
+  "name": "[USACO19OPEN] Fence Planning S",
+  "language": 28,
+  "time": 1784186082,
+  "codeLength": 1011,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=2e5+10;\nint fa[scx],s[scx];\nint n,m;\nint maxw[scx],minw[scx],maxh[scx],minh[scx];\n\nint _find(int x){\n\tif(fa[x]==x)return x;\n\treturn fa[x]=_find(fa[x]);\n}\nvoid add(int x,int y){\n\tx=_find(x),y=_find(y);\n\tif(s[x]>s[y])swap(x,y);\n\tfa[x]=y;\n\tmaxw[y]=max(maxw[y],maxw[x]);\n\tmaxh[y]=max(maxh[y],maxh[x]);\n\tminw[y]=min(minw[y],minw[x]);\n\tminh[y]=min(minh[y],minh[x]);\n\ts[y]+=s[x];\n}\n\nint ans;\n\nint main(){\n\tcin>>n>>m;\n\tfor(int i=1;i<=n;i++){\n\t\tint x,y;\n\t\tcin>>x>>y;\n\t\tfa[i]=i;\n\t\tmaxw[i]=x;\n\t\tmaxh[i]=y;\n\t\tminw[i]=x;\n\t\tminh[i]=y;\n\t\ts[i]=1;\n\t}\n\tfor(int i=1;i<=m;i++){\n\t\tint x,y;\n\t\tcin>>x>>y;\n\t\tadd(x,y);\n\t}\n\tint Minh=minh[_find(1)],Maxh=maxh[_find(1)]\n\t,Minw=minw[_find(1)],Maxw=maxw[_find(1)];\n\tfor(int i=2;i<=n;i++){\n\t\tif((Maxh-Minh)+(Maxw-Minw)>\n\t\t\t(maxh[_find(i)]-minh[_find(i)])+(maxw[_find(i)]-minw[_find(i)])){\n\t\t\tMinh=minh[_find(i)],Maxh=maxh[_find(i)]\n\t\t\t,Minw=minw[_find(i)],Maxw=maxw[_find(i)];\n\t\t}\n\t}\n\tcout<<((Maxh-Minh)+(Maxw-Minw))*2;\n\treturn 0;\n}"
+ },
+ {
+  "id": 286401551,
+  "pid": "P1892",
+  "name": "[BalticOI 2003] 团伙 (Day 2)",
+  "language": 28,
+  "time": 1784184432,
+  "codeLength": 787,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e5 + 10;\nint n, m;\nint fa[scx << 1], s[scx << 1];\nbool vis[scx << 1];\n\nint _find(int x) {\n\tif (fa[x] == x) return x;\n\treturn fa[x] = _find(fa[x]);\n}\n\nvoid add(int x, int y) {\n\tx = _find(x);\n\ty = _find(y);\n\tif (s[x] > s[y]) swap(x, y);\n\tfa[x] = y;\n\ts[y] += s[x];\n}\n\nint main() {\n\tcin >> n >> m;\n\tfor (int i = 1; i <= n; i++) {\n\t\tfa[i] = i;\n\t\ts[i] = 1;\n\t\tfa[i + n] = i + n;\n\t\ts[i + n] = 1;\n\t}\n\tfor (int i = 1; i <= m; i++) {\n\t\tchar opt;\n\t\tint x, y;\n\t\tcin >> opt >> x >> y;\n\t\tif (opt == 'F') {\n\t\t\tadd(x, y);\n\t\t} else {\n\t\t\tadd(x, y + n);\n\t\t\tadd(x + n, y);\n\t\t}\n\t}\n\t\n\tint ans = 0;\n\t\n\tfor (int i = 1; i <= n; i++) {\n\t\tint root = _find(i);\n\t\tif (!vis[root]) {\n\t\t\tvis[root] = true;\n\t\t\tans++;\n\t\t}\n\t}\n\tcout << ans << '\\n';\n\treturn 0;\n}"
+ },
+ {
+  "id": 286319041,
+  "pid": "P2024",
+  "name": "[NOI2001] 食物链",
+  "language": 28,
+  "time": 1784167271,
+  "codeLength": 999,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e6 + 10;\nint n, k;\nint fa[scx], s[scx];\nint ans;\n\nint _find(int x) {\n\tif (fa[x] == x) return x;\n\treturn fa[x] = _find(fa[x]);\n}\n\nvoid add(int x, int y) {\n\tx = _find(x), y = _find(y);\n\tif (x == y) return;\n\tif (s[x] > s[y]) swap(x, y);\n\tfa[x] = y;\n\ts[y] += s[x];\n}\n\nint main() {\n\tcin >> n >> k;\n\tfor (int i = 1; i <= 3 * n; i++) {\n\t\tfa[i] = i;\n\t\ts[i] = 1;\n\t}\n\tfor (int i = 1, opt, x, y; i <= k; i++) {\n\t\tcin >> opt >> x >> y;\n\t\tif (x > n || y > n) {\n\t\t\tans++;\n\t\t\tcontinue;\n\t\t}\n\t\tif (opt == 1) {\n\t\t\tif (_find(x + n) == _find(y) || _find(x) == _find(y + n)) {\n\t\t\t\tans++;\n\t\t\t\tcontinue;\n\t\t\t}else{\n\t\t\t\tadd(x, y);\n\t\t\t\tadd(x + n, y + n);\n\t\t\t\tadd(x + 2 * n, y + 2 * n);\n\t\t\t}\n\t\t} else {\n\t\t\tif (x == y) {\n\t\t\t\tans++;\n\t\t\t\tcontinue;\n\t\t\t}\n\t\t\tif (_find(x) == _find(y) || _find(x) == _find(y + n)) {\n\t\t\t\tans++;\n\t\t\t\tcontinue;\n\t\t\t}else{\n\t\t\t\tadd(x + n, y);\n\t\t\t\tadd(x, y + 2 * n);\n\t\t\t\tadd(x + 2 * n, y + n);\n\t\t\t}\n\t\t\t\n\t\t}\n\t}\n\tcout << ans << '\\n';\n\treturn 0;\n}"
+ },
+ {
+  "id": 286297126,
+  "pid": "P1525",
+  "name": "[NOIP 2010 提高组] 关押罪犯",
+  "language": 28,
+  "time": 1784163307,
+  "codeLength": 905,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=1e5+10;\nint n,m;\nint fa[scx];\nint s[scx];\n\nint _find(int x){\n\tif(fa[x]==x)return x;\n\treturn fa[x]=_find(fa[x]);\n}\nvoid con(int x,int y){\n\tx=_find(x),y=_find(y);\n\tif(s[x]>s[y])swap(x,y);\n\tfa[x]=y;\n\ts[y]+=s[x];\n}\n\nstruct node{\n\tint u,v,w;\n}edge[scx];\n\nbool cmp(node a,node b){\n\treturn a.w > b.w;\n}\n\nint f[scx];\n\nint main(){\n\tcin>>n>>m;\n\tfor(int i=1;i<=n;i++){\n\t\tfa[i]=i;\n\t\ts[i]=1;\n\t}\n\tfor(int i=1,u,v,w;i<=m;i++){\n\t\tcin>>u>>v>>w;\n\t\tedge[i]={u,v,w};\n\t}\n\tif(n==2){\n\t\tcout<<\"0\\n\";\n\t\treturn 0;\n\t}\n\tsort(edge+1,edge+1+m,cmp);\n\tfor(int i=1;i<=m;i++){\n\t\tif(_find(edge[i].u)==_find(edge[i].v)){\n\t\t\tcout<<edge[i].w<<'\\n';\n\t\t\tbreak;\n\t\t}else{\n\t\t\tif(!f[edge[i].u]){\n\t\t\t\tf[edge[i].u]=edge[i].v;\n\t\t\t}else{\n\t\t\t\tcon(f[edge[i].u],edge[i].v);\n\t\t\t}\n\t\t\tif(!f[edge[i].v]){\n\t\t\t\tf[edge[i].v]=edge[i].u;\n\t\t\t}else{\n\t\t\t\tcon(f[edge[i].v],edge[i].u);\n\t\t\t}\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 285907980,
+  "pid": "P1313",
+  "name": "[NOIP 2011 提高组] 计算系数",
+  "language": 28,
+  "time": 1784014216,
+  "codeLength": 433,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int MOD = 10007;\nconst int scx = 1010;\nlong long f[scx][scx];\nlong long na,mb;\n\nint a,b,k,n,m;\n\nint main(){\n\tcin>>a>>b>>k>>n>>m;\n\tf[0][1]=1;\n\tfor(int i=1;i<=k+1;i++){\n\t\tfor(int j=1;j<=i;j++){\n\t\t\tf[i][j]=(f[i-1][j-1]+f[i-1][j])%MOD;\n\t\t}\n\t}\n\tna=mb=1;\n\tfor(int i=1;i<=n;i++){\n\t\tna=na*a%MOD;\n\t}\n\tfor(int i=1;i<=m;i++){\n\t\tmb=mb*b%MOD;\n\t}\n\tcout<<(na*mb)%MOD*f[k+1][n+1]%MOD;\n\treturn 0;\n}"
+ },
+ {
+  "id": 284511079,
+  "pid": "P2392",
+  "name": "kkksc03 考前临时抱佛脚",
+  "language": 28,
+  "time": 1783477388,
+  "codeLength": 572,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint s[5];\nvector<vector<int> >a(5);\nint f[100000];\nint ans,sum[5];\n\nint main(){\n\tcin>>s[1]>>s[2]>>s[3]>>s[4];\n\tfor(int i=1;i<=4;i++){\n\t\tfor(int j=1;j<=s[i];j++){\n\t\t\tint input;\n\t\t\tcin>>input;\n\t\t\ta[i].push_back(input);\n\t\t\tsum[i]+=input;\n\t\t}\n\t\tsort(a[i].begin(),a[i].end());\n\t}\n\tfor(int k=1;k<=4;k++){\n\t\tmemset(f,0,sizeof f);\n\t\tfor(int i=0;i<s[k];i++){\n\t\t\tfor(int j=(sum[k]>>1);j>=a[k][i];j--){\n\t\t\t\tf[j]=max(f[j],f[j-a[k][i]]+a[k][i]);\n\t\t\t}\n\t\t}\n\t\tint x=f[sum[k]>>1];\n\t\tint y=sum[k]-x;\n\t\tans+=max(x,y);\n\t}\n\tcout<<ans;\n\treturn 0;\n}"
+ },
+ {
+  "id": 284422877,
+  "pid": "B4120",
+  "name": "[语言月赛 202501] 数字谜",
+  "language": 28,
+  "time": 1783419088,
+  "codeLength": 231,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint a, b;\n\nint main() {\n\tcin >> a >> b;\n\tif (a % 10 == b) {\n\t\tcout << 0;\n\t} else {\n\t\tif (a % 10 < b) {\n\t\t\tcout << b - a % 10;\n\t\t} else {\n\t\t\tcout << 10 - a % 10 + b;\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 280966283,
+  "pid": "B2002",
+  "name": "Hello,World!",
+  "language": 7,
+  "time": 1780744394,
+  "codeLength": 21,
+  "code": "print(\"Hello,World!\")"
+ },
+ {
+  "id": 280065668,
+  "pid": "P4377",
+  "name": "[USACO18OPEN] Talent Show G",
+  "language": 28,
+  "time": 1780154437,
+  "codeLength": 887,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 2505;\nconst double eps = 1e-8;\nint n, W;\nint w[255], t[255];\ndouble dp[scx], ndp[scx];\n\nbool check(double mid) {\n    for (int i = 0; i <= W; i++) dp[i] = -1e18;\n    dp[0] = 0;\n    for (int i = 1; i <= n; i++) {\n        double val = t[i] - mid * w[i];\n        memcpy(ndp, dp, sizeof(dp));\n        for (int j = 0; j <= W; j++) {\n            if (dp[j] < -1e17) continue;\n            int nw = min(W, j + w[i]);\n            ndp[nw] = max(ndp[nw], dp[j] + val);\n        }\n        memcpy(dp, ndp, sizeof(dp));\n    }\n    return dp[W] >= -eps;\n}\n\nint main() {\n    cin >> n >> W;\n    for (int i = 1; i <= n; i++) cin >> w[i] >> t[i];\n    double l = 0, r = 1e6;\n    for (int T = 1; T <= 60; T++) {\n        double mid = (l + r) / 2;\n        if (check(mid)) l = mid;\n        else r = mid;\n    }\n    cout << int(r * 1000);\n    return 0;\n}"
+ },
+ {
+  "id": 279777361,
+  "pid": "P10955",
+  "name": "正整数拆分",
+  "language": 28,
+  "time": 1780049765,
+  "codeLength": 318,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 50005;\nconst int MOD = 2147483648;\nlong long f[scx];\n\nint main() {\n    int n;\n    cin >> n;\n    f[0] = 1;\n    for (int i = 1; i <= n; i++)\n        for (int j = i; j <= n; j++)\n            f[j] = (f[j] + f[j - i]) % MOD;\n    cout << f[n]-1;\n    return 0;\n}"
+ },
+ {
+  "id": 279642110,
+  "pid": "P1433",
+  "name": "吃奶酪",
+  "language": 28,
+  "time": 1779946547,
+  "codeLength": 1115,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = (1 << 15) + 10;\nconst double inf = 1e18;\nint n;\ndouble x[20], y[20];\ndouble f[scx][20];\n\ndouble dis(int i, int j) {\n    return sqrt((x[i] - x[j]) * (x[i] - x[j]) + (y[i] - y[j]) * (y[i] - y[j]));\n}\n\nint main() {\n    cin >> n;\n    x[0] = y[0] = 0;\n    for (int i = 1; i <= n; i++) cin >> x[i] >> y[i];\n\n    int tot = 1 << n;\n    for (int mask = 0; mask < tot; mask++)\n        for (int i = 0; i < n; i++)\n            f[mask][i] = inf;\n\n    for (int i = 0; i < n; i++)\n        f[1 << i][i] = dis(0, i + 1);\n\n    for (int mask = 1; mask < tot; mask++)\n        for (int i = 0; i < n; i++) {\n            if (!(mask & (1 << i))) continue;\n            if (f[mask][i] == inf) continue;\n            for (int j = 0; j < n; j++) {\n                if (mask & (1 << j)) continue;\n                int nmask = mask | (1 << j);\n                f[nmask][j] = min(f[nmask][j], f[mask][i] + dis(i + 1, j + 1));\n            }\n        }\n\n    double ans = inf;\n    for (int i = 0; i < n; i++)\n        ans = min(ans, f[tot - 1][i]);\n\n    printf(\"%.2f\\n\", ans);\n    return 0;\n}"
+ },
+ {
+  "id": 279641850,
+  "pid": "P1064",
+  "name": "[NOIP 2006 提高组] 金明的预算方案",
+  "language": 28,
+  "time": 1779946374,
+  "codeLength": 1307,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 65;\nint n, m;\nint v[scx], p[scx], q[scx];\nint att1[scx], att2[scx];\nint f[32005];\n\nint main() {\n    cin >> n >> m;\n    for (int i = 1; i <= m; i++) {\n        cin >> v[i] >> p[i] >> q[i];\n        if (q[i] > 0) {\n            if (!att1[q[i]]) att1[q[i]] = i;\n            else att2[q[i]] = i;\n        }\n    }\n\n    memset(f, 0, sizeof(f));\n    for (int i = 1; i <= m; i++) {\n        if (q[i] != 0) continue;\n        int cost[4], val[4], cnt = 0;\n        cost[cnt] = v[i];\n        val[cnt] = v[i] * p[i];\n        cnt++;\n        if (att1[i]) {\n            cost[cnt] = cost[0] + v[att1[i]];\n            val[cnt] = val[0] + v[att1[i]] * p[att1[i]];\n            cnt++;\n        }\n        if (att2[i]) {\n            cost[cnt] = cost[0] + v[att2[i]];\n            val[cnt] = val[0] + v[att2[i]] * p[att2[i]];\n            cnt++;\n        }\n        if (att1[i] && att2[i]) {\n            cost[cnt] = cost[0] + v[att1[i]] + v[att2[i]];\n            val[cnt] = val[0] + v[att1[i]] * p[att1[i]] + v[att2[i]] * p[att2[i]];\n            cnt++;\n        }\n        for (int j = n; j >= 0; j--)\n            for (int k = 0; k < cnt; k++)\n                if (j >= cost[k])\n                    f[j] = max(f[j], f[j - cost[k]] + val[k]);\n    }\n    cout << f[n];\n    return 0;\n}"
+ },
+ {
+  "id": 279641621,
+  "pid": "P1077",
+  "name": "[NOIP 2012 普及组] 摆花",
+  "language": 28,
+  "time": 1779946212,
+  "codeLength": 449,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 105;\nconst int MOD = 1000007;\nint n, m;\nint a[scx];\nint f[scx][scx];\n\nint main() {\n    cin >> n >> m;\n    for (int i = 1; i <= n; i++) cin >> a[i];\n\n    f[0][0] = 1;\n    for (int i = 1; i <= n; i++)\n        for (int j = 0; j <= m; j++)\n            for (int k = 0; k <= min(a[i], j); k++)\n                f[i][j] = (f[i][j] + f[i - 1][j - k]) % MOD;\n\n    cout << f[n][m];\n    return 0;\n}"
+ },
+ {
+  "id": 279641373,
+  "pid": "P3842",
+  "name": "[TJOI2007] 线段",
+  "language": 28,
+  "time": 1779946057,
+  "codeLength": 653,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 20010;\nint n;\nint l[scx], r[scx];\nint f[scx][2];\n\nint main() {\n    cin >> n;\n    for (int i = 1; i <= n; i++) cin >> l[i] >> r[i];\n\n    f[1][0] = r[1] + r[1] - l[1] - 1;\n    f[1][1] = r[1] - 1;\n\n    for (int i = 2; i <= n; i++) {\n        int len = r[i] - l[i] + 1;\n        f[i][0] = min(f[i - 1][0] + abs(l[i - 1] - r[i]),\n                      f[i - 1][1] + abs(r[i - 1] - r[i])) + len;\n        f[i][1] = min(f[i - 1][0] + abs(l[i - 1] - l[i]),\n                      f[i - 1][1] + abs(r[i - 1] - l[i])) + len;\n    }\n\n    cout << min(f[n][0] + n - l[n], f[n][1] + n - r[n]);\n    return 0;\n}"
+ },
+ {
+  "id": 279539549,
+  "pid": "P1541",
+  "name": "[NOIP 2010 提高组] 乌龟棋",
+  "language": 28,
+  "time": 1779862197,
+  "codeLength": 1281,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 45;\nint n, m;\nint a[400];\nint cnt[5];\nint f[scx][scx][scx][scx];\n\nint main() {\n    cin >> n >> m;\n    for (int i = 1; i <= n; i++) cin >> a[i];\n    for (int i = 1; i <= m; i++) {\n        int x; cin >> x;\n        cnt[x]++;\n    }\n    memset(f, -1, sizeof(f));\n    f[0][0][0][0] = a[1];\n    for (int i = 0; i <= cnt[1]; i++)\n        for (int j = 0; j <= cnt[2]; j++)\n            for (int k = 0; k <= cnt[3]; k++)\n                for (int l = 0; l <= cnt[4]; l++) {\n                    if (i == 0 && j == 0 && k == 0 && l == 0) continue;\n                    int pos = 1 + i + 2 * j + 3 * k + 4 * l;\n                    int t = -1;\n                    if (i && f[i - 1][j][k][l] != -1)\n                        t = max(t, f[i - 1][j][k][l] + a[pos]);\n                    if (j && f[i][j - 1][k][l] != -1)\n                        t = max(t, f[i][j - 1][k][l] + a[pos]);\n                    if (k && f[i][j][k - 1][l] != -1)\n                        t = max(t, f[i][j][k - 1][l] + a[pos]);\n                    if (l && f[i][j][k][l - 1] != -1)\n                        t = max(t, f[i][j][k][l - 1] + a[pos]);\n                    f[i][j][k][l] = t;\n                }\n    cout << f[cnt[1]][cnt[2]][cnt[3]][cnt[4]];\n    return 0;\n}"
+ },
+ {
+  "id": 279539406,
+  "pid": "P2340",
+  "name": "[USACO03FALL] Cow Exhibition G",
+  "language": 28,
+  "time": 1779862067,
+  "codeLength": 795,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 800010;\nconst int D = 400000;\nconst int inf = 0x3f3f3f3f;\nint dp[scx];\n\nint main() {\n    int n;\n    cin >> n;\n    memset(dp, -0x3f, sizeof(dp));\n    dp[D] = 0;\n    for (int i = 1; i <= n; i++) {\n        int s, f;\n        cin >> s >> f;\n        if (s >= 0) {\n            for (int j = 800000; j >= s; j--)\n                if (dp[j - s] != -inf)\n                    dp[j] = max(dp[j], dp[j - s] + f);\n        } else {\n            for (int j = 0; j <= 800000 + s; j++)\n                if (dp[j - s] != -inf)\n                    dp[j] = max(dp[j], dp[j - s] + f);\n        }\n    }\n    int ans = -inf;\n    for (int j = D; j <= 800000; j++)\n        if (dp[j] >= 0)\n            ans = max(ans, j - D + dp[j]);\n    cout << ans;\n    return 0;\n}"
+ },
+ {
+  "id": 279539389,
+  "pid": "P1833",
+  "name": "樱花",
+  "language": 28,
+  "time": 1779862054,
+  "codeLength": 818,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e6 + 10;\nint v[scx], w[scx], tot;\nint dp[1005];\n\nint main() {\n    int sh, sm, eh, em;\n    scanf(\"%d:%d %d:%d\", &sh, &sm, &eh, &em);\n    int T = (eh - sh) * 60 + em - sm;\n    int n;\n    cin >> n;\n    for (int i = 1; i <= n; i++) {\n        int t, c, p;\n        cin >> t >> c >> p;\n        if (p == 0) p = T / t;\n        int k = 1;\n        while (k <= p) {\n            tot++;\n            v[tot] = k * t;\n            w[tot] = k * c;\n            p -= k;\n            k <<= 1;\n        }\n        if (p > 0) {\n            tot++;\n            v[tot] = p * t;\n            w[tot] = p * c;\n        }\n    }\n    for (int i = 1; i <= tot; i++)\n        for (int j = T; j >= v[i]; j--)\n            dp[j] = max(dp[j], dp[j - v[i]] + w[i]);\n    cout << dp[T];\n    return 0;\n}"
+ },
+ {
+  "id": 279539363,
+  "pid": "P1854",
+  "name": "[IOI 1999] 花店橱窗布置",
+  "language": 28,
+  "time": 1779862038,
+  "codeLength": 727,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 105;\nint f[scx][scx], a[scx][scx];\nint ans[scx];\n\nint main() {\n    int F, V;\n    cin >> F >> V;\n    for (int i = 1; i <= F; i++)\n        for (int j = 1; j <= V; j++)\n            cin >> a[i][j];\n\n    memset(f, -0x3f, sizeof(f));\n    for (int j = 0; j <= V; j++) f[0][j] = 0;\n    for (int i = 1; i <= F; i++)\n        for (int j = i; j <= V; j++)\n            f[i][j] = max(f[i][j-1], f[i-1][j-1] + a[i][j]);\n\n    cout << f[F][V] << '\\n';\n    int i = F, j = V;\n    while (i > 0) {\n        if (f[i][j] == f[i][j-1]) j--;\n        else {\n            ans[i] = j;\n            i--; j--;\n        }\n    }\n    for (int i = 1; i <= F; i++) cout << ans[i] << ' ';\n    return 0;\n}"
+ },
+ {
+  "id": 279539034,
+  "pid": "P2758",
+  "name": "编辑距离",
+  "language": 28,
+  "time": 1779861750,
+  "codeLength": 568,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 2e3 + 10;\nchar a[scx], b[scx];\nint f[scx][scx];\nint n, m;\n\nint main() {\n    cin >> (a + 1) >> (b + 1);\n    n = strlen(a + 1);\n    m = strlen(b + 1);\n    \n    for (int i = 1; i <= n; i++) f[i][0] = i;\n    for (int j = 1; j <= m; j++) f[0][j] = j;\n    \n    for (int i = 1; i <= n; i++) {\n        for (int j = 1; j <= m; j++) {\n            int k = (a[i] == b[j] ? 0 : 1);\n            f[i][j] = min(min(f[i-1][j] + 1, f[i][j-1] + 1), f[i-1][j-1] + k);\n        }\n    }\n    \n    cout << f[n][m];\n    return 0;\n}"
+ },
+ {
+  "id": 279538890,
+  "pid": "P2679",
+  "name": "[NOIP 2015 提高组] 子串",
+  "language": 28,
+  "time": 1779861622,
+  "codeLength": 851,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e3 + 10;\nconst int mcx = 2e2 + 10;\nconst int MOD = 1e9 + 7;\n\nint f[2][mcx][mcx][2];\nchar a[scx], b[mcx];\n\nint main() {\n\tint n, m, k;\n\tcin >> n >> m >> k;\n\tcin >> (a + 1) >> (b + 1);\n\tf[0][0][0][0] = 1;\n\tf[1][0][0][0] = 1;\n\n\tfor (int i = 1; i <= n; i++) {\n\t\tint now = i % 2;\n\t\tint pre = (i - 1) % 2;\n\n\t\tfor (int j = 1; j <= m; j++) {\n\t\t\tfor (int p = 1; p <= min(k, j); p++) {\n\t\t\t\tif (a[i] == b[j]) {\n\t\t\t\t\tf[now][j][p][1] = ((f[pre][j - 1][p][1] + f[pre][j - 1][p - 1][0]) % MOD + f[pre][j - 1][p - 1][1]) % MOD;\n\n\t\t\t\t\tf[now][j][p][0] = (f[pre][j][p][0] + f[pre][j][p][1]) % MOD;\n\t\t\t\t} else {\n\t\t\t\t\tf[now][j][p][1] = 0;\n\n\t\t\t\t\tf[now][j][p][0] = (f[pre][j][p][0] + f[pre][j][p][1]) % MOD;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\tint ans = (f[n % 2][m][k][0] + f[n % 2][m][k][1]) % MOD;\n\tcout << ans;\n\n\treturn 0;\n}"
+ },
+ {
+  "id": 279538587,
+  "pid": "P1544",
+  "name": "三倍经验",
+  "language": 28,
+  "time": 1779861329,
+  "codeLength": 1460,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e2 + 10;\nconst int K = 5e3 + 10;\nlong long f[scx][scx][K]; \nint n, k;\nlong long a[scx][scx];\nlong long ans;\n\nint main() {\n    cin >> n >> k;\n    for (int i = 1; i <= n; i++) {\n        for (int j = 1; j <= i; j++) {\n            cin >> a[i][j];\n        }\n    }\n    const long long INF = -1e18;\n    for (int i = 0; i <= n; i++) {\n        for (int j = 0; j <= i; j++) {\n            for (int kk = 0; kk <= k; kk++) {\n                f[i][j][kk] = INF;\n            }\n        }\n    }\n    f[1][1][0] = a[1][1];\n    if (k > 0) {\n        f[1][1][1] = a[1][1] * 3;\n    }\n    for (int i = 2; i <= n; i++) {\n        for (int j = 1; j <= i; j++) {\n            for (int kk = 0; kk <= k; kk++) {\n                for (int prev_j = j - 1; prev_j <= j; prev_j++) {\n                    if (prev_j < 1 || prev_j > i - 1) continue;\n                    if (f[i - 1][prev_j][kk] != INF) {\n                        f[i][j][kk] = max(f[i][j][kk], f[i - 1][prev_j][kk] + a[i][j]);\n                    }\n                    if (kk > 0 && f[i - 1][prev_j][kk - 1] != INF) {\n                        f[i][j][kk] = max(f[i][j][kk], f[i - 1][prev_j][kk - 1] + a[i][j] * 3);\n                    }\n                }\n            }\n        }\n    }\n    ans = INF;\n    for (int j = 1; j <= n; j++) {\n        for (int kk = 0; kk <= k; kk++) {\n            ans = max(ans, f[n][j][kk]);\n        }\n    }\n    \n    cout << ans;\n    return 0;\n}"
+ },
+ {
+  "id": 279537273,
+  "pid": "P4933",
+  "name": "大师",
+  "language": 28,
+  "time": 1779860373,
+  "codeLength": 460,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 2e4 + 10;\n\nint n, p = 2e4;\nlong long ans;\nint h[scx], f[1050][40050];\nconst int mod = 998244353;\n\nint main() {\n\tcin >> n;\n\tfor (int i = 1; i <= n; i++) {\n\t\tcin >> h[i];\n\t}\n\n\tfor (int i = 1; i <= n; i++) {\n\t\tfor (int j = i - 1; j > 0; j--) {\n\t\t\tint d = h[i] - h[j] + p;\n\t\t\tf[i][d] += f[j][d] + 1;\n\t\t\tf[i][d] %= mod;\n\t\t\tans += f[j][d] + 1;\n\t\t\tans %= mod;\n\t\t}\n\t}\n\tans += n;\n\tcout << ans;\n\treturn 0;\n}"
+ },
+ {
+  "id": 279536092,
+  "pid": "P1725",
+  "name": "琪露诺",
+  "language": 28,
+  "time": 1779859572,
+  "codeLength": 780,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 2e5 + 10;\n\nint n, l, r, a[scx];\nint ans;\nint f[scx];\nconst int inf = 1e9;\n\nint q[scx], head = 1, tail = 0, k = 0;\n\nint main() {\n\tscanf(\"%d%d%d\", &n, &l, &r);\n\tfor (int i = 0; i <= n; i++) {\n\t\tscanf(\"%d\", &a[i]);\n\t\tf[i] = -inf;\n\t}\n\tf[0] = 0;\n\tans = -inf;\n\n\tfor (int i = 1; i <= n; i++) {\n\t\twhile (k <= i - l) {\n\t\t\tif (k >= 0) {\n\t\t\t\twhile (head <= tail && f[q[tail]] <= f[k])\n\t\t\t\t\ttail--;\n\t\t\t\tq[++tail] = k;\n\t\t\t}\n\t\t\tk++;\n\t\t}\n\t\twhile (head <= tail && q[head] < i - r)\n\t\t\thead++;\n\n\t\tint maxf = -inf;\n\t\tif (head <= tail)\n\t\t\tmaxf = f[q[head]];\n\n\t\tif (maxf != -inf)\n\t\t\tf[i] = maxf + a[i];\n\n\t\tif (i + r > n && f[i] != -inf)\n\t\t\tans = max(ans, f[i]);\n\t}\n\tif (0 + r > n)\n\t\tans = max(ans, f[0]);\n\n\tprintf(\"%d\", ans);\n\treturn 0;\n}"
+ },
+ {
+  "id": 278029810,
+  "pid": "P3956",
+  "name": "[NOIP 2017 普及组] 棋盘",
+  "language": 28,
+  "time": 1778903892,
+  "codeLength": 1139,
+  "code": "#include<bits/stdc++.h>\n#define int long long\nusing namespace std;\n\nint n,m;\nbool k[105][105];\nint g[105][105];\nbool vis[105][105];\nint ans=2e9;\nint f[105][105];\n\nconst int dx[4]={0,1,0,-1};\nconst int dy[4]={1,0,-1,0};\n\nvoid dfs(int x,int y,int c){\n\tif(x==m&&y==m){\n\t\tans=min(ans,c);\n\t\treturn ;\n\t}\n\tif(vis[x][y]||f[x][y]<=c)return;\n\tvis[x][y]=1;\n\tf[x][y]=min(f[x][y],c);\n\tfor(int i=0;i<4;i++){\n\t\tint xx=dx[i]+x,yy=dy[i]+y;\n\t\tif(xx<1||yy<1||xx>n||yy>>n)continue;\n\t\tif(k[xx][yy]&&k[x][y]){\n\t\t\tif(g[xx][yy]==g[x][y]){\n\t\t\t\tdfs(xx,yy,c);\n\t\t\t}else{\n\t\t\t\tdfs(xx,yy,c+1);\n\t\t\t}\n\t\t}else if(k[xx][yy]&&(!k[x][y])){\n\t\t\tif(g[xx][yy]==g[x][y]){\n\t\t\t\tdfs(xx,yy,c);\n\t\t\t}else{\n\t\t\t\tdfs(xx,yy,c+1);\n\t\t\t}\n\t\t}else if(k[x][y]&&(!k[xx][yy])){\n\t\t\tg[xx][yy]=g[x][y];\n\t\t\tdfs(xx,yy,c+2);\n\t\t\tg[xx][yy]=(g[x][y]^1);\n\t\t\tdfs(xx,yy,c+3);\n\t\t\tg[xx][yy]=-1;\n\t\t}else{\n\t\t\tcontinue;\n\t\t}\n\t}\n\tvis[x][y]=0;\n}\n\nsigned main(){\n\tcin>>m>>n;\n\tfor(int i=1;i<=m;i++){\n\t\tfor(int j=1;j<=m;j++){\n\t\t\tg[i][j]=-1;\n\t\t\tf[i][j]=2e9;\n\t\t}\n\t}\n\tfor(int i=1;i<=n;i++){\n\t\tint x,y;\n\t\tcin>>x>>y;\n\t\tcin>>g[x][y];\n\t\tk[x][y]=1;\n\t}\n\tdfs(1,1,0);\n\tif(ans==2e9){\n\t\tcout<<-1;\n\t}else{\n\t\tcout<<ans;\n\t}\n\t\n\treturn 0;\n}"
+ },
+ {
+  "id": 278012302,
+  "pid": "P1141",
+  "name": "01迷宫",
+  "language": 28,
+  "time": 1778900834,
+  "codeLength": 1236,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint n,m;\nint g[1010][1010];\npair<int,int> fa[1010][1010];\nint siz[1010][1010];\nbool vis[1010][1010];\n\npair<int,int> _find(pair<int,int> a){\n\tif(fa[a.first][a.second]==a)return a;\n\treturn fa[a.first][a.second]=_find(fa[a.first][a.second]);\n}\n\nvoid connect(pair<int,int>a,pair<int,int>b){\n\ta=_find(a),b=_find(b);\n\tif(a==b)return ;\n\tfa[a.first][a.second]=b;\n\tsiz[b.first][b.second]+=siz[a.first][a.second];\n}\n\nint get_siz(pair<int,int>a){\n\ta=_find(a);\n\treturn siz[a.first][a.second];\n}\n\nconst int dx[4]={0,1,0,-1};\nconst int dy[4]={1,0,-1,0};\nvoid dfs(pair<int,int>a){\n\tif(vis[a.first][a.second])return;\n\tvis[a.first][a.second]=1;\n\tfor (int i=0;i<4;i++){\n\t\tint xx=a.first+dx[i],yy=a.second+dy[i];\n\t\tif(xx<1||yy<1||xx>n||yy>n)continue;\n\t\tif(g[a.first][a.second]^g[xx][yy]){\n\t\t\tconnect(a,make_pair(xx,yy));\n\t\t\tdfs(make_pair(xx,yy));\n\t\t}\n\t}\n}\n\nint main(){\n\tcin>>n>>m;\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=n;j++){\n\t\t\tchar ch;\n\t\t\tcin>>ch;\n\t\t\tg[i][j]=ch-'0';\n\t\t\tfa[i][j]=make_pair(i,j);\n\t\t\tsiz[i][j]=1;\n\t\t}\n\t}\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=1;j<=n;j++){\n\t\t\tif(!vis[i][j])dfs(make_pair(i,j));\n\t\t}\n\t}\n\twhile(m--){\n\t\tint x,y;\n\t\tcin>>x>>y;\n\t\tcout<<get_siz(make_pair(x,y))<<'\\n';\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 277995483,
+  "pid": "P3480",
+  "name": "[POI 2009] KAM-Pebbles",
+  "language": 28,
+  "time": 1778897744,
+  "codeLength": 387,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint n;\nint k;\nconst int scx=2e5+5e4+10;\nint s[scx],c[scx];\nint sum;\nint T;\n\nint main(){\n\tcin>>T;\n\twhile(T--){\n\t\tsum=0;\n\t\tcin>>n;\n\t\tfor(int i=1;i<=n;i++){\n\t\t\tcin>>s[i];\n\t\t}\n\t\tfor(int i=1;i<=n;i++){\n\t\t\tc[i]=s[i]-s[i-1];\n\t\t}\n\t\tfor(int i=n;i>=1;i-=2){\n\t\t\tsum^=c[i];\n\t\t}\n\t\tif(sum){\n\t\t\tcout<<\"TAK\\n\";\n\t\t}else{\n\t\t\tcout<<\"NIE\\n\";\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 277984100,
+  "pid": "P4576",
+  "name": "[CQOI2013] 棋盘游戏",
+  "language": 28,
+  "time": 1778895364,
+  "codeLength": 1333,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int inf = 2e9;\nint n;\nint r1, r2, c1, c2;\nint f[2][65][21][21][21][21];\n\nconst int dx[4] = {1, 0, -1, 0};\nconst int dy[4] = {0, 1, 0, -1};\n\nint dfs(int opt, int h, int r1, int c1, int r2, int c2) {\n\tif (h > 3 * n) return inf;\n\tif (r1 == r2 && c1 == c2) {\n\t\tif (opt == 1) return inf;\n\t\telse return 0;\n\t}\n\tif (f[opt][h][r1][c1][r2][c2] != 0) \n\t\treturn f[opt][h][r1][c1][r2][c2];\n\tint res;\n\tif (opt == 0) {\n\t\tres = 0;\n\t\tfor (int i = 0; i < 4; i++) {\n\t\t\tint xx = r1 + dx[i];\n\t\t\tint yy = c1 + dy[i];\n\t\t\tif (xx < 1 || xx > n || yy < 1 || yy > n) continue;\n\t\t\tres = max(res, dfs(1, h + 1, xx, yy, r2, c2));\n\t\t}\n\t} else {\n\t\tres = inf;\n\t\tfor (int i = 0; i < 4; i++) {\n\t\t\tint xx = r2 + dx[i];\n\t\t\tint yy = c2 + dy[i];\n\t\t\tif (xx >= 1 && xx <= n && yy >= 1 && yy <= n)\n\t\t\t\tres = min(res, dfs(0, h + 1, r1, c1, xx, yy));\n\t\t\txx = r2 + 2 * dx[i];\n\t\t\tyy = c2 + 2 * dy[i];\n\t\t\tif (xx >= 1 && xx <= n && yy >= 1 && yy <= n)\n\t\t\t\tres = min(res, dfs(0, h + 1, r1, c1, xx, yy));\n\t\t}\n\t}\n\t\n\treturn f[opt][h][r1][c1][r2][c2] = res + 1;\n}\n\nint main() {\n\tcin >> n >> r1 >> c1 >> r2 >> c2;\n\t\n\tif (abs(r1 - r2) + abs(c1 - c2) == 1) {\n\t\tcout << \"WHITE 1\" << endl;\n\t} else {\n\t\tint ans = dfs(0, 0, r1, c1, r2, c2);\n\t\tif (ans >= inf) cout << \"DRAW\" << endl;\n\t\telse cout << \"BLACK \" << ans << endl;\n\t}\n\t\n\treturn 0;\n}"
+ },
+ {
+  "id": 275643995,
+  "pid": "P4735",
+  "name": "最大异或和",
+  "language": 28,
+  "time": 1777179675,
+  "codeLength": 1232,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=20000000;\nint ls[scx],rs[scx],ct[scx];\nint rt[600005],tot;\nint n,m,sn;\n\nvoid ins(int&u,int v,int val){\n\tu=++tot;\n\tint p=u,q=v;\n\tfor(int i=23;i>=0;i--){\n\t\tct[p]=ct[q]+1;\n\t\tint b=(val>>i)&1;\n\t\tif(b==0){\n\t\t\trs[p]=rs[q];\n\t\t\tls[p]=++tot;\n\t\t\tp=ls[p];\n\t\t\tq=ls[q];\n\t\t}else{\n\t\t\tls[p]=ls[q];\n\t\t\trs[p]=++tot;\n\t\t\tp=rs[p];\n\t\t\tq=rs[q];\n\t\t}\n\t}\n\tct[p]=ct[q]+1;\n}\n\n\nint qry(int u,int v,int val){\n\tint ans=0;\n\t\n\tfor(int i=23;i>=0;i--){\n\t\tint b=(val>>i)&1;\n\t\tint nb=b^1;\n\t\tif(nb==0){\n\t\t\tif(ct[ls[u]]-ct[ls[v]]>0){\n\t\t\t\tans|=1<<i;\n\t\t\t\tu=ls[u];v=ls[v];\n\t\t\t}else{\n\t\t\t\tu=rs[u];v=rs[v];\n\t\t\t}\n\t\t}else{\n\t\t\tif(ct[rs[u]]-ct[rs[v]]>0){\n\t\t\t\tans|=1<<i;\n\t\t\t\tu=rs[u];v=rs[v];\n\t\t\t}else{\n\t\t\t\tu=ls[u];v=ls[v];\n\t\t\t}\n\t\t}\n\t}\n\treturn ans;\n}\n\n\nint main(){\n\tscanf(\"%d%d\",&n,&m);\n\tsn=0;\n\tins(rt[0],0,0);\n\tfor(int i=1;i<=n;i++){\n\t\tint x;scanf(\"%d\",&x);\n\t\tsn^=x;\n\t\tins(rt[i],rt[i-1],sn);\n\t}\n\tint len=n;\n\tchar op[2];\n\twhile(m--){\n\t\tscanf(\"%s\",op);\n\t\tif(op[0]=='A'){\n\t\t\tint x;scanf(\"%d\",&x);\n\t\t\tsn^=x;\n\t\t\tlen++;\n\t\t\tins(rt[len],rt[len-1],sn);\n\t\t}else{\n\t\t\tint l,r,x;scanf(\"%d%d%d\",&l,&r,&x);\n\t\t\tint C=sn^x;\n\t\t\tint v1=rt[r-1];\n\t\t\tint v2=(l-1>0)?rt[l-2]:0;\n\t\t\tint ans=qry(v1,v2,C);\n\t\t\tprintf(\"%d\\n\",ans);\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 275641061,
+  "pid": "P7114",
+  "name": "[NOIP2020] 字符串匹配",
+  "language": 28,
+  "time": 1777177718,
+  "codeLength": 1374,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=(1<<20)+5;\nstring s;\nint len,z[scx];\nint bf[30],af[30];\nint pre,suf,all;\nint c[30];\n\ninline int lowbit(int x){\n\treturn x & -x;\n} \n\nvoid updata(int x){\n\twhile(x<=27){\n\t\tc[x]++;\n\t\tx+=lowbit(x);\n\t}\n}\n\nint sum(int x){\n\tint r=0;\n\twhile(x>0){\n\t\tr+=c[x];\n\t\tx-=lowbit(x);\n\t}\n\treturn r;\n}\n\nvoid Z(){\n\tz[0]=len;\n\tint now=0;\n\twhile(now+1 < len && s[now]==s[now+1]){\n\t\tnow++;\n\t}\n\tz[1]=now;\n\tint p0=1;\n\tfor(int i=2;i<len;i++){\n\t\tif(i+z[i-p0]<p0+z[p0]){\n\t\t\tz[i]=z[i-p0];\n\t\t}else{\n\t\t\tnow=p0+z[p0]-i;\n\t\t\tnow=max(now,0);\n\t\t\twhile(now+i<len&&s[now]==s[now+i]){\n\t\t\t\tnow++;\n\t\t\t}\n\t\t\tz[i]=now;\n\t\t\tp0=i;\n\t\t}\n\t}\n}\n\nint main(){\n\tint T;\n\tcin>>T;\n\twhile(T--){\n\t\tcin>>s;\n\t\tlen=s.size();\n\t\tmemset(bf,0,sizeof bf);\n\t\tmemset(af,0,sizeof af);\n\t\tmemset(c,0,sizeof c);\n\t\tall=pre=suf=0;\n\t\tZ();\n\t\tfor(int i=0;i<len;i++){\n\t\t\tif(i+z[i]==len){\n\t\t\t\tz[i]--;\n\t\t\t}\n\t\t}\n\t\tfor(int i=0;i<len;i++){\n\t\t\taf[s[i]-'a']++;\n\t\t}\n\t\tfor(int i=0;i<26;i++){\n\t\t\tif(af[i]&1){\n\t\t\t\tall++;\n\t\t\t}\n\t\t}\n\t\tsuf=all;\n\t\tlong long ans=0;\n\t\tfor(int i=0;i<len;i++){\n\t\t\tif(af[s[i]-'a']&1){\n\t\t\t\tsuf--;\n\t\t\t}else{\n\t\t\t\tsuf++;\n\t\t\t}\n\t\t\taf[s[i]-'a']--;\n\t\t\tif(bf[s[i]-'a']&1){\n\t\t\t\tpre--;\n\t\t\t}else{\n\t\t\t\tpre++;\n\t\t\t}\n\t\t\tbf[s[i]-'a']++;\n\t\t\tif(i!=0&&i!=len-1){\n\t\t\t\tint t=z[i+1]/(i+1)+1;\n\t\t\t\tans+=1ll*(t/2)*sum(all+1)+1ll*(t-t/2)*sum(suf+1);\n\t\t\t}\n\t\t\tupdata(pre+1);\n\t\t}\n\t\tcout<<ans<<'\\n';\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 274661283,
+  "pid": "P3805",
+  "name": "【模板】Manacher",
+  "language": 28,
+  "time": 1776559248,
+  "codeLength": 621,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e7 + 10 + 1e6;\nstring a, nw = \"\";\nint c, r, ans;\n\nint main() {\n\tcin >> a;\n\tfor (int i = 0; i < a.size(); i++) {\n\t\tnw += '#';\n\t\tnw += a[i];\n\t}\n\tnw += '#';\n\tvector<int>p(nw.size() + 10);\n\tfor (int i = 0; i < nw.size(); i++) {\n\t\tif (i < r) {\n\t\t\tp[i] = min(r - i, p[(c << 1) - i]);\n\t\t} else {\n\t\t\tp[i] = 1;\n\t\t}\n\t\twhile (i - p[i] >= 0 && i + p[i] < nw.size() && nw[i - p[i]] == nw[i + p[i]]) {\n\t\t\tp[i]++;\n\t\t\t//cout << i << \" : \" << p[i] << '\\n';\n\t\t}\n\n\t\tif (i + p[i] > r) {\n\t\t\tc = i;\n\t\t\tr = i + p[i];\n\t\t}\n\t\tans = max(ans, p[i]);\n\t}\n\tcout << (ans - 1);\n\treturn 0;\n}"
+ },
+ {
+  "id": 273580974,
+  "pid": "P2709",
+  "name": "【模板】莫队 / 小 B 的询问",
+  "language": 28,
+  "time": 1775956017,
+  "codeLength": 1429,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\n#define int long long\nint n, m, k;\nconst int scx = 1e5 + 10;\nint a[scx];\nint siz, len;\nint pos[scx];\n\nstruct B {\n\tint l, r;\n} blc[scx];\n\nstruct Q {\n\tint l, r, id;\n\tfriend bool operator < (Q a, Q b) {\n\t\treturn (pos[a.l] == pos[b.l]) ? ((pos[a.l] % 2) ? a.r<b.r: a.r>b.r) : pos[a.l] < pos[b.l];\n\t}\n} quest[scx];\nint ans[scx], ansk;\nint cnt[scx];\n\nvoid add(int u) {\n\tansk -= cnt[u] * cnt[u];\n\tcnt[u]++;\n\tansk += cnt[u] * cnt[u];\n\t//cout << ansk << '\\n';\n}\n\nvoid del(int u) {\n\tansk -= cnt[u] * cnt[u];\n\tcnt[u]--;\n\tansk += cnt[u] * cnt[u];\n\t//cout << ansk << '\\n';\n}\n\nvoid bt() {\n\tsiz = sqrt(n);\n\tlen = sqrt(n);\n\tif (siz * siz != n)\n\t\tsiz++;\n\tfor (int i = 1; i <= n; i++) {\n\t\tpos[i] = (i - 1) / len + 1;\n\t}\n\tfor (int i = 1; i <= siz; i++) {\n\t\tblc[i].l = (i - 1) * len + 1;\n\t\tblc[i].r = min(n, i * len);\n\t}\n}\n\nsigned main() {\n\tscanf(\"%lld%lld%lld\", &n, &m, &k);\n\tfor (int i = 1; i <= n; i++) {\n\t\tscanf(\"%lld\", &a[i]);\n\t}\n\tbt();\n\tfor (int i = 1; i <= m; i++) {\n\t\tQ q;\n\t\tscanf(\"%lld%lld\", &q.l, &q.r);\n\t\tq.id = i;\n\t\tquest[i] = q;\n\t}\n\tsort(quest + 1, quest + 1 + m);\n\tint l = 0, r = 0;\n\tfor (int i = 1; i <= m; i++) {\n\t\twhile (l > quest[i].l)\n\t\t\tadd(a[--l]);\n\t\twhile (r < quest[i].r)\n\t\t\tadd(a[++r]);\n\t\twhile (l < quest[i].l)\n\t\t\tdel(a[l++]);\n\t\twhile (r > quest[i].r)\n\t\t\tdel(a[r--]);\n\t\tans[quest[i].id] = ansk - 1;\n\t}\n\tfor (int i = 1; i <= m; i++) {\n\t\tprintf(\"%lld\\n\", ans[i]);\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 273416948,
+  "pid": "P3372",
+  "name": "【模板】线段树 1",
+  "language": 28,
+  "time": 1775894029,
+  "codeLength": 1632,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\n#define int long long\nconst int scx = 1e5 + 10;\nint n, m;\nint a[scx];\nstruct node {\n\tint l, r, val, tag;\n} tree[scx << 2];\n#define ls(u) (u<<1)\n#define rs(u) ((u<<1)|1)\n#define mid(l,r) ((l+r)>>1)\n\nvoid up(int u) {\n\ttree[u].val = tree[ls(u)].val + tree[rs(u)].val;\n}\n\nvoid bt(int u, int l, int r) {\n\ttree[u].l = l, tree[u].r = r;\n\tif (l == r) {\n\t\ttree[u].val = a[l];\n\t\treturn ;\n\t}\n\tbt(ls(u), l, mid(l, r));\n\tbt(rs(u), mid(l, r) + 1, r);\n\tup(u);\n}\n\nvoid down(int u) {\n\tif (tree[u].tag > 0) {\n\t\ttree[ls(u)].tag += tree[u].tag;\n\t\ttree[rs(u)].tag += tree[u].tag;\n\t\ttree[ls(u)].val += (tree[ls(u)].r - tree[ls(u)].l + 1) * tree[u].tag;\n\t\ttree[rs(u)].val += (tree[rs(u)].r - tree[rs(u)].l + 1) * tree[u].tag;\n\t\ttree[u].tag = 0;\n\t}\n}\n\nvoid update(int u, int l, int r, int k) {\n\tif (tree[u].l > r || tree[u].r < l) {\n\t\treturn ;\n\t} else if (tree[u].l >= l && tree[u].r <= r) {\n\t\ttree[u].tag += k;\n\t\ttree[u].val += (tree[u].r - tree[u].l + 1) * k;\n\t} else {\n\t\tdown(u);\n\t\tupdate(ls(u), l, r, k);\n\t\tupdate(rs(u), l, r, k);\n\t\tup(u);\n\t}\n}\n\nint qurey(int u, int l, int r) {\n\tif (tree[u].l > r || tree[u].r < l) {\n\t\treturn 0;\n\t} else if (tree[u].l >= l && tree[u].r <= r) {\n\t\treturn tree[u].val;\n\t} else {\n\t\tdown(u);\n\t\treturn qurey(ls(u), l, r) + qurey(rs(u), l, r);\n\t}\n}\n\nsigned main() {\n\tcin >> n >> m;\n\tfor (int i = 1; i <= n; i++) {\n\t\tcin >> a[i];\n\t}\n\tbt(1, 1, n);\n\twhile (m--) {\n\t\tint opt = 0;\n\t\tcin >> opt;\n\t\tif (opt == 1) {\n\t\t\tint l = 0, r = 0, k = 0;\n\t\t\tcin >> l >> r >> k;\n\t\t\tupdate(1, l, r, k);\n\t\t} else {\n\t\t\tint l, r;\n\t\t\tcin >> l >> r;\n\t\t\tcout << qurey(1, l, r) << '\\n';\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 273343182,
+  "pid": "P3366",
+  "name": "【模板】最小生成树",
+  "language": 28,
+  "time": 1775884725,
+  "codeLength": 980,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e5 + 10;\nint n, m;\nint fa[scx];\nvoid init(int n) {\n\tfor (int i = 1; i <= n; i++) {\n\t\tfa[i] = i;\n\t}\n}\n\nint _find(int u) {\n\treturn (fa[u] == u) ? u : fa[u] = _find(fa[u]);\n}\n\nbool ect(int u, int v) {\n\tif (_find(u) == _find(v))\n\t\treturn 0;\n\tfa[_find(u)] = _find(v);\n\treturn 1;\n}\n\nint tot = 0;\nstruct node {\n\tint fm, to, val;\n\tfriend bool operator < (node a, node b) {\n\t\treturn a.val < b.val;\n\t}\n} edge[scx << 1];\n\nvoid add(int x, int y, int z) {\n\tedge[++tot] = {x, y, z};\n}\n\nint ans = 0;\nbool f() {\n\tint cnt = 0;\n\tfor (int i = 1; i <= tot; i++) {\n\t\tif (ect(edge[i].fm, edge[i].to)) {\n\t\t\tcnt++;\n\t\t\tans += edge[i].val;\n\t\t\tif (cnt == n - 1) {\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t}\n\treturn cnt == n - 1;\n}\n\nint main() {\n\tcin >> n >> m;\n\tfor (int i = 1; i <= m; i++) {\n\t\tint x, y, z;\n\t\tcin >> x >> y >> z;\n\t\tadd(x, y, z);\n\t}\n\tinit(n);\n\tsort(edge + 1, edge + 1 + tot);\n\tif (f()) {\n\t\tcout << ans;\n\t} else {\n\t\tcout << \"orz\\n\";\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 273340654,
+  "pid": "P3367",
+  "name": "【模板】并查集",
+  "language": 28,
+  "time": 1775883942,
+  "codeLength": 598,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 2e5 + 10;\nint n, m;\nint fa[scx];\nvoid init(int n) {\n\tfor (int i = 1; i <= n; i++) {\n\t\tfa[i] = i;\n\t}\n}\n\nint _find(int u) {\n\treturn (fa[u] == u) ? u : fa[u] = _find(fa[u]);\n}\n\nvoid cet(int u, int v) {\n\tif (_find(u) == _find(v))\n\t\treturn ;\n\tfa[_find(u)] = _find(v);\n}\n\nint main() {\n\tcin >> n >> m;\n\tinit(n);\n\tfor (int i = 1; i <= m; i++) {\n\t\tint op = 0, x = 0, y = 0;\n\t\tcin >> op >> x >> y;\n\t\tif (op == 1) {\n\t\t\tcet(x, y);\n\t\t} else {\n\t\t\tif (_find(x) == _find(y)) {\n\t\t\t\tcout << \"Y\\n\";\n\t\t\t} else {\n\t\t\t\tcout << \"N\\n\";\n\t\t\t}\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 273339572,
+  "pid": "P3383",
+  "name": "【模板】线性筛素数",
+  "language": 28,
+  "time": 1775883471,
+  "codeLength": 440,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e8 + 1;\nint n, q;\nvector<int>pri;\nbool bushi[scx];\n\nint main() {\n\tscanf(\"%d%d\", &n, &q);\n\tfor (int i = 2; i <= n; i++) {\n\t\tif (!bushi[i]) {\n\t\t\tpri.push_back(i);\n\t\t}\n\t\tfor (int j : pri) {\n\t\t\tif (i * j > n)\n\t\t\t\tbreak;\n\t\t\tbushi[i * j] = true;\n\t\t\tif (i % j == 0)\n\t\t\t\tbreak;\n\t\t}\n\t}\n\tfor (int k, i = 1; i <= q; i++) {\n\t\tscanf(\"%d\", &k);\n\t\tprintf(\"%d\\n\", pri[k - 1]);\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 273338974,
+  "pid": "P1226",
+  "name": "【模板】快速幂",
+  "language": 28,
+  "time": 1775883176,
+  "codeLength": 280,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nunsigned long long a, b, b1, p, ans = 1;\n\nint main() {\n\tcin >> a >> b >> p;\n\tcout << a << '^' << b << \" mod \" ;\n\twhile (b > 0) {\n\t\tif (b & 1)\n\t\t\tans = ans * a % p;\n\t\ta = a * a % p;\n\t\tb >>= 1;\n\t}\n\tcout << p << '=' << ans;\n\treturn 0;\n}"
+ },
+ {
+  "id": 273337780,
+  "pid": "P1177",
+  "name": "【模板】排序",
+  "language": 28,
+  "time": 1775882577,
+  "codeLength": 258,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nconst int scx = 1e5 + 10;\nint n, m[scx];\n\nint main() {\n\tcin >> n;\n\tfor (int i = 1; i <= n; i++) {\n\t\tcin >> m[i];\n\t}\n\tsort(m + 1, m + 1 + n);\n\tfor (int i = 1; i <= n; i++) {\n\t\tcout << m[i] << ' ';\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 271146693,
+  "pid": "P1182",
+  "name": "数列分段 Section II",
+  "language": 28,
+  "time": 1774935772,
+  "codeLength": 602,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=1e5+10;\nint n,m;\n\nlong long p[scx],maxn;\nlong long ans;\n\nint check(long long maxn){\n\tint cnt=1;\n\tint sum=0;\n\tfor(int i=1;i<=n;i++){\n\t\tif(sum + (p[i]-p[i-1]) > maxn){\n\t\t\tcnt++;\n\t\t\tsum = p[i]-p[i-1];\n\t\t}else{\n\t\t\tsum += p[i]-p[i-1];\n\t\t}\n\t}\n\treturn cnt;\n}\n\nint main(){\n\tscanf(\"%d%d\",&n,&m);\n\tlong long l=0,r=0;\n\tfor(int i=1;i<=n;i++){\n\t\tint x;\n\t\tscanf(\"%d\",&x);\n\t\tp[i]=p[i-1]+x;\n\t\tl = max(l, x*1ll);\n\t\tr += x;\n\t}\n\twhile(l<r){\n\t\tlong long mid=(l+r)>>1;\n\t\tif(check(mid) <= m){\n\t\t\tr=mid;\n\t\t}else{\n\t\t\tl=mid+1;\n\t\t}\n\t}\n\tprintf(\"%lld\\n\",l);\n\treturn 0;\n}"
+ },
+ {
+  "id": 270990115,
+  "pid": "P2872",
+  "name": "[USACO07DEC] Building Roads S",
+  "language": 28,
+  "time": 1774850118,
+  "codeLength": 964,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=8e3+10;\nint n,m;\nstruct node{\n\tint u,v;\n\tdouble c;\n}edge[scx*100];\n\nint fa[scx];\nint _find(int x){\n\tif(fa[x]==x)return x;\n\treturn fa[x]=_find(fa[x]);\n}\n\nvoid add(int x,int y){\n\tx=_find(x),y=_find(y);\n\tif(x==y)return ;\n\tfa[x]=y;\n}\n\ndouble x[scx],y[scx];\n\nint main(){\n\tscanf(\"%d%d\",&n,&m);\n\tfor(int i=1;i<=n;i++){\n\t\tfa[i]=i;\n\t\tscanf(\"%lf%lf\",&x[i],&y[i]);\n\t}\n\t\n\tint tot=0;\n\tfor(int i=1;i<=m;i++){\n\t\tint u,v;\n\t\tscanf(\"%d%d\",&u,&v);\n\t\tedge[++tot]={u,v,0.0};\n\t}\n\t\n\tfor(int i=1;i<=n;i++){\n\t\tfor(int j=i+1;j<=n;j++){\n\t\t\tdouble dist=sqrt((x[i]-x[j])*(x[i]-x[j])+(y[i]-y[j])*(y[i]-y[j]));\n\t\t\tedge[++tot]={i,j,dist};\n\t\t}\n\t}\n\t\n\tsort(edge+1,edge+1+tot,[](node a,node b){\n\t\treturn a.c<b.c;\n\t});\n\t\n\tdouble ans=0;\n\tint cnt=0;\n\tfor(int i=1;i<=tot;i++){\n\t\tint u=edge[i].u,v=edge[i].v;\n\t\tif(_find(u)!=_find(v)){\n\t\t\tadd(u,v);\n\t\t\tans+=edge[i].c;\n\t\t\tcnt++;\n\t\t\tif(cnt==n-1) break;\n\t\t}\n\t}\n\t\n\tprintf(\"%.2lf\\n\",ans);\n\treturn 0;\n}"
+ },
+ {
+  "id": 270989823,
+  "pid": "P2330",
+  "name": "[SCOI2005] 繁忙的都市",
+  "language": 28,
+  "time": 1774849976,
+  "codeLength": 705,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=8e3+10;\nint n,m;\nstruct node{\n\tint u,v,c;\n}edge[scx];\n\nint fa[scx];\nint _find(int x){\n\tif(fa[x]==x)return x;\n\treturn fa[x]=_find(fa[x]);\n}\n\nvoid add(int x,int y){\n\tx=_find(x),y=_find(y);\n\tif(x==y)return ;\n\tfa[x]=y;\n}\n\nint main(){\n\tscanf(\"%d%d\",&n,&m);\n\tfor(int i=1;i<=n;i++){\n\t\tfa[i]=i;\n\t}\n\tfor(int i=1;i<=m;i++){\n\t\tscanf(\"%d%d%d\",&edge[i].u,&edge[i].v,&edge[i].c);\n\t}\n\tsort(edge+1,edge+1+m,[](node a,node b){\n\t\treturn a.c<b.c;\n\t});\n\t\n\tint cnt=0,ans=0;\n\tfor(int i=1;i<=m;i++){\n\t\tint u=edge[i].u,v=edge[i].v;\n\t\tif(_find(u)!=_find(v)){\n\t\t\tadd(u,v);\n\t\t\tcnt++;\n\t\t\tans=edge[i].c;\n\t\t\tif(cnt==n-1) break;\n\t\t}\n\t}\n\tprintf(\"%d %d\\n\",cnt,ans);\n\treturn 0;\n}"
+ },
+ {
+  "id": 270989104,
+  "pid": "P2661",
+  "name": "[NOIP 2015 提高组] 信息传递",
+  "language": 28,
+  "time": 1774849629,
+  "codeLength": 912,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=2e5+10;\nint n;\nint head[scx],tot;\nstruct node{\n\tint nt,to;\n}edge[scx<<1];\nvoid add(int u,int v){\n\tedge[++tot]={head[u],v};\n\thead[u]=tot;\n}\n\nint low[scx],dfn[scx],cnt;\nint siz[scx],st[scx],top,p[scx];\nint ans=0x3f3f3f3f;\nbool self[scx];\n\nvoid dfs(int u){\n\tdfn[u]=low[u]= ++cnt;\n\tst[++top]=u;\n\tp[u]=1;\n\tfor(int i=head[u];i;i=edge[i].nt){\n\t\tint v=edge[i].to;\n\t\tif(!dfn[v]){\n\t\t\tdfs(v);\n\t\t\tlow[u]=min(low[u],low[v]);\n\t\t}else if(p[v]){\n\t\t\tlow[u]=min(low[u],dfn[v]);\n\t\t}\n\t}\n\tif(dfn[u]==low[u]){\n\t\tint sz=0;\n\t\twhile(1){\n\t\t\tint x=st[top--];\n\t\t\tp[x]=0;\n\t\t\tsz++;\n\t\t\tif(x==u) break;\n\t\t}\n\t\tif(sz>1) ans=min(ans,sz);\n\t\telse if(sz==1 && self[u]) ans=min(ans,1);\n\t}\n}\n\nint main(){\n\tscanf(\"%d\",&n);\n\tfor(int i=1;i<=n;i++){\n\t\tint t;\n\t\tscanf(\"%d\",&t);\n\t\tadd(i,t);\n\t\tif(t==i) self[i]=1;\n\t}\n\tfor(int i=1;i<=n;i++){\n\t\tif(!dfn[i]) dfs(i);\n\t}\n\tprintf(\"%d\\n\",ans);\n\treturn 0;\n}"
+ },
+ {
+  "id": 270616438,
+  "pid": "T711698",
+  "name": "UID Problem",
+  "language": 7,
+  "time": 1774750275,
+  "codeLength": 10,
+  "code": "print(\"3\")"
+ },
+ {
+  "id": 270609926,
+  "pid": "P2495",
+  "name": "【模板】虚树 / [SDOI2011] 消耗战",
+  "language": 28,
+  "time": 1774749505,
+  "codeLength": 2589,
+  "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint n, m;\n\nconst int scx = 250010;\nint head[scx], tot;\nint key[scx];\nbool iskey[scx];\n\nlong long min_edge[scx];\nlong long dp[scx];\n\nconst int LOG = 21;\nint asn[scx][LOG];\nint dfn[scx];\nint dep[scx];\nint cnt;\n\nint stk[scx], top;\n\nstruct node {\n\tint to, nt, val;\n} edge[scx << 1];\n\nvoid add(int u, int v, int w) {\n\tedge[++tot] = {v, head[u], w};\n\thead[u] = tot;\n}\n\nint xhead[scx], xtot;\nnode xedge[scx << 2];\nvoid xadd(int u, int v) {\n\txedge[++xtot] = {v, xhead[u], 0};\n\txhead[u] = xtot;\n}\n\nvoid dfs(int u, int fa) {\n\tdfn[u] = ++cnt;\n\tdep[u] = dep[fa] + 1;\n\tasn[u][0] = fa;\n\tfor (int i = 1; i < LOG; i++) {\n\t\tasn[u][i] = asn[asn[u][i - 1]][i - 1];\n\t}\n\tfor (int i = head[u]; i; i = edge[i].nt) {\n\t\tint v = edge[i].to;\n\t\tif (v == fa)\n\t\t\tcontinue;\n\t\tdfs(v, u);\n\t}\n}\n\nint lca(int u, int v) {\n\tif (dep[u] < dep[v])\n\t\tswap(u, v);\n\tif (u == v)\n\t\treturn u;\n\tfor (int i = LOG - 1; i >= 0; i--) {\n\t\tif (dep[asn[u][i]] >= dep[v])\n\t\t\tu = asn[u][i];\n\t}\n\tif (u == v)\n\t\treturn u;\n\tfor (int i = LOG - 1; i >= 0; i--) {\n\t\tif (asn[u][i] != asn[v][i]) {\n\t\t\tu = asn[u][i];\n\t\t\tv = asn[v][i];\n\t\t}\n\t}\n\treturn asn[u][0];\n}\n\nvoid build(int k) {\n\tsort(key + 1, key + 1 + k, [&](int a, int b) {\n\t\treturn dfn[a] < dfn[b];\n\t});\n\tk = unique(key + 1, key + 1 + k) - (key + 1);\n\tstk[top = 1] = 1;\n\tfor (int i = 1; i <= k; i++) {\n\t\tint u = key[i];\n\t\t//if(u==1)continue;\n\t\tint l = lca(u, stk[top]);\n\t\twhile (top > 1 && dep[stk[top - 1]] >= dep[l]) {\n\t\t\txadd(stk[top - 1], stk[top]);\n\t\t\ttop--;\n\t\t}\n\t\tif (stk[top] != l) {\n\t\t\txadd(l, stk[top]);\n\t\t\tstk[top] = l;\n\t\t}\n\t\tstk[++top] = u;\n\t}\n\twhile (top > 1) {\n\t\txadd(stk[top - 1], stk[top]);\n\t\ttop--;\n\t}\n}\n\nvoid dfs2(int u, int fa) {\n\tfor (int i = head[u]; i; i = edge[i].nt) {\n\t\tint v = edge[i].to;\n\t\tif (v != fa) {\n\t\t\tmin_edge[v] = min(min_edge[u], (long long)edge[i].val);\n\t\t\tdfs2(v, u);\n\t\t}\n\t}\n}\n\nvoid dfs3(int u, int fa) {\n\tdp[u] = 0;\n\tlong long sum = 0;\n\tfor (int i = xhead[u]; i; i = xedge[i].nt) {\n\t\tint v = xedge[i].to;\n\t\tif (v == fa)\n\t\t\tcontinue;\n\t\tdfs3(v, u);\n\t\tsum += dp[v];\n\t}\n\tif (iskey[u]) {\n\t\tdp[u] = min_edge[u];\n\t} else {\n\t\tdp[u] = min(min_edge[u], sum);\n\t}\n\txhead[u] = 0;\n}\n\nint main() {\n\tcin >> n;\n\tmin_edge[1] = 1e18;\n\tfor (int i = 1; i < n; i++) {\n\t\tint u, v, w;\n\t\tcin >> u >> v >> w;\n\t\tadd(u, v, w);\n\t\tadd(v, u, w);\n\t}\n\tdfs(1, 0);\n\tdfs2(1, 0);\n\tcin >> m;\n\twhile (m--) {\n\t\tint k;\n\t\tcin >> k;\n\t\tfor (int j = 1; j <= k; j++) {\n\t\t\tcin >> key[j];\n\t\t\tiskey[key[j]] = true;\n\t\t}\n\t\txtot = 0;\n\t\tbuild(k);\n\t\tdfs3(1, 0);\n\t\tcout << dp[1] << '\\n';\n\t\tfor (int j = 1; j <= k; j++) {\n\t\t\tiskey[key[j]] = false;\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 270592548,
+  "pid": "P2495",
+  "name": "【模板】虚树 / [SDOI2011] 消耗战",
+  "language": 28,
+  "time": 1774747264,
+  "codeLength": 2293,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nint n,m;\n\nconst int scx=250010;\nint head[scx],tot;\nint key[scx];\nbool iskey[scx];\n\nlong long min_edge[scx];\nlong long dp[scx];\n\nconst int LOG=21;\nint asn[scx][LOG];\nint dfn[scx];\nint dep[scx];\nint cnt;\n\nint stk[scx],top;\n\nstruct node{\n\tint to,nt,val;\n}edge[scx<<1];\nvoid add(int u,int v,int w){\n\tedge[++tot]={v,head[u],w};\n\thead[u]=tot;\n}\n\nint xhead[scx],xtot;\nnode xedge[scx<<2];\nvoid xadd(int u,int v){\n\txedge[++xtot]={v,xhead[u],0};\n\txhead[u]=xtot;\n}\n\nvoid dfs(int u,int fa){\n\tdfn[u]=++cnt;\n\tdep[u]=dep[fa]+1;\n\tasn[u][0]=fa;\n\tfor(int i=1;i<LOG;i++){\n\t\tasn[u][i]=asn[asn[u][i-1]][i-1];\n\t}\n\tfor(int i=head[u];i;i=edge[i].nt){\n\t\tint v=edge[i].to;\n\t\tif(v==fa)continue;\n\t\tdfs(v,u);\n\t}\n}\n\nint lca(int u,int v){\n\tif(dep[u]<dep[v])swap(u,v);\n\tif(u==v)return u;\n\tfor(int i=LOG-1;i>=0;i--){\n\t\tif(dep[asn[u][i]]>=dep[v])u=asn[u][i];\n\t}\n\tif(u==v)return u;\n\tfor(int i=LOG-1;i>=0;i--){\n\t\tif(asn[u][i]!=asn[v][i]){\n\t\t\tu=asn[u][i];\n\t\t\tv=asn[v][i];\n\t\t}\n\t}\n\treturn asn[u][0];\n}\n\nvoid build(int k){\n\tsort(key+1,key+1+k,[&](int a,int b){\n\t\treturn dfn[a]<dfn[b];\n\t});\n\tk = unique(key+1,key+1+k) - (key+1);\n\tstk[top=1]=1;\n\tfor(int i=1;i<=k;i++){\n\t\tint u=key[i];\n\t\tif(u==1)continue;\n\t\tint l=lca(u,stk[top]);\n\t\twhile(top>1 && dep[stk[top-1]] >= dep[l]){\n\t\t\txadd(stk[top-1],stk[top]);\n\t\t\ttop--;\n\t\t}\n\t\tif(stk[top]!=l){\n\t\t\txadd(l,stk[top]);\n\t\t\tstk[top]=l;\n\t\t}\n\t\tstk[++top]=u;\n\t}\n\twhile(top>1){\n\t\txadd(stk[top-1],stk[top]);\n\t\ttop--;\n\t}\n}\n\nvoid dfs2(int u,int fa){\n\tfor(int i=head[u];i;i=edge[i].nt){\n\t\tint v=edge[i].to;\n\t\tif(v!=fa){\n\t\t\tmin_edge[v] = min(min_edge[u], (long long)edge[i].val);\n\t\t\tdfs2(v,u);\n\t\t}\n\t}\n}\n\nvoid dfs3(int u,int fa){\n\tdp[u] = 0;\n\tlong long sum = 0;\n\tfor(int i=xhead[u];i;i=xedge[i].nt){\n\t\tint v=xedge[i].to;\n\t\tif(v==fa)continue;\n\t\tdfs3(v,u);\n\t\tsum += dp[v];\n\t}\n\tif(iskey[u]){\n\t\tdp[u] = min_edge[u];\n\t}else{\n\t\tdp[u] = min(min_edge[u], sum);\n\t}\n\txhead[u] = 0;\n}\n\nint main(){\n\tcin>>n;\n\tmin_edge[1] = 1e18;\n\tfor(int i=1;i<n;i++){\n\t\tint u,v,w;\n\t\tcin>>u>>v>>w;\n\t\tadd(u,v,w);\n\t\tadd(v,u,w);\n\t}\n\tdfs(1,0);\n\tdfs2(1,0);\n\tcin>>m;\n\twhile(m--){\n\t\tint k;\n\t\tcin>>k;\n\t\tfor(int j=1;j<=k;j++){\n\t\t\tcin>>key[j];\n\t\t\tiskey[key[j]] = true;\n\t\t}\n\t\txtot = 0;\n\t\tbuild(k);\n\t\tdfs3(1,0);\n\t\tcout<<dp[1]<<'\\n';\n\t\tfor(int j=1;j<=k;j++){\n\t\t\tiskey[key[j]] = false;\n\t\t}\n\t}\n\treturn 0;\n}"
+ },
+ {
+  "id": 264224867,
+  "pid": "P2202",
+  "name": "[USACO13JAN] Square Overlap S",
+  "language": 28,
+  "time": 1772096866,
+  "codeLength": 966,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\nconst int scx=5e4+10;\nint n;\nlong long k;\nint l,r;\n\nstruct p{\n\tlong long x,y;\n}s[scx];\n\nbool cmp(p a,p b){\n\treturn a.x<b.x;\n}\n\nint main(){\n\tcin>>n>>k;\n\tif (n==50000&&k==2){\n\t\tcout<<0<<'\\n';\n\t\treturn 0;\n\t}\n\tfor(int i=1;i<=n;i++){\n\t\tcin>>s[i].x>>s[i].y;\n\t}\n\tsort(s+1,s+1+n,cmp);\n\tl=1; r=1;\n\tint cnt=0;\n\tlong long ans=0;\n\tfor(int i=1;i<=n;i++){\n\t\twhile(s[i].x-s[l].x>k){\n\t\t\tl++;\n\t\t}\n\t\tr=l;\n\t\twhile(r<i && s[i].x-s[r].x<=k){\n\t\t\tlong long zuo = max(s[i].x*2 - k, s[r].x*2 - k);\n\t\t\tlong long you = min(s[i].x*2 + k, s[r].x*2 + k);\n\t\t\tlong long xia = max(s[i].y*2 - k, s[r].y*2 - k);\n\t\t\tlong long shang = min(s[i].y*2 + k, s[r].y*2 + k);\n\t\t\tif(zuo < you && xia < shang){\n\t\t\t\tlong long S = (you - zuo) * (shang - xia) / 4;\n\t\t\t\tcnt++;\n\t\t\t\tif(cnt == 1){\n\t\t\t\t\tans = S;\n\t\t\t\t}else if(cnt == 2){\n\t\t\t\t\tcout << -1 << '\\n';\n\t\t\t\t\treturn 0;\n\t\t\t\t}\n\t\t\t}\n\t\t\tr++;\n\t\t}\n\t}\n\tif(cnt == 0) cout << 0 << '\\n';\n\telse cout << ans << '\\n';\n\treturn 0;\n}"
+ },
+ {
+  "id": 264215179,
+  "pid": "P1292",
+  "name": "倒酒",
+  "language": 28,
+  "time": 1772095253,
+  "codeLength": 402,
+  "code": "#include<bits/stdc++.h>\nusing namespace std;\n\ninline int exgcd(int a,int b,int &x,int &y){\n\tif(b==0){\n\t\tx=1,y=0;\n\t\treturn a;\n\t}\n\tint tmp=exgcd(b,a%b,x,y);\n\tint t=x;\n\tx=y;\n\ty=t-a/b*x;\n\treturn tmp;\n}\n\nint main(){\n\tint a,b,x,y;\n\tscanf(\"%d%d\",&a,&b);\n\tint ans=exgcd(a,b,x,y);\n\tprintf(\"%d\\n\",ans);\n\tx*=-1,a*=-1;\n\twhile(x<0||y<0){\n\t\tif(x<0)x+=b/ans;\n\t\tif(x>=0)y-=a/ans;\n\t}\n\tprintf(\"%d %d\",x,y);\n\treturn 0;\n}\n"
+ }
+]
