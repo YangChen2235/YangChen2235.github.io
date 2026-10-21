@@ -490,6 +490,136 @@
 						</p>
 					</noscript>
 				</section>
+				<!-- ============ 制作组乐事 ============ -->
+				<section id="bloopers" class="sec">
+					<div class="sec-head reveal">
+						<p class="sec-kicker">bloopers</p>
+						<h2 class="sec-title">制作组乐事</h2>
+						<p class="sec-desc">
+							所有东西都在正常工作，只是不是按你想的那样工作。下面这些坑，都是写这游戏的时候真踩过的。
+						</p>
+					</div>
+
+					<div class="bl-band reveal">
+						<p>
+							AI 也会犯错，我们要善于指导并给出合理的提示词，不能压力他们。有时打开代码注释几句，给出几百行自己能跑的代码比让他们发挥更好；自己先把家里的环境搭好，才能让 AI 工作更轻松。
+						</p>
+					</div>
+
+					<div class="bl-grid">
+						<article class="bl-card reveal">
+							<div class="bl-top"><span class="bl-rank">01</span><span class="bl-tag">前三名</span></div>
+							<h3>教程在演，对手在打</h3>
+							<p>
+								玩家还在读老陈那句「把骰子推到桌角」，对面 AI 已经掷完骰子糊了一脸伤害——<code>_开本关引导()</code>
+								是 fire-and-forget，谁也没等它。修的时候还不能每个小回合都等（那样「等你真做了某事」的步骤会把玩家自己的回合卡死），只能在
+								<code>_执行大回合()</code> 开头 <code>await _等引导走开()</code>。
+							</p>
+						</article>
+
+						<article class="bl-card reveal" data-delay="0.05">
+							<div class="bl-top"><span class="bl-rank">02</span><span class="bl-tag">前三名</span></div>
+							<h3>测试悄悄不跑了</h3>
+							<p>
+								验收场景的断言必须打 <code>✔</code> / <code>✘</code>。有一次图省事打了 <code>OK</code> / <code>XX</code>，整套测试把那几个场景当成
+								TOOL 场景优雅跳过：不报错、不失败、直接不跑。看着「全绿」，其实什么也没测。
+							</p>
+						</article>
+
+						<article class="bl-card reveal" data-delay="0.1">
+							<div class="bl-top"><span class="bl-rank">03</span><span class="bl-tag">前三名</span></div>
+							<h3>名字被挤成一竖列</h3>
+							<p>
+								关于页重做后，截图里作者名字变成了一竖排：Y、a、n、g、C、h、e、n、2、2、3、5。同一个毛病在模组「班级管理」的空列表提示上又演了一遍。根因都是
+								<code>autowrap</code> 开着、横向只剩一个字宽。名字和标签一律 <code>换行 = false</code>，只有长文案才撑满加换行。
+							</p>
+						</article>
+
+						<article class="bl-card reveal">
+							<div class="bl-top"><span class="bl-rank">04</span><span class="bl-tag">少一个字符就全灭</span></div>
+							<h3>一个逗号灭掉 52 个学生</h3>
+							<p>
+								<code>数据/玉溪一中.json</code> 末尾多了个逗号，报
+								<code>Illegal trailing comma before end of object</code>，整班名单一条都读不出来。删掉那个逗号，52 个人全回来了。
+							</p>
+						</article>
+
+						<article class="bl-card reveal" data-delay="0.05">
+							<div class="bl-top"><span class="bl-rank">05</span><span class="bl-tag">少一个字符就全灭</span></div>
+							<h3>BOM 两头都会咬人</h3>
+							<p>
+								PowerShell 5.1 的 <code>Set-Content -Encoding UTF8</code> 会偷偷写 BOM，Python 一读 <code>.py</code> 就
+								<code>SyntaxError: invalid non-printable character U+FEFF</code>；反过来，<code>跑全部测试.ps1</code>
+								必须有 BOM——没 BOM 时 PS 按 GBK 读中文，脚本静默不执行，一句话都不报。
+							</p>
+						</article>
+
+						<article class="bl-card reveal" data-delay="0.1">
+							<div class="bl-top"><span class="bl-rank">06</span><span class="bl-tag">少一个字符就全灭</span></div>
+							<h3>(Get-Content $f)[0] 只给了第一个字</h3>
+							<p>
+								拿 GitHub 凭据的时候，它返回的是字符串的第 0 个字符，不是第一行。我一度以为 token 只有 1 个字符长。
+							</p>
+						</article>
+
+						<article class="bl-card reveal">
+							<div class="bl-top"><span class="bl-rank">07</span><span class="bl-tag">看起来没坏，其实坏了</span></div>
+							<h3>私有仓库的发行版，只有自己能下</h3>
+							<p>
+								链接填进网页看着完全正常，匿名 <code>curl</code> 却是
+								<code>Recv failure: Connection reset</code>——你登着 GitHub，当然能下。这就是后来必须开公开仓库
+								<code>banjichouka-builds</code> 的原因。
+							</p>
+						</article>
+
+						<article class="bl-card reveal" data-delay="0.05">
+							<div class="bl-top"><span class="bl-rank">08</span><span class="bl-tag">看起来没坏，其实坏了</span></div>
+							<h3>2.82 MB/s 的幻觉</h3>
+							<p>
+								测 <code>ghfast.top</code> 时 <code>curl … 2&gt;$null</code> 把 TLS 证书错误一起吞了，量出一个漂亮的速度，其实一个字节都没下来。重测的规矩改成「落盘、核字节数、比
+								sha256」，才发现真正能用的是 <code>gh-proxy.com</code>（1.07 MB/s，字节一致）。
+							</p>
+						</article>
+
+						<article class="bl-card reveal" data-delay="0.1">
+							<div class="bl-top"><span class="bl-rank">09</span><span class="bl-tag">差一点酿成事故</span></div>
+							<h3>差点把个人主页删了</h3>
+							<p>
+								<code>数据/_scratch/_出网页版.py</code> 第 ④ 步会清掉站点目录里除 <code>.git</code>、<code>README.md</code>
+								这些白名单以外的一切。仓库根变成个人主页、网页版搬进 <code>play/</code> 之后，这个脚本就必须指到
+								<code>play/</code>——指到根，就是一次清空主页。
+							</p>
+						</article>
+
+						<article class="bl-card reveal">
+							<div class="bl-top"><span class="bl-rank">10</span><span class="bl-tag">差一点酿成事故</span></div>
+							<h3>按钮的名字是接口</h3>
+							<p>
+								<code>场景/关于游戏.tscn</code> 底部那个按钮必须叫「退出」，因为 <code>界面/设置界面.gd</code> 和
+								<code>界面/骰子对决/骰子对决主界面.gd</code> 都用 <code>get_node_or_null("退出")</code>
+								去接自己的关闭逻辑。想改个更好听的名字，就静默失灵。
+							</p>
+						</article>
+
+						<article class="bl-card reveal" data-delay="0.05">
+							<div class="bl-top"><span class="bl-rank">11</span><span class="bl-tag">差一点酿成事故</span></div>
+							<h3>灰屏只画一个 Esc</h3>
+							<p>
+								早期录屏第一版整屏是灰的，右下角只有一个 <code>Esc</code>：Control 还没算好布局就
+								<code>add_child</code> 了。
+							</p>
+						</article>
+
+						<article class="bl-card reveal" data-delay="0.1">
+							<div class="bl-top"><span class="bl-rank">12</span><span class="bl-tag">一行代码</span></div>
+							<h3>一个直引号就 Parse Error</h3>
+							<p>
+								字符串里写了直引号，报 <code>Parse Error: Expected closing ")"</code>，所以工程里的引号一律用「」。多行
+								lambda 塞进调用参数、把协程存进变量再 await，报的也是同一个错。
+							</p>
+						</article>
+					</div>
+				</section>
 				<!-- ============ 制作组 ============ -->
 				<section id="team" class="sec">
 					<div class="sec-head reveal">

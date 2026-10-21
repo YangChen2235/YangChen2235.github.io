@@ -741,6 +741,126 @@ section {
 	margin-top: 18px;
 }
 
+/* ---------------- 制作组乐事 ---------------- */
+
+.bl-band {
+	position: relative;
+	overflow: hidden;
+	margin: 6px 0 22px;
+	padding: clamp(20px, 3vw, 30px) clamp(20px, 3.4vw, 38px);
+	border-radius: 18px;
+	background: linear-gradient(112deg, #0b3f8f 0%, #1f6feb 58%, #5090f2 100%);
+	color: #fff;
+	box-shadow: 0 22px 44px -30px rgba(11, 63, 143, 0.95);
+}
+
+.bl-band::before {
+	content: "";
+	position: absolute;
+	right: -70px;
+	top: -80px;
+	width: 260px;
+	height: 260px;
+	border-radius: 50%;
+	background: radial-gradient(closest-side, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0));
+	pointer-events: none;
+}
+
+.bl-band p {
+	position: relative;
+	margin: 0;
+	font-size: clamp(14.5px, 1.55vw, 17px);
+	font-weight: 600;
+	line-height: 1.9;
+	letter-spacing: 0.01em;
+	color: #fff;
+}
+
+.bl-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.bl-card {
+	padding: 20px 22px 22px;
+	border-radius: 16px;
+	border: 1px solid var(--blue-line);
+	background: rgba(255, 255, 255, 0.9);
+	box-shadow: var(--shadow-card);
+	transition:
+		transform 0.28s ease,
+		box-shadow 0.28s ease;
+}
+
+.bl-card:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 22px 40px -30px rgba(11, 63, 143, 0.8);
+}
+
+.bl-top {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.bl-rank {
+	font-family: var(--font-mono);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	color: var(--blue);
+}
+
+.bl-tag {
+	padding: 2px 10px;
+	border-radius: 999px;
+	background: rgba(31, 111, 235, 0.11);
+	color: var(--blue-deep);
+	font-size: 11.5px;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+}
+
+.bl-card h3 {
+	margin: 10px 0 8px;
+	font-size: 16px;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+	color: var(--ink);
+}
+
+.bl-card p {
+	margin: 0;
+	font-size: 13.6px;
+	line-height: 1.78;
+	color: var(--ink-soft);
+}
+
+.bl-card code,
+.bl-band code {
+	padding: 1px 5px;
+	border-radius: 5px;
+	background: rgba(31, 111, 235, 0.09);
+	color: var(--blue-deep);
+	font-family: var(--font-mono);
+	font-size: 0.92em;
+	overflow-wrap: anywhere;
+}
+
+@media (max-width: 860px) {
+	.bl-grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.bl-card {
+		padding: 18px 18px 20px;
+	}
+
+	.bl-band {
+		margin-bottom: 18px;
+	}
+}
 /* ---------- 下载 ---------- */
 
 /* 屏幕阅读器专用（下载区的 h2 让位给 logo 图） */
