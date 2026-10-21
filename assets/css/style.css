@@ -430,14 +430,6 @@ section {
 	white-space: nowrap;
 }
 
-/* 代码量那一格的补充说明 */
-.stats-note {
-	max-width: 520px;
-	margin: 10px 0 0;
-	color: var(--ink-faint);
-	font-size: 12.2px;
-	line-height: 1.6;
-}
 
 /* 终端卡片 */
 
