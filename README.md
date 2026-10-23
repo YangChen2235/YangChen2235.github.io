@@ -28,7 +28,7 @@ assets/js/code-wall.js  把代码画成会向上滚的「胶片」
 assets/js/site.js       导航吸顶、入场动画、打字机、画廊大图、音乐播放器、发行版自动探测
 assets/img/avatar.png   导航栏左上角的头像
 assets/img/platform/    四个平台的图标（Windows / Linux / Android / 网页版）
-assets/img/gallery/     画廊用的三张自绘图（WebP，第三张横着铺满一行）
+assets/img/gallery/     画廊用的三张自绘图（WebP，桌面端三张并排）
 assets/audio/           音乐板块的四首曲子（mp3，Suno 生成）
 assets/img/team/        制作组头像（bigfish.png / dafeilong.png，自己的复用 avatar.png）
 assets/img/game/        游戏 logo.png 与两枚碎片（shard-blue / shard-red），下载区顶部那组徽记用的就是它们
