@@ -1917,6 +1917,11 @@ section {
 	box-shadow: 0 24px 48px -30px rgba(11, 63, 143, 0.6);
 }
 
+/* 单数的那张横着铺满一行 */
+.gallery-grid .art-wide {
+	grid-column: 1 / -1;
+}
+
 .art-link {
 	display: block;
 	overflow: hidden;

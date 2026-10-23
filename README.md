@@ -12,7 +12,7 @@
 | 关于我 | 4 年编程、2 年信息学奥赛、人与 AI 协作、转型做游戏（右侧配一个 C++ 版的 profile.cpp 卡片） |
 | 在做的项目 | 《班级抽卡 · 重置版》《骰子对决》和练手合集 |
 | 开发历程 | 从 2026 年 2 月的牌桌原型到现在的重置版，7 个大版本的时间轴（只列大版本，细节见游戏仓库的发行版） |
-| 画廊 | 两张自绘的图，点开看大图（没有 JS 的话就是直接打开图片） |
+| 画廊 | 三张自绘的图，点开看大图（没有 JS 的话就是直接打开图片） |
 | 音乐 | 四首 Suno 生成的曲子，点播放键直接试听，点进度条能跳 |
 | 制作组乐事 | 12 条真踩过的坑（横版卡片，按「前三名 / 少一个字符就全灭 / 看起来没坏其实坏了 / 差一点酿成事故 / 一行代码」分组），顶部一条淡蓝色横幅写着对 AI 协作的态度 |
 | 制作组 | 三个人各自的头像和分工：蓝色大肥鱼 (DeepSeek)（代码 / 矢量图美工 / 动画 / MV 制作）、YangChen2235（代码 / 技术指导 / 框架制作 / 原型制作 / 策划 / 剧情 / 美工）、大肥龙 (ChatGPT)（AI 美工） |
@@ -28,7 +28,7 @@ assets/js/code-wall.js  把代码画成会向上滚的「胶片」
 assets/js/site.js       导航吸顶、入场动画、打字机、画廊大图、音乐播放器、发行版自动探测
 assets/img/avatar.png   导航栏左上角的头像
 assets/img/platform/    四个平台的图标（Windows / Linux / Android / 网页版）
-assets/img/gallery/     画廊用的两张自绘图（WebP）
+assets/img/gallery/     画廊用的三张自绘图（WebP，第三张横着铺满一行）
 assets/audio/           音乐板块的四首曲子（mp3，Suno 生成）
 assets/img/team/        制作组头像（bigfish.png / dafeilong.png，自己的复用 avatar.png）
 assets/img/game/        游戏 logo.png 与两枚碎片（shard-blue / shard-red），下载区顶部那组徽记用的就是它们
